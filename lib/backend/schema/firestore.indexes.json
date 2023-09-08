@@ -1,0 +1,50 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Carts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "cartActive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "MenuItems",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "created_at",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Tables",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "userRef",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tableName",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ]
+}

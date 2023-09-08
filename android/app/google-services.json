@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "349869952043",
+    "project_id": "ordernowpay-58d66",
+    "storage_bucket": "ordernowpay-58d66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349869952043:android:e3881b73a05884ea61ee6e",
+        "android_client_info": {
+          "package_name": "com.mycompany.ordernow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349869952043-07ii4hecui084qg4srtps08duuuoeltf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.ordernow",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "349869952043-he35efmgafsiv7uotqksi1f6p7ngkvgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVKvB6dDfz-ycMidIz-7JN9wjTpD4rT0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349869952043-he35efmgafsiv7uotqksi1f6p7ngkvgk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349869952043-dnhaq3qebtnk85klo1nc0lvhd29co9qb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.ordernow"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
