@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -16,12 +15,14 @@ class UpdateBankDetailsModel extends FlutterFlowModel {
 
   final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
-  // State field(s) for bank_name widget.
-  TextEditingController? bankNameController;
-  String? Function(BuildContext, String?)? bankNameControllerValidator;
-  // State field(s) for bank_adress widget.
-  TextEditingController? bankAdressController;
-  String? Function(BuildContext, String?)? bankAdressControllerValidator;
+  // State field(s) for beneficiary_adress widget.
+  TextEditingController? beneficiaryAdressController1;
+  String? Function(BuildContext, String?)?
+      beneficiaryAdressController1Validator;
+  // State field(s) for beneficiary_adress widget.
+  TextEditingController? beneficiaryAdressController2;
+  String? Function(BuildContext, String?)?
+      beneficiaryAdressController2Validator;
   // State field(s) for iban widget.
   TextEditingController? ibanController;
   String? Function(BuildContext, String?)? ibanControllerValidator;
@@ -32,8 +33,8 @@ class UpdateBankDetailsModel extends FlutterFlowModel {
 
   void dispose() {
     unfocusNode.dispose();
-    bankNameController?.dispose();
-    bankAdressController?.dispose();
+    beneficiaryAdressController1?.dispose();
+    beneficiaryAdressController2?.dispose();
     ibanController?.dispose();
   }
 

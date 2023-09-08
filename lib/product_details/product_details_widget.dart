@@ -9,7 +9,6 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'product_details_model.dart';
@@ -72,9 +71,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 child: SizedBox(
                   width: 50.0,
                   height: 50.0,
-                  child: SpinKitDoubleBounce(
-                    color: FlutterFlowTheme.of(context).primary,
-                    size: 50.0,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      FlutterFlowTheme.of(context).primary,
+                    ),
                   ),
                 ),
               ),
@@ -123,9 +123,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   ),
                   body: SafeArea(
                     top: true,
-                    child: StreamBuilder<List<TablesRecord>>(
-                      stream: queryTablesRecord(
-                        queryBuilder: (tablesRecord) => tablesRecord.where(
+                    child: StreamBuilder<List<CartsRecord>>(
+                      stream: queryCartsRecord(
+                        queryBuilder: (cartsRecord) => cartsRecord.where(
                             'userRef',
                             isEqualTo: currentUserDocument?.userRef),
                         singleRecord: true,
@@ -137,22 +137,23 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             child: SizedBox(
                               width: 50.0,
                               height: 50.0,
-                              child: SpinKitDoubleBounce(
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
                               ),
                             ),
                           );
                         }
-                        List<TablesRecord> parentContentTablesRecordList =
+                        List<CartsRecord> parentContentCartsRecordList =
                             snapshot.data!;
                         // Return an empty Container when the item does not exist.
                         if (snapshot.data!.isEmpty) {
                           return Container();
                         }
-                        final parentContentTablesRecord =
-                            parentContentTablesRecordList.isNotEmpty
-                                ? parentContentTablesRecordList.first
+                        final parentContentCartsRecord =
+                            parentContentCartsRecordList.isNotEmpty
+                                ? parentContentCartsRecordList.first
                                 : null;
                         return Column(
                           mainAxisSize: MainAxisSize.max,
@@ -172,7 +173,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         child: Image.network(
                                           'https://images.unsplash.com/photo-1576237934915-c716cf54b24d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxraXRjaGVuJTIwcmVzdGF1cmFudHxlbnwwfHx8fDE2OTI3MzUxOTl8MA&ixlib=rb-4.0.3&q=80&w=1080',
                                           width: double.infinity,
-                                          height: 230.0,
+                                          height: 150.0,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -212,27 +213,55 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                       color: FlutterFlowTheme.of(context)
                                           .alternate,
                                     ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        'Description',
-                                        style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 4.0, 16.0, 0.0),
-                                      child: Text(
-                                        valueOrDefault<String>(
-                                          widget.productSelection?.description,
-                                          'Description ?',
+                                    if (widget.productSelection?.description !=
+                                            null &&
+                                        widget.productSelection?.description !=
+                                            '')
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 0.0, 0.0),
+                                        child: Text(
+                                          'Description',
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelMedium,
                                         ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyLarge,
                                       ),
-                                    ),
+                                    if (widget.productSelection?.description !=
+                                            null &&
+                                        widget.productSelection?.description !=
+                                            '')
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 4.0, 16.0, 0.0),
+                                        child: Text(
+                                          valueOrDefault<String>(
+                                            widget
+                                                .productSelection?.description,
+                                            'Description ?',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyLarge,
+                                        ),
+                                      ),
+                                    if (widget.productSelection
+                                                ?.specification !=
+                                            null &&
+                                        widget.productSelection
+                                                ?.specification !=
+                                            '')
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 4.0, 16.0, 0.0),
+                                        child: Text(
+                                          valueOrDefault<String>(
+                                            widget.productSelection
+                                                ?.specification,
+                                            'specification?',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyLarge,
+                                        ),
+                                      ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 8.0, 16.0, 0.0),
@@ -254,7 +283,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                                     BorderRadius.circular(12.0),
                                               ),
                                               alignment: AlignmentDirectional(
-                                                  -0.9, 0.0),
+                                                  -0.90, 0.00),
                                               child: Text(
                                                 'Extra comments',
                                                 style:
@@ -370,7 +399,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                                     BorderRadius.circular(12.0),
                                               ),
                                               alignment: AlignmentDirectional(
-                                                  -0.9, 0.0),
+                                                  -0.90, 0.00),
                                               child: Text(
                                                 'Quanity',
                                                 style:
@@ -499,8 +528,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                             isEqualTo:
                                                 currentUserDocument?.userRef)
                                         .where('orderID',
-                                            isEqualTo:
-                                                widget.orderparam?.orderID),
+                                            isEqualTo: widget
+                                                .orderparam?.reference.id),
                                     singleRecord: true,
                                   ).then((s) => s.firstOrNull);
 
@@ -529,14 +558,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         widget.orderparam,
                                         ParamType.Document,
                                       ),
-                                      'tableParams': serializeParam(
-                                        parentContentTablesRecord,
-                                        ParamType.Document,
-                                      ),
                                     }.withoutNulls,
                                     extra: <String, dynamic>{
                                       'orderParams': widget.orderparam,
-                                      'tableParams': parentContentTablesRecord,
                                     },
                                   );
 

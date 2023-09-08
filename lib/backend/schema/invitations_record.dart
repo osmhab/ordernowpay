@@ -46,11 +46,6 @@ class InvitationsRecord extends FirestoreRecord {
   DocumentReference? get userRef => _userRef;
   bool hasUserRef() => _userRef != null;
 
-  // "RestaurantName" field.
-  DocumentReference? _restaurantName;
-  DocumentReference? get restaurantName => _restaurantName;
-  bool hasRestaurantName() => _restaurantName != null;
-
   // "inviterID" field.
   String? _inviterID;
   String get inviterID => _inviterID ?? '';
@@ -61,6 +56,16 @@ class InvitationsRecord extends FirestoreRecord {
   String get invitationToken => _invitationToken ?? '';
   bool hasInvitationToken() => _invitationToken != null;
 
+  // "bankName" field.
+  String? _bankName;
+  String get bankName => _bankName ?? '';
+  bool hasBankName() => _bankName != null;
+
+  // "RestaurantName" field.
+  DocumentReference? _restaurantName;
+  DocumentReference? get restaurantName => _restaurantName;
+  bool hasRestaurantName() => _restaurantName != null;
+
   void _initializeFields() {
     _invitationId = snapshotData['invitationId'] as String?;
     _inviterId = snapshotData['inviterId'] as DocumentReference?;
@@ -68,9 +73,10 @@ class InvitationsRecord extends FirestoreRecord {
     _role = snapshotData['role'] as String?;
     _status = snapshotData['status'] as String?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
-    _restaurantName = snapshotData['RestaurantName'] as DocumentReference?;
     _inviterID = snapshotData['inviterID'] as String?;
     _invitationToken = snapshotData['invitationToken'] as String?;
+    _bankName = snapshotData['bankName'] as String?;
+    _restaurantName = snapshotData['RestaurantName'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -114,9 +120,10 @@ Map<String, dynamic> createInvitationsRecordData({
   String? role,
   String? status,
   DocumentReference? userRef,
-  DocumentReference? restaurantName,
   String? inviterID,
   String? invitationToken,
+  String? bankName,
+  DocumentReference? restaurantName,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -126,9 +133,10 @@ Map<String, dynamic> createInvitationsRecordData({
       'role': role,
       'status': status,
       'userRef': userRef,
-      'RestaurantName': restaurantName,
       'inviterID': inviterID,
       'invitationToken': invitationToken,
+      'bankName': bankName,
+      'RestaurantName': restaurantName,
     }.withoutNulls,
   );
 
@@ -146,9 +154,10 @@ class InvitationsRecordDocumentEquality implements Equality<InvitationsRecord> {
         e1?.role == e2?.role &&
         e1?.status == e2?.status &&
         e1?.userRef == e2?.userRef &&
-        e1?.restaurantName == e2?.restaurantName &&
         e1?.inviterID == e2?.inviterID &&
-        e1?.invitationToken == e2?.invitationToken;
+        e1?.invitationToken == e2?.invitationToken &&
+        e1?.bankName == e2?.bankName &&
+        e1?.restaurantName == e2?.restaurantName;
   }
 
   @override
@@ -159,9 +168,10 @@ class InvitationsRecordDocumentEquality implements Equality<InvitationsRecord> {
         e?.role,
         e?.status,
         e?.userRef,
-        e?.restaurantName,
         e?.inviterID,
-        e?.invitationToken
+        e?.invitationToken,
+        e?.bankName,
+        e?.restaurantName
       ]);
 
   @override

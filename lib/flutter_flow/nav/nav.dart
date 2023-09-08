@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '/backend/backend.dart';
@@ -201,11 +200,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               requireAuth: true,
               asyncParams: {
                 'orderParams': getDoc(['Carts'], CartsRecord.fromSnapshot),
-                'tableParams': getDoc(['Tables'], TablesRecord.fromSnapshot),
               },
               builder: (context, params) => NewOrderWidget(
                 orderParams: params.getParam('orderParams', ParamType.Document),
-                tableParams: params.getParam('tableParams', ParamType.Document),
               ),
             ),
             FFRoute(
@@ -286,6 +283,42 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'SignUpUser',
               path: 'signUpUser',
               builder: (context, params) => SignUpUserWidget(),
+            ),
+            FFRoute(
+              name: 'Success1Payment',
+              path: 'success1Payment',
+              asyncParams: {
+                'orderParameters': getDoc(['Carts'], CartsRecord.fromSnapshot),
+              },
+              builder: (context, params) => Success1PaymentWidget(
+                orderParameters:
+                    params.getParam('orderParameters', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'BusinessListOrderHistory',
+              path: 'businessListOrderHistory',
+              builder: (context, params) => BusinessListOrderHistoryWidget(),
+            ),
+            FFRoute(
+              name: 'UserOrderHistory',
+              path: 'userListOrderHistory',
+              builder: (context, params) => UserOrderHistoryWidget(),
+            ),
+            FFRoute(
+              name: 'PaymentList',
+              path: 'paymentList',
+              builder: (context, params) => PaymentListWidget(),
+            ),
+            FFRoute(
+              name: 'ticketDetail',
+              path: 'ticketDetail',
+              asyncParams: {
+                'orderDetail': getDoc(['Carts'], CartsRecord.fromSnapshot),
+              },
+              builder: (context, params) => TicketDetailWidget(
+                orderDetail: params.getParam('orderDetail', ParamType.Document),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -471,9 +504,10 @@ class FFRoute {
                   child: SizedBox(
                     width: 50.0,
                     height: 50.0,
-                    child: SpinKitDoubleBounce(
-                      color: FlutterFlowTheme.of(context).primary,
-                      size: 50.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        FlutterFlowTheme.of(context).primary,
+                      ),
                     ),
                   ),
                 )

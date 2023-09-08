@@ -9,7 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +20,35 @@ class AddUpdateItemModel extends FlutterFlowModel {
   // State field(s) for item_name widget.
   TextEditingController? itemNameController;
   String? Function(BuildContext, String?)? itemNameControllerValidator;
+  String? _itemNameControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
   // State field(s) for item_price widget.
   TextEditingController? itemPriceController;
   String? Function(BuildContext, String?)? itemPriceControllerValidator;
+  String? _itemPriceControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
   // State field(s) for item_description widget.
   TextEditingController? itemDescriptionController;
   String? Function(BuildContext, String?)? itemDescriptionControllerValidator;
 
   /// Initialization and disposal methods.
 
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    itemNameControllerValidator = _itemNameControllerValidator;
+    itemPriceControllerValidator = _itemPriceControllerValidator;
+  }
 
   void dispose() {
     unfocusNode.dispose();

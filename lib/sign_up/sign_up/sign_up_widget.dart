@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sign_up_model.dart';
@@ -68,7 +67,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                       ),
-                      alignment: AlignmentDirectional(0.0, -1.0),
+                      alignment: AlignmentDirectional(0.00, -1.00),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -86,7 +85,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                   topRight: Radius.circular(0.0),
                                 ),
                               ),
-                              alignment: AlignmentDirectional(-1.0, 0.0),
+                              alignment: AlignmentDirectional(-1.00, 0.00),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -117,7 +116,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 color: Colors.white,
                               ),
                               child: Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0.00, 0.00),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       24.0, 24.0, 24.0, 24.0),
@@ -593,7 +592,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             children: [
                                               Align(
                                                 alignment: AlignmentDirectional(
-                                                    0.0, 0.0),
+                                                    0.00, 0.00),
                                                 child: Padding(
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(
@@ -609,7 +608,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               ),
                                               Align(
                                                 alignment: AlignmentDirectional(
-                                                    0.0, 0.0),
+                                                    0.00, 0.00),
                                                 child: Container(
                                                   width: 70.0,
                                                   height: 32.0,
@@ -618,7 +617,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                   ),
                                                   alignment:
                                                       AlignmentDirectional(
-                                                          0.0, 0.0),
+                                                          0.00, 0.00),
                                                   child: Text(
                                                     'OR',
                                                     style: FlutterFlowTheme.of(
@@ -644,7 +643,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                       // You will have to add an action on this rich text to go to your login page.
                                       Align(
                                         alignment:
-                                            AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.00, 0.00),
                                         child: Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
@@ -658,6 +657,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               context.pushNamed('SignIn');
                                             },
                                             child: RichText(
+                                              textScaleFactor:
+                                                  MediaQuery.of(context)
+                                                      .textScaleFactor,
                                               text: TextSpan(
                                                 children: [
                                                   TextSpan(

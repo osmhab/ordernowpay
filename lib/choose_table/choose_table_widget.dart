@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'choose_table_model.dart';
@@ -99,7 +98,7 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Align(
-                            alignment: AlignmentDirectional(0.0, -1.0),
+                            alignment: AlignmentDirectional(0.00, -1.00),
                             child: Container(
                               width: MediaQuery.sizeOf(context).width * 1.0,
                               decoration: BoxDecoration(),
@@ -140,7 +139,7 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                 ],
               ),
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.00, 0.00),
                 child: Padding(
                   padding:
                       EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 25.0, 25.0),
@@ -162,7 +161,16 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                         singleRecord: true,
                       ).then((s) => s.firstOrNull);
                       _shouldSetState = true;
-                      if (_model.scanResult == _model.tableFound?.tableID) {
+                      if ((_model.scanResult == _model.tableFound?.tableID) &&
+                          (_model.tableFound?.tableInUse == false)) {
+                        _model.queryUserResult = await queryUsersRecordOnce(
+                          queryBuilder: (usersRecord) => usersRecord.where(
+                              'userRef',
+                              isEqualTo: currentUserDocument?.userRef),
+                          singleRecord: true,
+                        ).then((s) => s.firstOrNull);
+                        _shouldSetState = true;
+
                         var cartsRecordReference = CartsRecord.collection.doc();
                         await cartsRecordReference.set({
                           ...createCartsRecordData(
@@ -175,6 +183,17 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                             extraCharge: 0.0,
                             cartTable: _model.tableFound?.tableName,
                             tableID: _model.tableFound?.reference.id,
+                            restaurantName: _model.queryUserResult?.storeName,
+                            createdByName:
+                                valueOrDefault(currentUserDocument?.name, ''),
+                            createdByPhoto: currentUserPhoto,
+                            beneficiaryAdress:
+                                _model.queryUserResult?.beneficiaireAdresse,
+                            beneficiaryName:
+                                _model.queryUserResult?.beneficiaireName,
+                            restaurantAdress:
+                                _model.queryUserResult?.storeLocality,
+                            iban: _model.queryUserResult?.bankIBAN,
                           ),
                           'created_at': FieldValue.serverTimestamp(),
                         });
@@ -189,15 +208,21 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                             extraCharge: 0.0,
                             cartTable: _model.tableFound?.tableName,
                             tableID: _model.tableFound?.reference.id,
+                            restaurantName: _model.queryUserResult?.storeName,
+                            createdByName:
+                                valueOrDefault(currentUserDocument?.name, ''),
+                            createdByPhoto: currentUserPhoto,
+                            beneficiaryAdress:
+                                _model.queryUserResult?.beneficiaireAdresse,
+                            beneficiaryName:
+                                _model.queryUserResult?.beneficiaireName,
+                            restaurantAdress:
+                                _model.queryUserResult?.storeLocality,
+                            iban: _model.queryUserResult?.bankIBAN,
                           ),
                           'created_at': DateTime.now(),
                         }, cartsRecordReference);
                         _shouldSetState = true;
-
-                        await _model.createdOrder!.reference
-                            .update(createCartsRecordData(
-                          orderID: _model.createdOrder?.reference.id,
-                        ));
 
                         context.pushNamed(
                           'NewOrder',
@@ -212,6 +237,19 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                           },
                         );
                       } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Table not found or already in use',
+                              style: TextStyle(
+                                color:
+                                    FlutterFlowTheme.of(context).primaryBtnText,
+                              ),
+                            ),
+                            duration: Duration(milliseconds: 4000),
+                            backgroundColor: FlutterFlowTheme.of(context).error,
+                          ),
+                        );
                         if (_shouldSetState) setState(() {});
                         return;
                       }

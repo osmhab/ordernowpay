@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'update_bank_details_model.dart';
@@ -47,10 +46,10 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
       });
     }
 
-    _model.bankNameController ??=
-        TextEditingController(text: widget.updateStoreDetails?.bankName);
-    _model.bankAdressController ??=
-        TextEditingController(text: widget.updateStoreDetails?.bankLocality);
+    _model.beneficiaryAdressController1 ??= TextEditingController(
+        text: widget.updateStoreDetails?.beneficiaireName);
+    _model.beneficiaryAdressController2 ??= TextEditingController(
+        text: widget.updateStoreDetails?.beneficiaireAdresse);
     _model.ibanController ??=
         TextEditingController(text: widget.updateStoreDetails?.bankIBAN);
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
@@ -88,7 +87,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
             body: SafeArea(
               top: true,
               child: Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.00, 0.00),
                 child: Container(
                   width: double.infinity,
                   constraints: BoxConstraints(
@@ -130,10 +129,11 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             16.0, 12.0, 16.0, 0.0),
                                         child: TextFormField(
-                                          controller: _model.bankNameController,
+                                          controller: _model
+                                              .beneficiaryAdressController1,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Your Bank\n',
+                                            labelText: 'Beneficiary Name',
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
@@ -204,8 +204,10 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                                 fontFamily: 'Readex Pro',
                                                 lineHeight: 3.0,
                                               ),
+                                          keyboardType:
+                                              TextInputType.streetAddress,
                                           validator: _model
-                                              .bankNameControllerValidator
+                                              .beneficiaryAdressController1Validator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -213,8 +215,8 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             16.0, 12.0, 16.0, 0.0),
                                         child: TextFormField(
-                                          controller:
-                                              _model.bankAdressController,
+                                          controller: _model
+                                              .beneficiaryAdressController2,
                                           obscureText: false,
                                           decoration: InputDecoration(
                                             labelText: 'Bank Locality\n',
@@ -291,7 +293,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                           keyboardType:
                                               TextInputType.streetAddress,
                                           validator: _model
-                                              .bankAdressControllerValidator
+                                              .beneficiaryAdressController2Validator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -469,14 +471,14 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                                           .reference
                                                           .update(
                                                               createUsersRecordData(
-                                                        bankName: _model
-                                                            .bankNameController
-                                                            .text,
-                                                        bankLocality: widget
-                                                            .updateStoreDetails
-                                                            ?.bankLocality,
                                                         bankIBAN: _model
                                                             .ibanController
+                                                            .text,
+                                                        beneficiaireName: _model
+                                                            .beneficiaryAdressController1
+                                                            .text,
+                                                        beneficiaireAdresse: _model
+                                                            .beneficiaryAdressController2
                                                             .text,
                                                       ));
                                                       context.safePop();

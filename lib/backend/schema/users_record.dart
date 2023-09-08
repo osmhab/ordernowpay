@@ -71,21 +71,6 @@ class UsersRecord extends FirestoreRecord {
   String get storeLocality => _storeLocality ?? '';
   bool hasStoreLocality() => _storeLocality != null;
 
-  // "bankName" field.
-  String? _bankName;
-  String get bankName => _bankName ?? '';
-  bool hasBankName() => _bankName != null;
-
-  // "bankAdress" field.
-  String? _bankAdress;
-  String get bankAdress => _bankAdress ?? '';
-  bool hasBankAdress() => _bankAdress != null;
-
-  // "bankLocality" field.
-  String? _bankLocality;
-  String get bankLocality => _bankLocality ?? '';
-  bool hasBankLocality() => _bankLocality != null;
-
   // "bankIBAN" field.
   String? _bankIBAN;
   String get bankIBAN => _bankIBAN ?? '';
@@ -106,6 +91,16 @@ class UsersRecord extends FirestoreRecord {
   String get invitation => _invitation ?? '';
   bool hasInvitation() => _invitation != null;
 
+  // "beneficiaireName" field.
+  String? _beneficiaireName;
+  String get beneficiaireName => _beneficiaireName ?? '';
+  bool hasBeneficiaireName() => _beneficiaireName != null;
+
+  // "beneficiaireAdresse" field.
+  String? _beneficiaireAdresse;
+  String get beneficiaireAdresse => _beneficiaireAdresse ?? '';
+  bool hasBeneficiaireAdresse() => _beneficiaireAdresse != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -118,13 +113,12 @@ class UsersRecord extends FirestoreRecord {
     _storeName = snapshotData['storeName'] as String?;
     _storeAdress = snapshotData['storeAdress'] as String?;
     _storeLocality = snapshotData['storeLocality'] as String?;
-    _bankName = snapshotData['bankName'] as String?;
-    _bankAdress = snapshotData['bankAdress'] as String?;
-    _bankLocality = snapshotData['bankLocality'] as String?;
     _bankIBAN = snapshotData['bankIBAN'] as String?;
     _invitedBy = snapshotData['invitedBy'] as String?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _invitation = snapshotData['invitation'] as String?;
+    _beneficiaireName = snapshotData['beneficiaireName'] as String?;
+    _beneficiaireAdresse = snapshotData['beneficiaireAdresse'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -172,13 +166,12 @@ Map<String, dynamic> createUsersRecordData({
   String? storeName,
   String? storeAdress,
   String? storeLocality,
-  String? bankName,
-  String? bankAdress,
-  String? bankLocality,
   String? bankIBAN,
   String? invitedBy,
   DocumentReference? userRef,
   String? invitation,
+  String? beneficiaireName,
+  String? beneficiaireAdresse,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -193,13 +186,12 @@ Map<String, dynamic> createUsersRecordData({
       'storeName': storeName,
       'storeAdress': storeAdress,
       'storeLocality': storeLocality,
-      'bankName': bankName,
-      'bankAdress': bankAdress,
-      'bankLocality': bankLocality,
       'bankIBAN': bankIBAN,
       'invitedBy': invitedBy,
       'userRef': userRef,
       'invitation': invitation,
+      'beneficiaireName': beneficiaireName,
+      'beneficiaireAdresse': beneficiaireAdresse,
     }.withoutNulls,
   );
 
@@ -222,13 +214,12 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.storeName == e2?.storeName &&
         e1?.storeAdress == e2?.storeAdress &&
         e1?.storeLocality == e2?.storeLocality &&
-        e1?.bankName == e2?.bankName &&
-        e1?.bankAdress == e2?.bankAdress &&
-        e1?.bankLocality == e2?.bankLocality &&
         e1?.bankIBAN == e2?.bankIBAN &&
         e1?.invitedBy == e2?.invitedBy &&
         e1?.userRef == e2?.userRef &&
-        e1?.invitation == e2?.invitation;
+        e1?.invitation == e2?.invitation &&
+        e1?.beneficiaireName == e2?.beneficiaireName &&
+        e1?.beneficiaireAdresse == e2?.beneficiaireAdresse;
   }
 
   @override
@@ -244,13 +235,12 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.storeName,
         e?.storeAdress,
         e?.storeLocality,
-        e?.bankName,
-        e?.bankAdress,
-        e?.bankLocality,
         e?.bankIBAN,
         e?.invitedBy,
         e?.userRef,
-        e?.invitation
+        e?.invitation,
+        e?.beneficiaireName,
+        e?.beneficiaireAdresse
       ]);
 
   @override

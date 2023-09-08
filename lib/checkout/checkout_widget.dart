@@ -1,6 +1,9 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/stripe/payment_manager.dart';
+import '/components/discount_sheet/discount_sheet_widget.dart';
+import '/components/extra_charge_sheet/extra_charge_sheet_widget.dart';
+import '/components/tip_sheet/tip_sheet_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -8,7 +11,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -67,9 +69,10 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
-                child: SpinKitDoubleBounce(
-                  color: FlutterFlowTheme.of(context).primary,
-                  size: 50.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    FlutterFlowTheme.of(context).primary,
+                  ),
                 ),
               ),
             ),
@@ -191,11 +194,22 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    'Final bill',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .titleMedium,
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Text(
+                                                        valueOrDefault<String>(
+                                                          widget.orderParametres
+                                                              ?.restaurantName,
+                                                          'Restaurant?',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleMedium,
+                                                      ),
+                                                    ],
                                                   ),
                                                   Text(
                                                     'Table: ${widget.orderParametres?.cartTable}',
@@ -238,7 +252,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                           .total,
                                                       formatType:
                                                           FormatType.custom,
-                                                      currency: '',
+                                                      currency: 'CHF ',
                                                       format: '0.00',
                                                       locale: '',
                                                     ),
@@ -267,21 +281,21 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                16.0, 0.0),
+                                                  Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            -1.00, 0.00),
                                                     child: GradientText(
                                                       'Tip : ${formatNumber(
-                                                        widget.orderParametres
+                                                        checkoutCartsRecord
                                                             ?.tip,
                                                         formatType:
                                                             FormatType.custom,
-                                                        currency: '',
                                                         format: '0.00',
                                                         locale: '',
                                                       )}',
+                                                      textAlign:
+                                                          TextAlign.start,
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -326,11 +340,13 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                             child: SizedBox(
                                               width: 50.0,
                                               height: 50.0,
-                                              child: SpinKitDoubleBounce(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                size: 50.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                ),
                                               ),
                                             ),
                                           );
@@ -402,29 +418,70 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          5.0,
+                                                                          8.0),
+                                                                  child: Text(
+                                                                    '${listViewItemDetailRecord.quantity.toString()} X',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           0.0,
                                                                           8.0),
-                                                              child: Text(
-                                                                listViewItemDetailRecord
-                                                                    .name,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                    ),
-                                                              ),
+                                                                  child: Text(
+                                                                    listViewItemDetailRecord
+                                                                        .name,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
+                                                            if (listViewItemDetailRecord
+                                                                        .modifiers !=
+                                                                    null &&
+                                                                listViewItemDetailRecord
+                                                                        .modifiers !=
+                                                                    '')
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            8.0),
+                                                                child: Text(
+                                                                  listViewItemDetailRecord
+                                                                      .modifiers,
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium,
+                                                                ),
+                                                              ),
                                                             Text(
                                                               formatNumber(
                                                                 listViewItemDetailRecord
@@ -438,21 +495,6 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodySmall,
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                'Quantity: ${listViewItemDetailRecord.quantity.toString()}',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelMedium,
-                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -558,7 +600,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           formatNumber(
                                             checkoutCartsRecord!.subtotal,
                                             formatType: FormatType.custom,
-                                            currency: '',
+                                            currency: 'CHF ',
                                             format: '0.00',
                                             locale: '',
                                           ),
@@ -585,6 +627,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           formatNumber(
                                             checkoutCartsRecord!.extraCharge,
                                             formatType: FormatType.custom,
+                                            currency: '+',
                                             format: '0.00',
                                             locale: '',
                                           ),
@@ -611,6 +654,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           formatNumber(
                                             checkoutCartsRecord!.discount,
                                             formatType: FormatType.custom,
+                                            currency: '-',
                                             format: '0.00',
                                             locale: '',
                                           ),
@@ -637,6 +681,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           formatNumber(
                                             checkoutCartsRecord!.tip,
                                             formatType: FormatType.custom,
+                                            currency: '+',
                                             format: '0.00',
                                             locale: '',
                                           ),
@@ -683,8 +728,8 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           formatNumber(
                                             checkoutCartsRecord!.total,
                                             formatType: FormatType.custom,
-                                            currency: '',
-                                            format: '###.0#',
+                                            currency: 'CHF ',
+                                            format: '0.00',
                                             locale: '',
                                           ),
                                           style: FlutterFlowTheme.of(context)
@@ -724,13 +769,36 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                 child: AuthUserStreamWidget(
                                                   builder: (context) =>
                                                       FFButtonWidget(
-                                                    onPressed: () {
-                                                      print(
-                                                          'Button pressed ...');
+                                                    onPressed: () async {
+                                                      await showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return GestureDetector(
+                                                            onTap: () => FocusScope
+                                                                    .of(context)
+                                                                .requestFocus(_model
+                                                                    .unfocusNode),
+                                                            child: Padding(
+                                                              padding: MediaQuery
+                                                                  .viewInsetsOf(
+                                                                      context),
+                                                              child:
+                                                                  TipSheetWidget(
+                                                                orderParameters:
+                                                                    checkoutCartsRecord!,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ).then((value) =>
+                                                          setState(() {}));
                                                     },
                                                     text: 'Tip',
                                                     options: FFButtonOptions(
-                                                      width: 80.0,
                                                       height: 70.0,
                                                       padding:
                                                           EdgeInsetsDirectional
@@ -784,9 +852,33 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                 child: AuthUserStreamWidget(
                                                   builder: (context) =>
                                                       FFButtonWidget(
-                                                    onPressed: () {
-                                                      print(
-                                                          'Button pressed ...');
+                                                    onPressed: () async {
+                                                      await showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return GestureDetector(
+                                                            onTap: () => FocusScope
+                                                                    .of(context)
+                                                                .requestFocus(_model
+                                                                    .unfocusNode),
+                                                            child: Padding(
+                                                              padding: MediaQuery
+                                                                  .viewInsetsOf(
+                                                                      context),
+                                                              child:
+                                                                  ExtraChargeSheetWidget(
+                                                                orderParameters:
+                                                                    checkoutCartsRecord!,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ).then((value) =>
+                                                          setState(() {}));
                                                     },
                                                     text: '\$',
                                                     options: FFButtonOptions(
@@ -844,9 +936,33 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                 child: AuthUserStreamWidget(
                                                   builder: (context) =>
                                                       FFButtonWidget(
-                                                    onPressed: () {
-                                                      print(
-                                                          'Button pressed ...');
+                                                    onPressed: () async {
+                                                      await showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return GestureDetector(
+                                                            onTap: () => FocusScope
+                                                                    .of(context)
+                                                                .requestFocus(_model
+                                                                    .unfocusNode),
+                                                            child: Padding(
+                                                              padding: MediaQuery
+                                                                  .viewInsetsOf(
+                                                                      context),
+                                                              child:
+                                                                  DiscountSheetWidget(
+                                                                orderParameters:
+                                                                    checkoutCartsRecord!,
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ).then((value) =>
+                                                          setState(() {}));
                                                     },
                                                     text: '%',
                                                     options: FFButtonOptions(
@@ -901,6 +1017,8 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                   builder: (context) =>
                                                       FFButtonWidget(
                                                     onPressed: () async {
+                                                      var _shouldSetState =
+                                                          false;
                                                       final paymentResponse =
                                                           await processStripePayment(
                                                         context,
@@ -918,9 +1036,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                                     ?.name,
                                                                 ''),
                                                         description:
-                                                            'OrderNow Pay bill',
+                                                            'OrderNow Pay',
                                                         allowGooglePay: false,
                                                         allowApplePay: true,
+                                                        themeStyle:
+                                                            ThemeMode.light,
                                                         buttonColor:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -947,7 +1067,81 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                           paymentResponse
                                                               .paymentId!;
 
-                                                      setState(() {});
+                                                      _shouldSetState = true;
+                                                      if (_model.paymentId !=
+                                                              null &&
+                                                          _model.paymentId !=
+                                                              '') {
+                                                        await widget
+                                                            .orderParametres!
+                                                            .reference
+                                                            .update(
+                                                                createCartsRecordData(
+                                                          stripePaymentID:
+                                                              _model.paymentId,
+                                                          cartActive: false,
+                                                          cartPaid: true,
+                                                          payerName: valueOrDefault(
+                                                              currentUserDocument
+                                                                  ?.name,
+                                                              ''),
+                                                          tableID: '-',
+                                                          restaurantPaid: false,
+                                                        ));
+
+                                                        context.goNamed(
+                                                          'Success1Payment',
+                                                          queryParameters: {
+                                                            'orderParameters':
+                                                                serializeParam(
+                                                              checkoutCartsRecord,
+                                                              ParamType
+                                                                  .Document,
+                                                            ),
+                                                          }.withoutNulls,
+                                                          extra: <String,
+                                                              dynamic>{
+                                                            'orderParameters':
+                                                                checkoutCartsRecord,
+                                                          },
+                                                        );
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .clearSnackBars();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              'Payment error, please try a valid payment method',
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Readex Pro',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryBtnText,
+                                                                  ),
+                                                            ),
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    4000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .error,
+                                                          ),
+                                                        );
+                                                        if (_shouldSetState)
+                                                          setState(() {});
+                                                        return;
+                                                      }
+
+                                                      if (_shouldSetState)
+                                                        setState(() {});
                                                     },
                                                     text: 'Pay',
                                                     options: FFButtonOptions(

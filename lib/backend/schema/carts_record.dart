@@ -96,6 +96,56 @@ class CartsRecord extends FirestoreRecord {
   String get tableID => _tableID ?? '';
   bool hasTableID() => _tableID != null;
 
+  // "StripePaymentID" field.
+  String? _stripePaymentID;
+  String get stripePaymentID => _stripePaymentID ?? '';
+  bool hasStripePaymentID() => _stripePaymentID != null;
+
+  // "RestaurantName" field.
+  String? _restaurantName;
+  String get restaurantName => _restaurantName ?? '';
+  bool hasRestaurantName() => _restaurantName != null;
+
+  // "PayerName" field.
+  String? _payerName;
+  String get payerName => _payerName ?? '';
+  bool hasPayerName() => _payerName != null;
+
+  // "createdByName" field.
+  String? _createdByName;
+  String get createdByName => _createdByName ?? '';
+  bool hasCreatedByName() => _createdByName != null;
+
+  // "createdByPhoto" field.
+  String? _createdByPhoto;
+  String get createdByPhoto => _createdByPhoto ?? '';
+  bool hasCreatedByPhoto() => _createdByPhoto != null;
+
+  // "RestaurantAdress" field.
+  String? _restaurantAdress;
+  String get restaurantAdress => _restaurantAdress ?? '';
+  bool hasRestaurantAdress() => _restaurantAdress != null;
+
+  // "BeneficiaryName" field.
+  String? _beneficiaryName;
+  String get beneficiaryName => _beneficiaryName ?? '';
+  bool hasBeneficiaryName() => _beneficiaryName != null;
+
+  // "BeneficiaryAdress" field.
+  String? _beneficiaryAdress;
+  String get beneficiaryAdress => _beneficiaryAdress ?? '';
+  bool hasBeneficiaryAdress() => _beneficiaryAdress != null;
+
+  // "IBAN" field.
+  String? _iban;
+  String get iban => _iban ?? '';
+  bool hasIban() => _iban != null;
+
+  // "RestaurantPaid" field.
+  bool? _restaurantPaid;
+  bool get restaurantPaid => _restaurantPaid ?? false;
+  bool hasRestaurantPaid() => _restaurantPaid != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _itemCount = castToType<int>(snapshotData['itemCount']);
@@ -113,6 +163,16 @@ class CartsRecord extends FirestoreRecord {
     _orderID = snapshotData['orderID'] as String?;
     _tip = castToType<double>(snapshotData['tip']);
     _tableID = snapshotData['tableID'] as String?;
+    _stripePaymentID = snapshotData['StripePaymentID'] as String?;
+    _restaurantName = snapshotData['RestaurantName'] as String?;
+    _payerName = snapshotData['PayerName'] as String?;
+    _createdByName = snapshotData['createdByName'] as String?;
+    _createdByPhoto = snapshotData['createdByPhoto'] as String?;
+    _restaurantAdress = snapshotData['RestaurantAdress'] as String?;
+    _beneficiaryName = snapshotData['BeneficiaryName'] as String?;
+    _beneficiaryAdress = snapshotData['BeneficiaryAdress'] as String?;
+    _iban = snapshotData['IBAN'] as String?;
+    _restaurantPaid = snapshotData['RestaurantPaid'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -164,6 +224,16 @@ Map<String, dynamic> createCartsRecordData({
   String? orderID,
   double? tip,
   String? tableID,
+  String? stripePaymentID,
+  String? restaurantName,
+  String? payerName,
+  String? createdByName,
+  String? createdByPhoto,
+  String? restaurantAdress,
+  String? beneficiaryName,
+  String? beneficiaryAdress,
+  String? iban,
+  bool? restaurantPaid,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -182,6 +252,16 @@ Map<String, dynamic> createCartsRecordData({
       'orderID': orderID,
       'tip': tip,
       'tableID': tableID,
+      'StripePaymentID': stripePaymentID,
+      'RestaurantName': restaurantName,
+      'PayerName': payerName,
+      'createdByName': createdByName,
+      'createdByPhoto': createdByPhoto,
+      'RestaurantAdress': restaurantAdress,
+      'BeneficiaryName': beneficiaryName,
+      'BeneficiaryAdress': beneficiaryAdress,
+      'IBAN': iban,
+      'RestaurantPaid': restaurantPaid,
     }.withoutNulls,
   );
 
@@ -209,7 +289,17 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         listEquality.equals(e1?.cartItems, e2?.cartItems) &&
         e1?.orderID == e2?.orderID &&
         e1?.tip == e2?.tip &&
-        e1?.tableID == e2?.tableID;
+        e1?.tableID == e2?.tableID &&
+        e1?.stripePaymentID == e2?.stripePaymentID &&
+        e1?.restaurantName == e2?.restaurantName &&
+        e1?.payerName == e2?.payerName &&
+        e1?.createdByName == e2?.createdByName &&
+        e1?.createdByPhoto == e2?.createdByPhoto &&
+        e1?.restaurantAdress == e2?.restaurantAdress &&
+        e1?.beneficiaryName == e2?.beneficiaryName &&
+        e1?.beneficiaryAdress == e2?.beneficiaryAdress &&
+        e1?.iban == e2?.iban &&
+        e1?.restaurantPaid == e2?.restaurantPaid;
   }
 
   @override
@@ -229,7 +319,17 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e?.cartItems,
         e?.orderID,
         e?.tip,
-        e?.tableID
+        e?.tableID,
+        e?.stripePaymentID,
+        e?.restaurantName,
+        e?.payerName,
+        e?.createdByName,
+        e?.createdByPhoto,
+        e?.restaurantAdress,
+        e?.beneficiaryName,
+        e?.beneficiaryAdress,
+        e?.iban,
+        e?.restaurantPaid
       ]);
 
   @override

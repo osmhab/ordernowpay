@@ -1,19 +1,15 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:badges/badges.dart' as badges;
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -24,11 +20,9 @@ class NewOrderWidget extends StatefulWidget {
   const NewOrderWidget({
     Key? key,
     this.orderParams,
-    this.tableParams,
   }) : super(key: key);
 
   final CartsRecord? orderParams;
-  final TablesRecord? tableParams;
 
   @override
   _NewOrderWidgetState createState() => _NewOrderWidgetState();
@@ -100,9 +94,10 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                 child: SizedBox(
                   width: 50.0,
                   height: 50.0,
-                  child: SpinKitDoubleBounce(
-                    color: FlutterFlowTheme.of(context).primary,
-                    size: 50.0,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      FlutterFlowTheme.of(context).primary,
+                    ),
                   ),
                 ),
               ),
@@ -161,85 +156,57 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                         children: [
                           Text(
                             'Table ${widget.orderParams?.cartTable}',
-                            style: FlutterFlowTheme.of(context).displaySmall,
+                            style: FlutterFlowTheme.of(context).headlineMedium,
                           ),
-                          Align(
-                            alignment: AlignmentDirectional(1.0, 0.0),
-                            child: Padding(
+                          FFButtonWidget(
+                            onPressed: () async {
+                              context.pushNamed(
+                                'Checkout',
+                                queryParameters: {
+                                  'orderParametres': serializeParam(
+                                    newOrderCartsRecord,
+                                    ParamType.Document,
+                                  ),
+                                }.withoutNulls,
+                                extra: <String, dynamic>{
+                                  'orderParametres': newOrderCartsRecord,
+                                  kTransitionInfoKey: TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType:
+                                        PageTransitionType.bottomToTop,
+                                  ),
+                                },
+                              );
+                            },
+                            text: '${formatNumber(
+                              newOrderCartsRecord?.total,
+                              formatType: FormatType.custom,
+                              format: '0.00',
+                              locale: '',
+                            )}',
+                            icon: Icon(
+                              Icons.shopping_cart_outlined,
+                              size: 15.0,
+                            ),
+                            options: FFButtonOptions(
+                              height: 40.0,
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 15.0, 20.0, 0.0),
-                              child: badges.Badge(
-                                badgeContent: Text(
-                                  formatNumber(
-                                    newOrderCartsRecord!.itemCount,
-                                    formatType: FormatType.custom,
-                                    format: '#',
-                                    locale: '',
+                                  24.0, 0.0, 24.0, 0.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: FlutterFlowTheme.of(context).primary,
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    color: Colors.white,
                                   ),
-                                  textAlign: TextAlign.end,
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Readex Pro',
-                                        color: Colors.white,
-                                        fontSize: 14.0,
-                                      ),
-                                ),
-                                showBadge: true,
-                                shape: badges.BadgeShape.circle,
-                                badgeColor:
-                                    FlutterFlowTheme.of(context).primary,
-                                elevation: 4.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 8.0, 18.0, 8.0),
-                                position: badges.BadgePosition.topEnd(),
-                                animationType: badges.BadgeAnimationType.scale,
-                                toAnimate: true,
-                                child: FlutterFlowIconButton(
-                                  borderColor: Colors.transparent,
-                                  borderWidth: 1.0,
-                                  buttonSize: 56.0,
-                                  icon: Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    size: 40.0,
-                                  ),
-                                  onPressed: () async {
-                                    _model.ckeckoutFound =
-                                        await queryCartsRecordOnce(
-                                      queryBuilder: (cartsRecord) => cartsRecord
-                                          .where('userRef',
-                                              isEqualTo:
-                                                  currentUserDocument?.userRef)
-                                          .where('orderID',
-                                              isEqualTo:
-                                                  widget.orderParams?.orderID),
-                                      singleRecord: true,
-                                    ).then((s) => s.firstOrNull);
-
-                                    context.pushNamed(
-                                      'Checkout',
-                                      queryParameters: {
-                                        'orderParametres': serializeParam(
-                                          _model.ckeckoutFound,
-                                          ParamType.Document,
-                                        ),
-                                      }.withoutNulls,
-                                      extra: <String, dynamic>{
-                                        'orderParametres': _model.ckeckoutFound,
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                              PageTransitionType.bottomToTop,
-                                        ),
-                                      },
-                                    );
-
-                                    setState(() {});
-                                  },
-                                ),
+                              elevation: 3.0,
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
                               ),
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
                         ],
@@ -261,60 +228,21 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                               Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                child: StreamBuilder<List<CartsRecord>>(
-                                  stream: queryCartsRecord(
-                                    queryBuilder: (cartsRecord) => cartsRecord
-                                        .where('orderID',
-                                            isEqualTo:
-                                                widget.orderParams?.orderID)
-                                        .where('userRef',
-                                            isEqualTo:
-                                                currentUserDocument?.userRef),
-                                    singleRecord: true,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: SpinKitDoubleBounce(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            size: 50.0,
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    List<CartsRecord> rowCartsRecordList =
-                                        snapshot.data!;
-                                    // Return an empty Container when the item does not exist.
-                                    if (snapshot.data!.isEmpty) {
-                                      return Container();
-                                    }
-                                    final rowCartsRecord =
-                                        rowCartsRecordList.isNotEmpty
-                                            ? rowCartsRecordList.first
-                                            : null;
-                                    return Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 16.0),
-                                          child: Text(
-                                            'Order #${widget.orderParams?.reference.id}',
-                                            style: FlutterFlowTheme.of(context)
-                                                .labelMedium,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 16.0),
+                                      child: Text(
+                                        'Order #${widget.orderParams?.reference.id}',
+                                        style: FlutterFlowTheme.of(context)
+                                            .labelMedium,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(
@@ -338,7 +266,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                         ),
                                         child: Align(
                                           alignment:
-                                              AlignmentDirectional(-1.0, 0.0),
+                                              AlignmentDirectional(-1.00, 0.00),
                                           child: Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
@@ -434,7 +362,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                           decoration:
                                                               InputDecoration(
                                                             hintText:
-                                                                'Search...',
+                                                                'Search by name',
                                                             enabledBorder:
                                                                 UnderlineInputBorder(
                                                               borderSide:
@@ -584,12 +512,14 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                       width: 50.0,
                                                       height: 50.0,
                                                       child:
-                                                          SpinKitDoubleBounce(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        size: 50.0,
+                                                          CircularProgressIndicator(
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                Color>(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                        ),
                                                       ),
                                                     ),
                                                   );
@@ -613,12 +543,10 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                             listViewIndex];
                                                     return Visibility(
                                                       visible: functions.showSearchResult(
-                                                              _model
-                                                                  .textController
-                                                                  .text,
-                                                              listViewMenuItemsRecord
-                                                                  .name) ??
-                                                          true,
+                                                          _model.textController
+                                                              .text,
+                                                          listViewMenuItemsRecord
+                                                              .name),
                                                       child: Padding(
                                                         padding:
                                                             EdgeInsetsDirectional
@@ -723,22 +651,36 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                                             style:
                                                                                 FlutterFlowTheme.of(context).headlineSmall,
                                                                           ),
-                                                                          Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                0.0,
-                                                                                4.0,
-                                                                                8.0,
-                                                                                0.0),
-                                                                            child:
-                                                                                AutoSizeText(
-                                                                              listViewMenuItemsRecord.description.maybeHandleOverflow(
-                                                                                maxChars: 70,
-                                                                                replacement: '…',
+                                                                          if (listViewMenuItemsRecord.description != null &&
+                                                                              listViewMenuItemsRecord.description != '')
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 8.0, 0.0),
+                                                                              child: AutoSizeText(
+                                                                                listViewMenuItemsRecord.description.maybeHandleOverflow(
+                                                                                  maxChars: 70,
+                                                                                  replacement: '…',
+                                                                                ),
+                                                                                textAlign: TextAlign.start,
+                                                                                style: FlutterFlowTheme.of(context).labelMedium,
                                                                               ),
-                                                                              textAlign: TextAlign.start,
-                                                                              style: FlutterFlowTheme.of(context).labelMedium,
                                                                             ),
-                                                                          ),
+                                                                          if (listViewMenuItemsRecord.specification != null &&
+                                                                              listViewMenuItemsRecord.specification != '')
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 8.0, 0.0),
+                                                                              child: AutoSizeText(
+                                                                                '[${listViewMenuItemsRecord.specification}]'.maybeHandleOverflow(
+                                                                                  maxChars: 70,
+                                                                                  replacement: '…',
+                                                                                ),
+                                                                                textAlign: TextAlign.start,
+                                                                                style: FlutterFlowTheme.of(context).labelMedium.override(
+                                                                                      fontFamily: 'Readex Pro',
+                                                                                      color: FlutterFlowTheme.of(context).customColor3,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                    ),
+                                                                              ),
+                                                                            ),
                                                                         ],
                                                                       ),
                                                                     ),

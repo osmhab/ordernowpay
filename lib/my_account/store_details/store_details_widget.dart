@@ -2,9 +2,9 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'store_details_model.dart';
@@ -53,7 +53,7 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
               backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
               automaticallyImplyLeading: false,
               leading: Align(
-                alignment: AlignmentDirectional(-1.0, 0.0),
+                alignment: AlignmentDirectional(-1.00, 0.00),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
                   child: InkWell(
@@ -82,7 +82,7 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                 ),
               ),
               title: Align(
-                alignment: AlignmentDirectional(-1.0, 0.0),
+                alignment: AlignmentDirectional(-1.00, 0.00),
                 child: Text(
                   'Store details',
                   style: FlutterFlowTheme.of(context).titleLarge,
@@ -113,9 +113,10 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                             child: SizedBox(
                               width: 50.0,
                               height: 50.0,
-                              child: SpinKitDoubleBounce(
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
                               ),
                             ),
                           );
@@ -152,7 +153,7 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                                   ],
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
-                                alignment: AlignmentDirectional(-1.0, 0.0),
+                                alignment: AlignmentDirectional(-1.00, 0.00),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -230,9 +231,10 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                                 child: SizedBox(
                                   width: 50.0,
                                   height: 50.0,
-                                  child: SpinKitDoubleBounce(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    size: 50.0,
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      FlutterFlowTheme.of(context).primary,
+                                    ),
                                   ),
                                 ),
                               );
@@ -269,10 +271,10 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                                       ],
                                       borderRadius: BorderRadius.circular(0.0),
                                     ),
-                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.00, 0.00),
                                     child: Align(
                                       alignment:
-                                          AlignmentDirectional(-1.0, 0.0),
+                                          AlignmentDirectional(-1.00, 0.00),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
@@ -286,7 +288,7 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                                               child: AutoSizeText(
                                                 valueOrDefault<String>(
                                                   columnUsersRecord
-                                                      ?.bankLocality,
+                                                      ?.beneficiaireName,
                                                   'Adress ?',
                                                 ),
                                                 textAlign: TextAlign.start,
@@ -303,8 +305,9 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                                                       12.0, 0.0, 12.0, 0.0),
                                               child: AutoSizeText(
                                                 valueOrDefault<String>(
-                                                  columnUsersRecord?.bankIBAN,
-                                                  'IBAN ?',
+                                                  columnUsersRecord
+                                                      ?.beneficiaireAdresse,
+                                                  'adress?',
                                                 ),
                                                 textAlign: TextAlign.start,
                                                 style:
@@ -320,8 +323,8 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                                                       12.0, 0.0, 0.0, 0.0),
                                               child: AutoSizeText(
                                                 valueOrDefault<String>(
-                                                  columnUsersRecord?.bankName,
-                                                  'Bank ?',
+                                                  columnUsersRecord?.bankIBAN,
+                                                  'IBAN?',
                                                 ),
                                                 textAlign: TextAlign.start,
                                                 style:

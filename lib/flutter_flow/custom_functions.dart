@@ -33,10 +33,10 @@ double totalCalculate(
   int quantity,
   double price,
 ) {
-  return (quantity * price) + extraCharge + tip - discount;
+  return (quantity * price);
 }
 
-bool? showSearchResult(
+bool showSearchResult(
   String searchTextFor,
   String searchTextIn,
 ) {
@@ -45,4 +45,39 @@ bool? showSearchResult(
 
 double stripePay(double total) {
   return total * 100;
+}
+
+double fraisStripeEtOrderNow(
+  double total,
+  double fraisOrderNow,
+  double fraisStripe,
+) {
+  return total - (total * fraisOrderNow / 100) - fraisStripe;
+}
+
+double tipCalculate(
+  double subtotal,
+  double tip,
+  double discount,
+  double extraCharges,
+) {
+  return subtotal + tip + extraCharges - discount;
+}
+
+double discountCalculate(
+  double subtotal,
+  double discount,
+  double tip,
+  double extraCharges,
+) {
+  return subtotal - discount + extraCharges + tip;
+}
+
+double extraChargesCalculate(
+  double subtotal,
+  double discount,
+  double tip,
+  double extraCharges,
+) {
+  return subtotal - discount + extraCharges + tip;
 }

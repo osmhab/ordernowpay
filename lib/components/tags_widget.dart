@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'tags_model.dart';
@@ -64,9 +63,10 @@ class _TagsWidgetState extends State<TagsWidget> {
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
-                child: SpinKitDoubleBounce(
-                  color: FlutterFlowTheme.of(context).primary,
-                  size: 50.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    FlutterFlowTheme.of(context).primary,
+                  ),
                 ),
               ),
             );
@@ -89,7 +89,7 @@ class _TagsWidgetState extends State<TagsWidget> {
                   borderRadius: BorderRadius.circular(18.0),
                 ),
                 child: Align(
-                  alignment: AlignmentDirectional(0.0, 0.0),
+                  alignment: AlignmentDirectional(0.00, 0.00),
                   child: Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
                     child: Text(
@@ -103,7 +103,7 @@ class _TagsWidgetState extends State<TagsWidget> {
                 ),
               ),
               Align(
-                alignment: AlignmentDirectional(1.0, -1.0),
+                alignment: AlignmentDirectional(1.00, -1.00),
                 child: badges.Badge(
                   badgeContent: Text(
                     'X',

@@ -6,7 +6,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -58,9 +57,10 @@ class _TablesWidgetState extends State<TablesWidget> {
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
-                child: SpinKitDoubleBounce(
-                  color: FlutterFlowTheme.of(context).primary,
-                  size: 50.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    FlutterFlowTheme.of(context).primary,
+                  ),
                 ),
               ),
             ),
@@ -81,7 +81,7 @@ class _TablesWidgetState extends State<TablesWidget> {
                       FlutterFlowTheme.of(context).primaryBackground,
                   automaticallyImplyLeading: false,
                   leading: Align(
-                    alignment: AlignmentDirectional(-1.0, 0.0),
+                    alignment: AlignmentDirectional(-1.00, 0.00),
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
@@ -111,7 +111,7 @@ class _TablesWidgetState extends State<TablesWidget> {
                     ),
                   ),
                   title: Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.00, 0.00),
                     child: Text(
                       'My tables',
                       style: FlutterFlowTheme.of(context).bodyMedium,
@@ -184,10 +184,10 @@ class _TablesWidgetState extends State<TablesWidget> {
                                   child: SizedBox(
                                     width: 50.0,
                                     height: 50.0,
-                                    child: SpinKitDoubleBounce(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 50.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -222,10 +222,10 @@ class _TablesWidgetState extends State<TablesWidget> {
                                               BorderRadius.circular(12.0),
                                         ),
                                         alignment:
-                                            AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.00, 0.00),
                                         child: Align(
                                           alignment:
-                                              AlignmentDirectional(-1.0, 0.0),
+                                              AlignmentDirectional(-1.00, 0.00),
                                           child: Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
@@ -309,7 +309,7 @@ class _TablesWidgetState extends State<TablesWidget> {
                                                 Align(
                                                   alignment:
                                                       AlignmentDirectional(
-                                                          1.0, 0.0),
+                                                          1.00, 0.00),
                                                   child: InkWell(
                                                     splashColor:
                                                         Colors.transparent,

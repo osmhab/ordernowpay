@@ -8,7 +8,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'invite_page_model.dart';
@@ -89,7 +88,7 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
             elevation: 0.0,
           ),
           body: Align(
-            alignment: AlignmentDirectional(0.0, -1.0),
+            alignment: AlignmentDirectional(0.00, -1.00),
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(),
@@ -171,7 +170,7 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.00, 0.00),
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
@@ -189,6 +188,7 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                             status: 'Sent',
                             userRef: currentUserReference,
                             inviterID: currentUserUid,
+                            restaurantName: currentUserDocument?.userRef,
                           ));
                           _model.invitationResult =
                               InvitationsRecord.getDocumentFromData(
@@ -200,6 +200,8 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                                     status: 'Sent',
                                     userRef: currentUserReference,
                                     inviterID: currentUserUid,
+                                    restaurantName:
+                                        currentUserDocument?.userRef,
                                   ),
                                   invitationsRecordReference);
                           _shouldSetState = true;
@@ -249,7 +251,7 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.00, 0.00),
                     child: Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
