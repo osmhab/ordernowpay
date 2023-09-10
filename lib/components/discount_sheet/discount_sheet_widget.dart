@@ -191,7 +191,7 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Readex Pro',
+                                  fontFamily: 'Open Sans',
                                   color: Colors.white,
                                 ),
                         elevation: 3.0,

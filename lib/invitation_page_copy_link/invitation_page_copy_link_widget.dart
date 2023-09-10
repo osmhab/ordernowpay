@@ -217,7 +217,7 @@ class _InvitationPageCopyLinkWidgetState
                                               FlutterFlowTheme.of(context)
                                                   .titleSmall
                                                   .override(
-                                                    fontFamily: 'Readex Pro',
+                                                    fontFamily: 'Open Sans',
                                                     color: Colors.white,
                                                   ),
                                           elevation: 3.0,

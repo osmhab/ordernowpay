@@ -263,7 +263,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -306,7 +306,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -348,7 +348,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -383,7 +383,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -503,7 +503,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                       .labelMedium
                                                                       .override(
                                                                         fontFamily:
-                                                                            'Readex Pro',
+                                                                            'Open Sans',
                                                                         fontWeight:
                                                                             FontWeight.normal,
                                                                       ),
@@ -524,7 +524,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                         .labelMedium
                                                                         .override(
                                                                           fontFamily:
-                                                                              'Readex Pro',
+                                                                              'Open Sans',
                                                                           fontWeight:
                                                                               FontWeight.normal,
                                                                         ),
@@ -578,7 +578,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -620,7 +620,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -662,7 +662,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primary,
@@ -686,7 +686,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primary,
@@ -714,7 +714,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiary,
@@ -738,7 +738,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiary,
@@ -946,7 +946,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                                 child: Text(
                                                                                   '@${widget.orderDetail?.restaurantName}',
                                                                                   style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                        fontFamily: 'Readex Pro',
+                                                                                        fontFamily: 'Open Sans',
                                                                                         color: FlutterFlowTheme.of(context).primary,
                                                                                       ),
                                                                                 ),
@@ -959,7 +959,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                                     'Store adress?',
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                        fontFamily: 'Readex Pro',
+                                                                                        fontFamily: 'Open Sans',
                                                                                         color: FlutterFlowTheme.of(context).primary,
                                                                                       ),
                                                                                 ),
@@ -1215,7 +1215,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                               Text(
                                                                             '@${widget.orderDetail?.restaurantName}',
                                                                             style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                  fontFamily: 'Readex Pro',
+                                                                                  fontFamily: 'Open Sans',
                                                                                   color: FlutterFlowTheme.of(context).primary,
                                                                                 ),
                                                                           ),

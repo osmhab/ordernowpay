@@ -814,7 +814,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
-                                  fontFamily: 'Readex Pro',
+                                  fontFamily: 'Open Sans',
                                   fontSize: 14.0,
                                 ),
                             elevation: 0.0,

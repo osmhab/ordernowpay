@@ -95,7 +95,7 @@ class _TagsWidgetState extends State<TagsWidget> {
                     child: Text(
                       widget.tagName!,
                       style: FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily: 'Readex Pro',
+                            fontFamily: 'Open Sans',
                             color: FlutterFlowTheme.of(context).primaryBtnText,
                           ),
                     ),
@@ -108,7 +108,7 @@ class _TagsWidgetState extends State<TagsWidget> {
                   badgeContent: Text(
                     'X',
                     style: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Readex Pro',
+                          fontFamily: 'Open Sans',
                           color: Colors.white,
                         ),
                   ),

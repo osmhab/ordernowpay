@@ -60,8 +60,8 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Lottie.network(
-                          'https://assets10.lottiefiles.com/packages/lf20_xlkxtmul.json',
+                        Lottie.asset(
+                          'assets/lottie_animations/lf20_xlkxtmul.json',
                           width: 200.0,
                           height: 200.0,
                           fit: BoxFit.cover,
@@ -86,7 +86,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                     child: Text(
                       'Payment completed',
                       style: FlutterFlowTheme.of(context).titleSmall.override(
-                            fontFamily: 'Readex Pro',
+                            fontFamily: 'Open Sans',
                             color: FlutterFlowTheme.of(context).primaryBtnText,
                             fontSize: 20.0,
                             fontWeight: FontWeight.w300,
@@ -103,7 +103,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                           extra: <String, dynamic>{
                             kTransitionInfoKey: TransitionInfo(
                               hasTransition: true,
-                              transitionType: PageTransitionType.leftToRight,
+                              transitionType: PageTransitionType.topToBottom,
                             ),
                           },
                         );
@@ -117,7 +117,7 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                         color: FlutterFlowTheme.of(context).primaryBtnText,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Readex Pro',
+                                  fontFamily: 'Open Sans',
                                   color: FlutterFlowTheme.of(context).primary,
                                 ),
                         elevation: 3.0,

@@ -142,7 +142,7 @@ class _TablesWidgetState extends State<TablesWidget> {
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
-                                        fontFamily: 'Readex Pro',
+                                        fontFamily: 'Open Sans',
                                         color: Colors.white,
                                       ),
                                   elevation: 3.0,

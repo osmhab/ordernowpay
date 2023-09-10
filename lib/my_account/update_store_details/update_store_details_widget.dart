@@ -217,7 +217,7 @@ class _UpdateStoreDetailsWidgetState extends State<UpdateStoreDetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           validator: _model
@@ -301,7 +301,7 @@ class _UpdateStoreDetailsWidgetState extends State<UpdateStoreDetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -387,7 +387,7 @@ class _UpdateStoreDetailsWidgetState extends State<UpdateStoreDetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -446,7 +446,7 @@ class _UpdateStoreDetailsWidgetState extends State<UpdateStoreDetailsWidget> {
                                                               .titleMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Readex Pro',
+                                                                    'Open Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryBackground,
@@ -526,7 +526,7 @@ class _UpdateStoreDetailsWidgetState extends State<UpdateStoreDetailsWidget> {
                                                               .titleMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Readex Pro',
+                                                                    'Open Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryBackground,

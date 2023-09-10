@@ -136,7 +136,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'Readex Pro',
+                                              fontFamily: 'Open Sans',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBtnText,
@@ -168,7 +168,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Readex Pro',
+                                      fontFamily: 'Open Sans',
                                       color:
                                           FlutterFlowTheme.of(context).primary,
                                     ),
@@ -215,7 +215,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Readex Pro',
+                                      fontFamily: 'Open Sans',
                                       color:
                                           FlutterFlowTheme.of(context).primary,
                                     ),
@@ -472,7 +472,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primaryBtnText,
@@ -760,7 +760,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                                 .bodySmall
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: Colors
                                                                       .white,
                                                                 ),

@@ -189,7 +189,7 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Readex Pro',
+                                          fontFamily: 'Open Sans',
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model
@@ -262,7 +262,7 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Readex Pro',
+                                          fontFamily: 'Open Sans',
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model
@@ -309,7 +309,7 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                         .titleMedium
                                                         .override(
                                                           fontFamily:
-                                                              'Readex Pro',
+                                                              'Open Sans',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .secondaryBackground,
@@ -361,15 +361,15 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
-                                              textStyle: FlutterFlowTheme.of(
-                                                      context)
-                                                  .titleMedium
-                                                  .override(
-                                                    fontFamily: 'Readex Pro',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                  ),
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily: 'Open Sans',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                      ),
                                               elevation: 4.0,
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,

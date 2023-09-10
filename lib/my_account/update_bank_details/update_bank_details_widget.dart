@@ -201,7 +201,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -287,7 +287,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -372,7 +372,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -431,7 +431,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                                               .titleMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Readex Pro',
+                                                                    'Open Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryBackground,
@@ -511,7 +511,7 @@ class _UpdateBankDetailsWidgetState extends State<UpdateBankDetailsWidget> {
                                                               .titleMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Readex Pro',
+                                                                    'Open Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryBackground,

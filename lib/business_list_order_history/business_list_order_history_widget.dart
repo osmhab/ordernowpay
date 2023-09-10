@@ -286,7 +286,7 @@ class _BusinessListOrderHistoryWidgetState
                                                                 .titleMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primaryText,

@@ -116,7 +116,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'Readex Pro',
+                                    fontFamily: 'Open Sans',
                                     color: FlutterFlowTheme.of(context).primary,
                                   ),
                               elevation: 0.0,

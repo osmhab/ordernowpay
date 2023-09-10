@@ -218,7 +218,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                         .labelMedium
                                                         .override(
                                                           fontFamily:
-                                                              'Readex Pro',
+                                                              'Open Sans',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryBtnText,
@@ -452,7 +452,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                                         .titleSmall
                                                                         .override(
                                                                           fontFamily:
-                                                                              'Readex Pro',
+                                                                              'Open Sans',
                                                                           color:
                                                                               FlutterFlowTheme.of(context).primaryText,
                                                                         ),
@@ -1086,6 +1086,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                           tableID: '-',
                                                           restaurantPaid: false,
                                                         ));
+
+                                                        context.goNamed(
+                                                            'Dashboard');
                                                       } else {
                                                         ScaffoldMessenger.of(
                                                                 context)
@@ -1101,7 +1104,7 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                                   .titleMedium
                                                                   .override(
                                                                     fontFamily:
-                                                                        'Readex Pro',
+                                                                        'Open Sans',
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
                                                                         .primaryBtnText,
@@ -1120,9 +1123,6 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                           setState(() {});
                                                         return;
                                                       }
-
-                                                      context.goNamed(
-                                                          'SuccessPage');
 
                                                       if (_shouldSetState)
                                                         setState(() {});

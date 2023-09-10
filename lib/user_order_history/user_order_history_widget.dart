@@ -262,7 +262,7 @@ class _UserOrderHistoryWidgetState extends State<UserOrderHistoryWidget> {
                                                         .titleMedium
                                                         .override(
                                                           fontFamily:
-                                                              'Readex Pro',
+                                                              'Open Sans',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryText,

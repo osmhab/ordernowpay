@@ -199,7 +199,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'Readex Pro',
+                                    fontFamily: 'Open Sans',
                                     color: Colors.white,
                                   ),
                               elevation: 3.0,
@@ -446,7 +446,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                               .bodyMedium
                                                               .override(
                                                                 fontFamily:
-                                                                    'Readex Pro',
+                                                                    'Open Sans',
                                                                 color: Color(
                                                                     0xFF95A1AC),
                                                               ),
@@ -676,7 +676,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                                                 ),
                                                                                 textAlign: TextAlign.start,
                                                                                 style: FlutterFlowTheme.of(context).labelMedium.override(
-                                                                                      fontFamily: 'Readex Pro',
+                                                                                      fontFamily: 'Open Sans',
                                                                                       color: FlutterFlowTheme.of(context).customColor3,
                                                                                       fontWeight: FontWeight.w600,
                                                                                     ),

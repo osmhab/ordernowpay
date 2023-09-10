@@ -286,7 +286,7 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                                                     .titleSmall
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Readex Pro',
+                                                                          'Open Sans',
                                                                       color: Colors
                                                                           .white,
                                                                     ),
@@ -336,7 +336,7 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                                                     .titleSmall
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Readex Pro',
+                                                                          'Open Sans',
                                                                       color: Colors
                                                                           .white,
                                                                     ),

@@ -243,8 +243,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
                                                       .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                        fontFamily: 'Open Sans',
                                                         lineHeight: 3.0,
                                                       ),
                                               validator: _model
@@ -271,7 +270,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                         context)
                                                     .bodyLarge
                                                     .override(
-                                                      fontFamily: 'Readex Pro',
+                                                      fontFamily: 'Open Sans',
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -355,8 +354,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
                                                       .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                        fontFamily: 'Open Sans',
                                                         lineHeight: 3.0,
                                                       ),
                                               validator: _model
@@ -459,8 +457,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
                                                       .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                        fontFamily: 'Open Sans',
                                                         lineHeight: 3.0,
                                                       ),
                                               validator: _model
@@ -560,8 +557,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyLarge
                                                       .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                        fontFamily: 'Open Sans',
                                                         lineHeight: 3.0,
                                                       ),
                                               validator: _model
@@ -615,7 +611,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                             .titleMedium
                                                             .override(
                                                               fontFamily:
-                                                                  'Readex Pro',
+                                                                  'Open Sans',
                                                               color: FlutterFlowTheme
                                                                       .of(context)
                                                                   .secondaryBackground,
@@ -680,17 +676,15 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primary,
-                                                  textStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                          ),
+                                                  textStyle: FlutterFlowTheme
+                                                          .of(context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily: 'Open Sans',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                      ),
                                                   elevation: 4.0,
                                                   borderSide: BorderSide(
                                                     color: Colors.transparent,
@@ -783,7 +777,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                               .titleSmall
                                                               .override(
                                                                 fontFamily:
-                                                                    'Readex Pro',
+                                                                    'Open Sans',
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryBtnText,
@@ -825,8 +819,7 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                           .of(context)
                                                       .titleMedium
                                                       .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                        fontFamily: 'Open Sans',
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)

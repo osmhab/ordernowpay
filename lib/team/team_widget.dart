@@ -255,7 +255,7 @@ class _TeamWidgetState extends State<TeamWidget> {
                                                                 .titleMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Readex Pro',
+                                                                      'Open Sans',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primaryText,
@@ -296,7 +296,7 @@ class _TeamWidgetState extends State<TeamWidget> {
                                                         .titleSmall
                                                         .override(
                                                           fontFamily:
-                                                              'Readex Pro',
+                                                              'Open Sans',
                                                           color: Colors.white,
                                                         ),
                                                     elevation: 3.0,

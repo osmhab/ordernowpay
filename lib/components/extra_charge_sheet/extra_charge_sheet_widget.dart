@@ -191,7 +191,7 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Readex Pro',
+                                  fontFamily: 'Open Sans',
                                   color: Colors.white,
                                 ),
                         elevation: 3.0,

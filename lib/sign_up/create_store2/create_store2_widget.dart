@@ -134,7 +134,7 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Readex Pro',
+                                          fontFamily: 'Open Sans',
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
                                         ),
@@ -224,7 +224,7 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           validator: _model
@@ -309,7 +309,7 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           validator: _model
@@ -393,7 +393,7 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           validator: _model
@@ -441,7 +441,7 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleMedium
                                             .override(
-                                              fontFamily: 'Readex Pro',
+                                              fontFamily: 'Open Sans',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,

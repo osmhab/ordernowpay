@@ -58,7 +58,7 @@ class _TagbuttonWidgetState extends State<TagbuttonWidget> {
           child: Text(
             'Hello World',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Readex Pro',
+                  fontFamily: 'Open Sans',
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),

@@ -101,7 +101,7 @@ class _Card40PropertyDetailsWidgetState
                           'Available',
                           style:
                               FlutterFlowTheme.of(context).bodySmall.override(
-                                    fontFamily: 'Readex Pro',
+                                    fontFamily: 'Open Sans',
                                     color: Colors.white,
                                   ),
                         ),

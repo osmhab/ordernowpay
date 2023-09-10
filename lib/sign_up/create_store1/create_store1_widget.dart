@@ -128,7 +128,7 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
                                         .override(
-                                          fontFamily: 'Readex Pro',
+                                          fontFamily: 'Open Sans',
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
                                         ),
@@ -216,7 +216,7 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           validator: _model
@@ -300,7 +300,7 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -386,7 +386,7 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
-                                                fontFamily: 'Readex Pro',
+                                                fontFamily: 'Open Sans',
                                                 lineHeight: 3.0,
                                               ),
                                           keyboardType:
@@ -442,15 +442,15 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
-                                              textStyle: FlutterFlowTheme.of(
-                                                      context)
-                                                  .titleMedium
-                                                  .override(
-                                                    fontFamily: 'Readex Pro',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                  ),
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleMedium
+                                                      .override(
+                                                        fontFamily: 'Open Sans',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                      ),
                                               elevation: 4.0,
                                               borderSide: BorderSide(
                                                 color: Colors.transparent,
