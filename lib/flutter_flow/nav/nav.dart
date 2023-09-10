@@ -200,9 +200,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               requireAuth: true,
               asyncParams: {
                 'orderParams': getDoc(['Carts'], CartsRecord.fromSnapshot),
+                'tableParams': getDoc(['Tables'], TablesRecord.fromSnapshot),
               },
               builder: (context, params) => NewOrderWidget(
                 orderParams: params.getParam('orderParams', ParamType.Document),
+                tableParams: params.getParam('tableParams', ParamType.Document),
               ),
             ),
             FFRoute(
@@ -285,17 +287,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => SignUpUserWidget(),
             ),
             FFRoute(
-              name: 'Success1Payment',
-              path: 'success1Payment',
-              asyncParams: {
-                'orderParameters': getDoc(['Carts'], CartsRecord.fromSnapshot),
-              },
-              builder: (context, params) => Success1PaymentWidget(
-                orderParameters:
-                    params.getParam('orderParameters', ParamType.Document),
-              ),
-            ),
-            FFRoute(
               name: 'BusinessListOrderHistory',
               path: 'businessListOrderHistory',
               builder: (context, params) => BusinessListOrderHistoryWidget(),
@@ -319,6 +310,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               builder: (context, params) => TicketDetailWidget(
                 orderDetail: params.getParam('orderDetail', ParamType.Document),
               ),
+            ),
+            FFRoute(
+              name: 'SuccessPage',
+              path: 'successPage',
+              builder: (context, params) => SuccessPageWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),

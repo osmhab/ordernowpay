@@ -223,19 +223,6 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                           'created_at': DateTime.now(),
                         }, cartsRecordReference);
                         _shouldSetState = true;
-
-                        context.pushNamed(
-                          'NewOrder',
-                          queryParameters: {
-                            'orderParams': serializeParam(
-                              _model.createdOrder,
-                              ParamType.Document,
-                            ),
-                          }.withoutNulls,
-                          extra: <String, dynamic>{
-                            'orderParams': _model.createdOrder,
-                          },
-                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -253,6 +240,8 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                         if (_shouldSetState) setState(() {});
                         return;
                       }
+
+                      context.goNamed('Dashboard');
 
                       if (_shouldSetState) setState(() {});
                     },

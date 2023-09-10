@@ -20,9 +20,11 @@ class NewOrderWidget extends StatefulWidget {
   const NewOrderWidget({
     Key? key,
     this.orderParams,
+    this.tableParams,
   }) : super(key: key);
 
   final CartsRecord? orderParams;
+  final TablesRecord? tableParams;
 
   @override
   _NewOrderWidgetState createState() => _NewOrderWidgetState();
@@ -82,7 +84,10 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
         stream: queryCartsRecord(
           queryBuilder: (cartsRecord) => cartsRecord
               .where('userRef', isEqualTo: currentUserDocument?.userRef)
-              .where('orderID', isEqualTo: widget.orderParams?.orderID),
+              .where('orderID',
+                  isEqualTo: widget.orderParams?.orderID != ''
+                      ? widget.orderParams?.orderID
+                      : null),
           singleRecord: true,
         ),
         builder: (context, snapshot) {
@@ -104,10 +109,6 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
             );
           }
           List<CartsRecord> newOrderCartsRecordList = snapshot.data!;
-          // Return an empty Container when the item does not exist.
-          if (snapshot.data!.isEmpty) {
-            return Container();
-          }
           final newOrderCartsRecord = newOrderCartsRecordList.isNotEmpty
               ? newOrderCartsRecordList.first
               : null;

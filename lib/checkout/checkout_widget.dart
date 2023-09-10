@@ -738,24 +738,22 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 0.2,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 16.0),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 18.0),
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                      ),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: [
                                           if (valueOrDefault(
                                                   currentUserDocument?.role,
@@ -1088,23 +1086,6 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                           tableID: '-',
                                                           restaurantPaid: false,
                                                         ));
-
-                                                        context.goNamed(
-                                                          'Success1Payment',
-                                                          queryParameters: {
-                                                            'orderParameters':
-                                                                serializeParam(
-                                                              checkoutCartsRecord,
-                                                              ParamType
-                                                                  .Document,
-                                                            ),
-                                                          }.withoutNulls,
-                                                          extra: <String,
-                                                              dynamic>{
-                                                            'orderParameters':
-                                                                checkoutCartsRecord,
-                                                          },
-                                                        );
                                                       } else {
                                                         ScaffoldMessenger.of(
                                                                 context)
@@ -1139,6 +1120,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                           setState(() {});
                                                         return;
                                                       }
+
+                                                      context.goNamed(
+                                                          'SuccessPage');
 
                                                       if (_shouldSetState)
                                                         setState(() {});

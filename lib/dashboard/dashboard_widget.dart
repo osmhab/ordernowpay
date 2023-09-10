@@ -719,9 +719,16 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                                                         height: 32.0,
                                                         decoration:
                                                             BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryText,
+                                                          color: listViewCartsRecord
+                                                                      .total ==
+                                                                  0.0
+                                                              ? FlutterFlowTheme
+                                                                      .of(
+                                                                          context)
+                                                                  .secondaryText
+                                                              : FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primary,
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
