@@ -52,8 +52,10 @@ class _TagsWidgetState extends State<TagsWidget> {
     return AuthUserStreamWidget(
       builder: (context) => StreamBuilder<List<MenuItemsRecord>>(
         stream: queryMenuItemsRecord(
-          queryBuilder: (menuItemsRecord) => menuItemsRecord.where('userRef',
-              isEqualTo: currentUserDocument?.userRef),
+          queryBuilder: (menuItemsRecord) => menuItemsRecord.where(
+            'userRef',
+            isEqualTo: currentUserDocument?.userRef,
+          ),
           singleRecord: true,
         ),
         builder: (context, snapshot) {
@@ -106,7 +108,9 @@ class _TagsWidgetState extends State<TagsWidget> {
                 alignment: AlignmentDirectional(1.00, -1.00),
                 child: badges.Badge(
                   badgeContent: Text(
-                    'X',
+                    FFLocalizations.of(context).getText(
+                      'qsdhaxzt' /* X */,
+                    ),
                     style: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Open Sans',
                           color: Colors.white,

@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'discount_sheet_model.dart';
@@ -107,7 +108,9 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                 child: Text(
-                  'Add discount',
+                  FFLocalizations.of(context).getText(
+                    'lf1h386e' /* Add discount */,
+                  ),
                   style: FlutterFlowTheme.of(context).headlineMedium,
                 ),
               ),
@@ -115,9 +118,12 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: TextFormField(
                   controller: _model.discountAmountController,
+                  textInputAction: TextInputAction.done,
                   obscureText: false,
                   decoration: InputDecoration(
-                    hintText: 'CHF 0.00',
+                    hintText: FFLocalizations.of(context).getText(
+                      'kujtvg4i' /* CHF 0.00 (Comma [ , ] not allo... */,
+                    ),
                     hintStyle: FlutterFlowTheme.of(context).labelMedium,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -152,9 +158,12 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                   ),
                   style: FlutterFlowTheme.of(context).displaySmall,
                   textAlign: TextAlign.start,
-                  keyboardType: TextInputType.number,
                   validator: _model.discountAmountControllerValidator
                       .asValidator(context),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                        RegExp('^([0-9]+\\.?[0-9]*|[0-9]*\\.?[0-9]+)\$'))
+                  ],
                 ),
               ),
               Row(
@@ -180,7 +189,9 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                         ));
                         Navigator.pop(context);
                       },
-                      text: 'Add discount',
+                      text: FFLocalizations.of(context).getText(
+                        '6tzsvpdk' /* Add discount */,
+                      ),
                       options: FFButtonOptions(
                         width: 270.0,
                         height: 50.0,

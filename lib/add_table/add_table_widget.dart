@@ -64,7 +64,9 @@ class _AddTableWidgetState extends State<AddTableWidget> {
         title: 'AddTable',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -82,8 +84,16 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                     color: FlutterFlowTheme.of(context).primaryText,
                     size: 30.0,
                   ),
-                  onPressed: () {
-                    print('IconButton pressed ...');
+                  onPressed: () async {
+                    context.pushNamed(
+                      'Tables',
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.leftToRight,
+                        ),
+                      },
+                    );
                   },
                 ),
               ],
@@ -119,7 +129,9 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 32.0, 0.0, 8.0),
                                   child: Text(
-                                    'Add table',
+                                    FFLocalizations.of(context).getText(
+                                      'mtbg1vdd' /* Add table */,
+                                    ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
                                         .displayMedium,
@@ -132,7 +144,10 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                     controller: _model.tableNameController,
                                     obscureText: false,
                                     decoration: InputDecoration(
-                                      labelText: 'Name or Number',
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        'f3fcd6g8' /* Name or Number */,
+                                      ),
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelLarge,
                                       enabledBorder: UnderlineInputBorder(
@@ -205,7 +220,10 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                         _model.tableDescriptionController,
                                     obscureText: false,
                                     decoration: InputDecoration(
-                                      labelText: 'Description',
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        'ixf8tor5' /* Description */,
+                                      ),
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelLarge,
                                       enabledBorder: UnderlineInputBorder(
@@ -287,10 +305,24 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 12.0, 16.0, 24.0),
                                             child: FFButtonWidget(
-                                              onPressed: () {
-                                                print('Button pressed ...');
+                                              onPressed: () async {
+                                                context.pushNamed(
+                                                  'Tables',
+                                                  extra: <String, dynamic>{
+                                                    kTransitionInfoKey:
+                                                        TransitionInfo(
+                                                      hasTransition: true,
+                                                      transitionType:
+                                                          PageTransitionType
+                                                              .leftToRight,
+                                                    ),
+                                                  },
+                                                );
                                               },
-                                              text: 'Cancel',
+                                              text: FFLocalizations.of(context)
+                                                  .getText(
+                                                'x7xj7upz' /* Cancel */,
+                                              ),
                                               options: FFButtonOptions(
                                                 width: double.infinity,
                                                 height: 60.0,
@@ -337,20 +369,30 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                             onPressed: () async {
                                               await TablesRecord.collection
                                                   .doc()
-                                                  .set(createTablesRecordData(
-                                                    tableName: _model
-                                                        .tableNameController
-                                                        .text,
-                                                    description: _model
-                                                        .tableDescriptionController
-                                                        .text,
-                                                    userRef: currentUserDocument
-                                                        ?.userRef,
-                                                  ));
+                                                  .set({
+                                                ...createTablesRecordData(
+                                                  tableName: _model
+                                                      .tableNameController.text,
+                                                  description: _model
+                                                      .tableDescriptionController
+                                                      .text,
+                                                  userRef: currentUserDocument
+                                                      ?.userRef,
+                                                ),
+                                                ...mapToFirestore(
+                                                  {
+                                                    'createdAt': FieldValue
+                                                        .serverTimestamp(),
+                                                  },
+                                                ),
+                                              });
 
                                               context.pushNamed('Tables');
                                             },
-                                            text: 'Save',
+                                            text: FFLocalizations.of(context)
+                                                .getText(
+                                              'x1bpn64t' /* Save */,
+                                            ),
                                             options: FFButtonOptions(
                                               width: double.infinity,
                                               height: 60.0,

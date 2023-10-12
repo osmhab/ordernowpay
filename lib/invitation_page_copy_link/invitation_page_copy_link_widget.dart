@@ -46,7 +46,9 @@ class _InvitationPageCopyLinkWidgetState
         title: 'InvitationPageCopyLink',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -93,7 +95,9 @@ class _InvitationPageCopyLinkWidgetState
                                       ),
                                     ),
                                     Text(
-                                      'Join OrderNow',
+                                      FFLocalizations.of(context).getText(
+                                        '86xy1gzi' /* Join OrderNow */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .displaySmall,
                                     ),
@@ -101,7 +105,9 @@ class _InvitationPageCopyLinkWidgetState
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 12.0, 0.0, 24.0),
                                       child: Text(
-                                        'Paste the code you received by email',
+                                        FFLocalizations.of(context).getText(
+                                          'zgr3f1wq' /* Paste the code you received by... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium,
                                       ),
@@ -117,7 +123,11 @@ class _InvitationPageCopyLinkWidgetState
                                           autofocus: true,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Your code goes here',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'lkjvk16k' /* Your code goes here */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium,
@@ -201,7 +211,10 @@ class _InvitationPageCopyLinkWidgetState
                                                   }.withoutNulls,
                                                 );
                                               },
-                                        text: 'Continue with registration',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          'pot0n8aq' /* Continue with registration */,
+                                        ),
                                         options: FFButtonOptions(
                                           width: 370.0,
                                           height: 44.0,

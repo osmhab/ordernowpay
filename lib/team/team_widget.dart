@@ -45,7 +45,9 @@ class _TeamWidgetState extends State<TeamWidget> {
         title: 'Team',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -67,7 +69,9 @@ class _TeamWidgetState extends State<TeamWidget> {
                 ),
               ),
               title: Text(
-                'My Team',
+                FFLocalizations.of(context).getText(
+                  'oaty8e3g' /* My Team */,
+                ),
                 style: FlutterFlowTheme.of(context).headlineMedium,
               ),
               actions: [
@@ -135,7 +139,9 @@ class _TeamWidgetState extends State<TeamWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 0.0, 12.0),
                                     child: Text(
-                                      'Invited',
+                                      FFLocalizations.of(context).getText(
+                                        'q0qfok18' /* Invited */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .labelLarge,
                                     ),
@@ -153,10 +159,15 @@ class _TeamWidgetState extends State<TeamWidget> {
                                 stream: queryInvitationsRecord(
                                   queryBuilder: (invitationsRecord) =>
                                       invitationsRecord
-                                          .where('userRef',
-                                              isEqualTo:
-                                                  currentUserDocument?.userRef)
-                                          .where('status', isEqualTo: 'Sent'),
+                                          .where(
+                                            'userRef',
+                                            isEqualTo:
+                                                currentUserDocument?.userRef,
+                                          )
+                                          .where(
+                                            'status',
+                                            isEqualTo: 'Sent',
+                                          ),
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -178,12 +189,15 @@ class _TeamWidgetState extends State<TeamWidget> {
                                   List<InvitationsRecord>
                                       listViewInvitationsRecordList =
                                       snapshot.data!;
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
+                                  return ListView.separated(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 5.0),
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     itemCount:
                                         listViewInvitationsRecordList.length,
+                                    separatorBuilder: (_, __) =>
+                                        SizedBox(height: 5.0),
                                     itemBuilder: (context, listViewIndex) {
                                       final listViewInvitationsRecord =
                                           listViewInvitationsRecordList[
@@ -343,18 +357,129 @@ class _TeamWidgetState extends State<TeamWidget> {
                                   )
                                 ],
                               ),
-                              child: Row(
+                              child: Column(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 0.0, 12.0),
+                                        child: Text(
+                                          FFLocalizations.of(context).getText(
+                                            'fpnxkrf0' /* Team */,
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 0.0, 0.0, 12.0),
-                                    child: Text(
-                                      '\nTeam',
-                                      style: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                        0.0, 0.0, 0.0, 5.0),
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      height: 86.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 0.0,
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            offset: Offset(0.0, 1.0),
+                                          )
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: 44.0,
+                                              height: 44.0,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent1,
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  width: 2.0,
+                                                ),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        2.0, 2.0, 2.0, 2.0),
+                                                child: AuthUserStreamWidget(
+                                                  builder: (context) =>
+                                                      ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            44.0),
+                                                    child: Image.network(
+                                                      currentUserPhoto,
+                                                      width: 44.0,
+                                                      height: 44.0,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        12.0, 0.0, 0.0, 0.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  4.0),
+                                                      child:
+                                                          AuthUserStreamWidget(
+                                                        builder: (context) =>
+                                                            Text(
+                                                          '${valueOrDefault(currentUserDocument?.name, '')} / ${valueOrDefault(currentUserDocument?.role, '')}',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .titleLarge,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -368,11 +493,15 @@ class _TeamWidgetState extends State<TeamWidget> {
                                     StreamBuilder<List<UsersRecord>>(
                                   stream: queryUsersRecord(
                                     queryBuilder: (usersRecord) => usersRecord
-                                        .where('userRef',
-                                            isEqualTo:
-                                                currentUserDocument?.userRef)
-                                        .where('invitation',
-                                            isEqualTo: 'Accepted'),
+                                        .where(
+                                          'userRef',
+                                          isEqualTo:
+                                              currentUserDocument?.userRef,
+                                        )
+                                        .where(
+                                          'invitation',
+                                          isEqualTo: 'Accepted',
+                                        ),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -393,11 +522,14 @@ class _TeamWidgetState extends State<TeamWidget> {
                                     }
                                     List<UsersRecord> listViewUsersRecordList =
                                         snapshot.data!;
-                                    return ListView.builder(
-                                      padding: EdgeInsets.zero,
+                                    return ListView.separated(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 5.0),
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
                                       itemCount: listViewUsersRecordList.length,
+                                      separatorBuilder: (_, __) =>
+                                          SizedBox(height: 5.0),
                                       itemBuilder: (context, listViewIndex) {
                                         final listViewUsersRecord =
                                             listViewUsersRecordList[

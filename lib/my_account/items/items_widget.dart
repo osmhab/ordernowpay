@@ -46,7 +46,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         title: 'Items',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -105,7 +107,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                 },
                               );
                             },
-                            text: 'Add item',
+                            text: FFLocalizations.of(context).getText(
+                              'xkcwnsqc' /* Add item */,
+                            ),
                             options: FFButtonOptions(
                               height: 40.0,
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -169,9 +173,10 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                               builder: (context) => FutureBuilder<int>(
                                 future: queryMenuItemsRecordCount(
                                   queryBuilder: (menuItemsRecord) =>
-                                      menuItemsRecord.where('userRef',
-                                          isEqualTo:
-                                              currentUserDocument?.userRef),
+                                      menuItemsRecord.where(
+                                    'userRef',
+                                    isEqualTo: currentUserDocument?.userRef,
+                                  ),
                                 ),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
@@ -214,7 +219,10 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                               ),
                                             ),
                                             Text(
-                                              'Items',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                '73anikk3' /* Items */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .headlineLarge
@@ -280,7 +288,9 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 16.0, 0.0),
                                   child: Text(
-                                    'Availability',
+                                    FFLocalizations.of(context).getText(
+                                      '04ebnc2l' /* Availability */,
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .labelMedium,
                                   ),
@@ -337,16 +347,19 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                     StreamBuilder<
                                                         List<MenuItemsRecord>>(
                                                   stream: queryMenuItemsRecord(
-                                                    queryBuilder: (menuItemsRecord) =>
-                                                        menuItemsRecord
-                                                            .where('userRef',
-                                                                isEqualTo:
-                                                                    currentUserDocument
-                                                                        ?.userRef)
-                                                            .orderBy(
-                                                                'created_at',
-                                                                descending:
-                                                                    true),
+                                                    queryBuilder:
+                                                        (menuItemsRecord) =>
+                                                            menuItemsRecord
+                                                                .where(
+                                                                  'userRef',
+                                                                  isEqualTo:
+                                                                      currentUserDocument
+                                                                          ?.userRef,
+                                                                )
+                                                                .orderBy(
+                                                                    'created_at',
+                                                                    descending:
+                                                                        true),
                                                   ),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
@@ -369,21 +382,18 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                       );
                                                     }
                                                     List<MenuItemsRecord>
-                                                        listViewMenuItemsRecordList =
+                                                        columnMenuItemsRecordList =
                                                         snapshot.data!;
-                                                    return ListView.builder(
-                                                      padding: EdgeInsets.zero,
-                                                      shrinkWrap: true,
-                                                      scrollDirection:
-                                                          Axis.vertical,
-                                                      itemCount:
-                                                          listViewMenuItemsRecordList
+                                                    return Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: List.generate(
+                                                          columnMenuItemsRecordList
                                                               .length,
-                                                      itemBuilder: (context,
-                                                          listViewIndex) {
-                                                        final listViewMenuItemsRecord =
-                                                            listViewMenuItemsRecordList[
-                                                                listViewIndex];
+                                                          (columnIndex) {
+                                                        final columnMenuItemsRecord =
+                                                            columnMenuItemsRecordList[
+                                                                columnIndex];
                                                         return Container(
                                                           width:
                                                               MediaQuery.sizeOf(
@@ -446,7 +456,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                         {
                                                                       'upadeItem':
                                                                           serializeParam(
-                                                                        listViewMenuItemsRecord,
+                                                                        columnMenuItemsRecord,
                                                                         ParamType
                                                                             .Document,
                                                                       ),
@@ -454,7 +464,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                     extra: <String,
                                                                         dynamic>{
                                                                       'upadeItem':
-                                                                          listViewMenuItemsRecord,
+                                                                          columnMenuItemsRecord,
                                                                     },
                                                                   );
                                                                 },
@@ -480,7 +490,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                         ),
                                                                         child:
                                                                             Opacity(
-                                                                          opacity: listViewMenuItemsRecord.isActive
+                                                                          opacity: columnMenuItemsRecord.isActive
                                                                               ? 1.0
                                                                               : 0.4,
                                                                           child:
@@ -495,7 +505,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                               Align(
                                                                                 alignment: AlignmentDirectional(-1.00, 0.00),
                                                                                 child: Text(
-                                                                                  listViewMenuItemsRecord.name,
+                                                                                  columnMenuItemsRecord.name,
                                                                                   textAlign: TextAlign.start,
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium,
                                                                                 ),
@@ -505,7 +515,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                                   alignment: AlignmentDirectional(-1.00, 0.00),
                                                                                   child: Text(
                                                                                     formatNumber(
-                                                                                      listViewMenuItemsRecord.price,
+                                                                                      columnMenuItemsRecord.price,
                                                                                       formatType: FormatType.custom,
                                                                                       currency: 'CHF ',
                                                                                       format: '0.00',
@@ -536,7 +546,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                               .transparent,
                                                                       onTap:
                                                                           () async {
-                                                                        await listViewMenuItemsRecord
+                                                                        await columnMenuItemsRecord
                                                                             .reference
                                                                             .update(createMenuItemsRecordData(
                                                                           isActive:
@@ -548,10 +558,10 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                         model: _model
                                                                             .switchAvailabilityItemModels
                                                                             .getModel(
-                                                                          listViewMenuItemsRecord
+                                                                          columnMenuItemsRecord
                                                                               .reference
                                                                               .id,
-                                                                          listViewIndex,
+                                                                          columnIndex,
                                                                         ),
                                                                         updateCallback:
                                                                             () =>
@@ -560,12 +570,12 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                             SwitchAvailabilityItemWidget(
                                                                           key:
                                                                               Key(
-                                                                            'Key2db_${listViewMenuItemsRecord.reference.id}',
+                                                                            'Key2db_${columnMenuItemsRecord.reference.id}',
                                                                           ),
                                                                           parameter1:
-                                                                              listViewMenuItemsRecord,
+                                                                              columnMenuItemsRecord,
                                                                           parameter2:
-                                                                              listViewMenuItemsRecord,
+                                                                              columnMenuItemsRecord,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -575,7 +585,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                             ),
                                                           ),
                                                         );
-                                                      },
+                                                      }),
                                                     );
                                                   },
                                                 ),

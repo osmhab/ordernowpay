@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 
 import '../../auth/base_auth_user_provider.dart';
@@ -103,18 +104,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               asyncParams: {
                 'ordersParams': getDoc(['Carts'], CartsRecord.fromSnapshot),
                 'tableParams': getDoc(['Tables'], TablesRecord.fromSnapshot),
+                'itemsParams':
+                    getDoc(['MenuItems'], MenuItemsRecord.fromSnapshot),
               },
               builder: (context, params) => DashboardWidget(
                 ordersParams:
                     params.getParam('ordersParams', ParamType.Document),
                 tableParams: params.getParam('tableParams', ParamType.Document),
+                itemsParams: params.getParam('itemsParams', ParamType.Document),
               ),
             ),
             FFRoute(
               name: 'MyAccount',
               path: 'myAccount',
               requireAuth: true,
-              builder: (context, params) => MyAccountWidget(),
+              builder: (context, params) => MyAccountWidget(
+                itemsParams: params.getParam<DocumentReference>('itemsParams',
+                    ParamType.DocumentReference, true, ['MenuItems']),
+                tablesParams: params.getParam<DocumentReference>('tablesParams',
+                    ParamType.DocumentReference, true, ['Tables']),
+              ),
             ),
             FFRoute(
               name: 'CreateStore1',
@@ -162,27 +171,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'UpdateStoreDetails',
               path: 'updateStoreDetails',
               requireAuth: true,
-              asyncParams: {
-                'updateStoreDetails':
-                    getDoc(['users'], UsersRecord.fromSnapshot),
-              },
-              builder: (context, params) => UpdateStoreDetailsWidget(
-                updateStoreDetails:
-                    params.getParam('updateStoreDetails', ParamType.Document),
-              ),
+              builder: (context, params) => UpdateStoreDetailsWidget(),
             ),
             FFRoute(
               name: 'UpdateBankDetails',
               path: 'updateBankDetails',
               requireAuth: true,
-              asyncParams: {
-                'updateStoreDetails':
-                    getDoc(['users'], UsersRecord.fromSnapshot),
-              },
-              builder: (context, params) => UpdateBankDetailsWidget(
-                updateStoreDetails:
-                    params.getParam('updateStoreDetails', ParamType.Document),
-              ),
+              builder: (context, params) => UpdateBankDetailsWidget(),
             ),
             FFRoute(
               name: 'Tables',
@@ -298,7 +293,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             ),
             FFRoute(
               name: 'PaymentList',
-              path: 'paymentList',
+              path: 'paymentListparCindy',
               builder: (context, params) => PaymentListWidget(),
             ),
             FFRoute(
@@ -315,6 +310,41 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'SuccessPage',
               path: 'successPage',
               builder: (context, params) => SuccessPageWidget(),
+            ),
+            FFRoute(
+              name: 'RestaurantPaymentDetails',
+              path: 'RestaurantPaymentDetails',
+              asyncParams: {
+                'cartsParams': getDoc(['Carts'], CartsRecord.fromSnapshot),
+              },
+              builder: (context, params) => RestaurantPaymentDetailsWidget(
+                cartsParams: params.getParam('cartsParams', ParamType.Document),
+              ),
+            ),
+            FFRoute(
+              name: 'AuthCindy',
+              path: 'AuthCindy',
+              builder: (context, params) => AuthCindyWidget(),
+            ),
+            FFRoute(
+              name: 'page',
+              path: 'page',
+              builder: (context, params) => PageWidget(),
+            ),
+            FFRoute(
+              name: 'PaymentStaffList',
+              path: 'paymentStaffListparCindy',
+              builder: (context, params) => PaymentStaffListWidget(),
+            ),
+            FFRoute(
+              name: 'PaymentStaffDetails',
+              path: 'StaffPaymentDetails',
+              asyncParams: {
+                'cartsParams': getDoc(['Carts'], CartsRecord.fromSnapshot),
+              },
+              builder: (context, params) => PaymentStaffDetailsWidget(
+                cartsParams: params.getParam('cartsParams', ParamType.Document),
+              ),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -496,17 +526,19 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+              ? isWeb
+                  ? Container()
+                  : Container(
+                      color: Colors.transparent,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/SplashScreen.png',
+                          width: MediaQuery.sizeOf(context).width * 1.2,
+                          height: MediaQuery.sizeOf(context).height * 1.2,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  ),
-                )
+                    )
               : page;
 
           final transitionInfo = state.transitionInfo;
@@ -543,4 +575,24 @@ class TransitionInfo {
   final Alignment? alignment;
 
   static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+}
+
+class RootPageContext {
+  const RootPageContext(this.isRootPage, [this.errorRoute]);
+  final bool isRootPage;
+  final String? errorRoute;
+
+  static bool isInactiveRootPage(BuildContext context) {
+    final rootPageContext = context.read<RootPageContext?>();
+    final isRootPage = rootPageContext?.isRootPage ?? false;
+    final location = GoRouter.of(context).location;
+    return isRootPage &&
+        location != '/' &&
+        location != rootPageContext?.errorRoute;
+  }
+
+  static Widget wrap(Widget child, {String? errorRoute}) => Provider.value(
+        value: RootPageContext(true, errorRoute),
+        child: child,
+      );
 }

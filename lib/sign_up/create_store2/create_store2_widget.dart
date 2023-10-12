@@ -65,7 +65,9 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
         title: 'CreateStore2',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -119,7 +121,11 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 32.0, 0.0, 8.0),
                                   child: Text(
-                                    'Your bank \ndetails',
+                                    FFLocalizations.of(context).getText(
+                                      'lt0pxa0q' /* Your bank 
+details */
+                                      ,
+                                    ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
                                         .displayMedium,
@@ -127,9 +133,46 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 0.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.info_outline,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        size: 16.0,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            4.0, 0.0, 0.0, 12.0),
+                                        child: Text(
+                                          FFLocalizations.of(context).getText(
+                                            'pw3ins32' /* Bill payments will be transfer... */,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge
+                                              .override(
+                                                fontFamily: 'Open Sans',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .gray600,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 0.0, 0.0, 12.0),
                                   child: Text(
-                                    'Create your store 2/2',
+                                    FFLocalizations.of(context).getText(
+                                      'hp3wfn6x' /* Create your store 2/2 */,
+                                    ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
@@ -154,12 +197,19 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                               _model.beneficiareNameController,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Beneficiary name',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'tzrt8vsu' /* Beneficiary name */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
                                             hintText:
-                                                'Company name / Private name',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'sn0ho2nz' /* Company name / Private name */,
+                                            ),
                                             enabledBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -240,11 +290,19 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                               .beneficiaryAdresseController,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Beneficiary adress',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              '4n06jm1b' /* Beneficiary adress */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
-                                            hintText: 'Zip code & City',
+                                            hintText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'm2zocnwe' /* Zip code & City */,
+                                            ),
                                             enabledBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -324,11 +382,19 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
                                           controller: _model.bankIbanController,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'IBAN',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'qen8lga0' /* IBAN */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
-                                            hintText: 'CH',
+                                            hintText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              '7uv5eubo' /* CH */,
+                                            ),
                                             enabledBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -427,7 +493,9 @@ class _CreateStore2WidgetState extends State<CreateStore2Widget> {
 
                                         context.pushNamed('Dashboard');
                                       },
-                                      text: 'Continue',
+                                      text: FFLocalizations.of(context).getText(
+                                        'wrdmdcgp' /* Continue */,
+                                      ),
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 60.0,

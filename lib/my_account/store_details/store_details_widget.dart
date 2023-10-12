@@ -45,7 +45,9 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
         title: 'StoreDetails',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -84,7 +86,9 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
               title: Align(
                 alignment: AlignmentDirectional(-1.00, 0.00),
                 child: Text(
-                  'Store details',
+                  FFLocalizations.of(context).getText(
+                    'mgeb7vvr' /* Store details */,
+                  ),
                   style: FlutterFlowTheme.of(context).titleLarge,
                 ),
               ),
@@ -102,8 +106,9 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                     builder: (context) => StreamBuilder<List<UsersRecord>>(
                       stream: queryUsersRecord(
                         queryBuilder: (usersRecord) => usersRecord.where(
-                            'userRef',
-                            isEqualTo: currentUserDocument?.userRef),
+                          'userRef',
+                          isEqualTo: currentUserDocument?.userRef,
+                        ),
                         singleRecord: true,
                       ),
                       builder: (context, snapshot) {
@@ -220,8 +225,9 @@ class _StoreDetailsWidgetState extends State<StoreDetailsWidget> {
                         builder: (context) => StreamBuilder<List<UsersRecord>>(
                           stream: queryUsersRecord(
                             queryBuilder: (usersRecord) => usersRecord.where(
-                                'userRef',
-                                isEqualTo: currentUserDocument?.userRef),
+                              'userRef',
+                              isEqualTo: currentUserDocument?.userRef,
+                            ),
                             singleRecord: true,
                           ),
                           builder: (context, snapshot) {

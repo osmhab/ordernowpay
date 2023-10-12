@@ -87,7 +87,9 @@ class _SignInWidgetState extends State<SignInWidget>
         title: 'SignIn',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -193,7 +195,10 @@ class _SignInWidgetState extends State<SignInWidget>
                                                   });
                                                 },
                                                 child: Text(
-                                                  'Sign In',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'cev1swow' /* Sign In */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .displaySmall
@@ -241,7 +246,12 @@ class _SignInWidgetState extends State<SignInWidget>
                                                     ],
                                                     obscureText: false,
                                                     decoration: InputDecoration(
-                                                      labelText: 'Email',
+                                                      labelText:
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                        'vor85dop' /* Email */,
+                                                      ),
                                                       labelStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -345,7 +355,12 @@ class _SignInWidgetState extends State<SignInWidget>
                                                     obscureText: !_model
                                                         .passwordVisibility,
                                                     decoration: InputDecoration(
-                                                      labelText: 'Password',
+                                                      labelText:
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                        'cycj0nui' /* Password */,
+                                                      ),
                                                       labelStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -484,7 +499,11 @@ class _SignInWidgetState extends State<SignInWidget>
                                                           'Dashboard',
                                                           context.mounted);
                                                     },
-                                                    text: 'Sign In',
+                                                    text: FFLocalizations.of(
+                                                            context)
+                                                        .getText(
+                                                      '1wgjbzhj' /* Sign In */,
+                                                    ),
                                                     options: FFButtonOptions(
                                                       width: 230.0,
                                                       height: 52.0,
@@ -542,7 +561,11 @@ class _SignInWidgetState extends State<SignInWidget>
                                                       print(
                                                           'Button pressed ...');
                                                     },
-                                                    text: 'Forgot Password',
+                                                    text: FFLocalizations.of(
+                                                            context)
+                                                        .getText(
+                                                      'mt1vod7e' /* Forgot Password */,
+                                                    ),
                                                     options: FFButtonOptions(
                                                       width: 230.0,
                                                       height: 44.0,
@@ -616,7 +639,11 @@ class _SignInWidgetState extends State<SignInWidget>
                                                               'SignUpUser');
                                                         },
                                                         child: Text(
-                                                          'or register for free',
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'c2gn05il' /* or register for free */,
+                                                          ),
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: FlutterFlowTheme
@@ -641,6 +668,95 @@ class _SignInWidgetState extends State<SignInWidget>
                                             ],
                                           ).animateOnPageLoad(animationsMap[
                                               'columnOnPageLoadAnimation']!),
+                                        ),
+                                      ),
+                                      Divider(
+                                        thickness: 1.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .lineColor,
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                1.0,
+                                        height: 100.0,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                setAppLanguage(context, 'en');
+                                              },
+                                              child: Text(
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'zo7sllcg' /* EN */,
+                                                ),
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      16.0, 0.0, 0.0, 0.0),
+                                              child: InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  setAppLanguage(context, 'fr');
+                                                },
+                                                child: Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'spxbwg8y' /* FR */,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      16.0, 0.0, 0.0, 0.0),
+                                              child: InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  setAppLanguage(context, 'de');
+                                                },
+                                                child: Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'zillwwi9' /* DE */,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],

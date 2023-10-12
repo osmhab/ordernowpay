@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'extra_charge_sheet_model.dart';
@@ -107,7 +108,9 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                 child: Text(
-                  'Add extra charges \$',
+                  FFLocalizations.of(context).getText(
+                    'p8x3x08a' /* Add extra charges */,
+                  ),
                   style: FlutterFlowTheme.of(context).headlineMedium,
                 ),
               ),
@@ -115,9 +118,12 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: TextFormField(
                   controller: _model.extraChargeAmountController,
+                  textInputAction: TextInputAction.done,
                   obscureText: false,
                   decoration: InputDecoration(
-                    hintText: 'CHF 0.00',
+                    hintText: FFLocalizations.of(context).getText(
+                      't8bzrwwa' /* CHF 0.00 (Comma [ , ] not allo... */,
+                    ),
                     hintStyle: FlutterFlowTheme.of(context).labelMedium,
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -152,9 +158,12 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                   ),
                   style: FlutterFlowTheme.of(context).displaySmall,
                   textAlign: TextAlign.start,
-                  keyboardType: TextInputType.number,
                   validator: _model.extraChargeAmountControllerValidator
                       .asValidator(context),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                        RegExp('^([0-9]+\\.?[0-9]*|[0-9]*\\.?[0-9]+)\$'))
+                  ],
                 ),
               ),
               Row(
@@ -180,7 +189,9 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                         ));
                         Navigator.pop(context);
                       },
-                      text: 'Add charge',
+                      text: FFLocalizations.of(context).getText(
+                        'v7vix5h2' /* Add charge */,
+                      ),
                       options: FFButtonOptions(
                         width: 270.0,
                         height: 50.0,

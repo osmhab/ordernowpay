@@ -146,6 +146,31 @@ class CartsRecord extends FirestoreRecord {
   bool get restaurantPaid => _restaurantPaid ?? false;
   bool hasRestaurantPaid() => _restaurantPaid != null;
 
+  // "EmployePaid" field.
+  bool? _employePaid;
+  bool get employePaid => _employePaid ?? false;
+  bool hasEmployePaid() => _employePaid != null;
+
+  // "role" field.
+  String? _role;
+  String get role => _role ?? '';
+  bool hasRole() => _role != null;
+
+  // "StaffBenefName" field.
+  String? _staffBenefName;
+  String get staffBenefName => _staffBenefName ?? '';
+  bool hasStaffBenefName() => _staffBenefName != null;
+
+  // "StaffBenefAdress" field.
+  String? _staffBenefAdress;
+  String get staffBenefAdress => _staffBenefAdress ?? '';
+  bool hasStaffBenefAdress() => _staffBenefAdress != null;
+
+  // "StaffBenefIBAN" field.
+  String? _staffBenefIBAN;
+  String get staffBenefIBAN => _staffBenefIBAN ?? '';
+  bool hasStaffBenefIBAN() => _staffBenefIBAN != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _itemCount = castToType<int>(snapshotData['itemCount']);
@@ -173,6 +198,11 @@ class CartsRecord extends FirestoreRecord {
     _beneficiaryAdress = snapshotData['BeneficiaryAdress'] as String?;
     _iban = snapshotData['IBAN'] as String?;
     _restaurantPaid = snapshotData['RestaurantPaid'] as bool?;
+    _employePaid = snapshotData['EmployePaid'] as bool?;
+    _role = snapshotData['role'] as String?;
+    _staffBenefName = snapshotData['StaffBenefName'] as String?;
+    _staffBenefAdress = snapshotData['StaffBenefAdress'] as String?;
+    _staffBenefIBAN = snapshotData['StaffBenefIBAN'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -234,6 +264,11 @@ Map<String, dynamic> createCartsRecordData({
   String? beneficiaryAdress,
   String? iban,
   bool? restaurantPaid,
+  bool? employePaid,
+  String? role,
+  String? staffBenefName,
+  String? staffBenefAdress,
+  String? staffBenefIBAN,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -262,6 +297,11 @@ Map<String, dynamic> createCartsRecordData({
       'BeneficiaryAdress': beneficiaryAdress,
       'IBAN': iban,
       'RestaurantPaid': restaurantPaid,
+      'EmployePaid': employePaid,
+      'role': role,
+      'StaffBenefName': staffBenefName,
+      'StaffBenefAdress': staffBenefAdress,
+      'StaffBenefIBAN': staffBenefIBAN,
     }.withoutNulls,
   );
 
@@ -299,7 +339,12 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e1?.beneficiaryName == e2?.beneficiaryName &&
         e1?.beneficiaryAdress == e2?.beneficiaryAdress &&
         e1?.iban == e2?.iban &&
-        e1?.restaurantPaid == e2?.restaurantPaid;
+        e1?.restaurantPaid == e2?.restaurantPaid &&
+        e1?.employePaid == e2?.employePaid &&
+        e1?.role == e2?.role &&
+        e1?.staffBenefName == e2?.staffBenefName &&
+        e1?.staffBenefAdress == e2?.staffBenefAdress &&
+        e1?.staffBenefIBAN == e2?.staffBenefIBAN;
   }
 
   @override
@@ -329,7 +374,12 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e?.beneficiaryName,
         e?.beneficiaryAdress,
         e?.iban,
-        e?.restaurantPaid
+        e?.restaurantPaid,
+        e?.employePaid,
+        e?.role,
+        e?.staffBenefName,
+        e?.staffBenefAdress,
+        e?.staffBenefIBAN
       ]);
 
   @override

@@ -4,11 +4,12 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'team_widget.dart' show TeamWidget;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class TeamModel extends FlutterFlowModel {
+class TeamModel extends FlutterFlowModel<TeamWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

@@ -63,7 +63,9 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
         title: 'InvitedUser',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -110,7 +112,9 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       ),
                                     ),
                                     Text(
-                                      'Join OrderNow',
+                                      FFLocalizations.of(context).getText(
+                                        'hjma4j6y' /* Join OrderNow */,
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .displaySmall,
                                     ),
@@ -118,7 +122,9 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 12.0, 0.0, 24.0),
                                       child: Text(
-                                        'Create your profile as a staff member',
+                                        FFLocalizations.of(context).getText(
+                                          'nzsc7tuq' /* Create your profile as a staff... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium,
                                       ),
@@ -214,7 +220,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           autofillHints: [AutofillHints.name],
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Your name',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'g3vh33va' /* Your name */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium,
@@ -284,7 +294,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           autofillHints: [AutofillHints.email],
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Email',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              '8e5ksd9o' /* Email */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium,
@@ -358,7 +372,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           obscureText:
                                               !_model.passwordVisibility,
                                           decoration: InputDecoration(
-                                            labelText: 'Password',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'kcz9xr1o' /* Password */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium,
@@ -450,7 +468,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           obscureText:
                                               !_model.passwordConfirmVisibility,
                                           decoration: InputDecoration(
-                                            labelText: 'Confirm Password',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'udpq7thh' /* Confirm Password */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium,
@@ -563,10 +585,12 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           _model.resultQuery =
                                               await queryUsersRecordOnce(
                                             queryBuilder: (usersRecord) =>
-                                                usersRecord.where('uid',
-                                                    isEqualTo: _model
-                                                        .codeInvitationController
-                                                        .text),
+                                                usersRecord.where(
+                                              'uid',
+                                              isEqualTo: _model
+                                                  .codeInvitationController
+                                                  .text,
+                                            ),
                                             singleRecord: true,
                                           ).then((s) => s.firstOrNull);
 
@@ -584,15 +608,27 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                               200,
                                               200,
                                             ),
+                                            storeEmail:
+                                                _model.resultQuery?.email,
+                                            storeBankBenefName: _model
+                                                .resultQuery?.beneficiaireName,
+                                            storeBankBenefAdress: _model
+                                                .resultQuery
+                                                ?.beneficiaireAdresse,
+                                            storeBankBenefIBAN:
+                                                _model.resultQuery?.bankIBAN,
+                                            storeName:
+                                                _model.resultQuery?.storeName,
                                           ));
                                           _model.resultQueryInvitation =
                                               await queryInvitationsRecordOnce(
                                             queryBuilder: (invitationsRecord) =>
                                                 invitationsRecord.where(
-                                                    'inviterID',
-                                                    isEqualTo: _model
-                                                        .codeInvitationController
-                                                        .text),
+                                              'inviterID',
+                                              isEqualTo: _model
+                                                  .codeInvitationController
+                                                  .text,
+                                            ),
                                             singleRecord: true,
                                           ).then((s) => s.firstOrNull);
                                           await _model
@@ -604,7 +640,10 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
 
                                           setState(() {});
                                         },
-                                        text: 'Create Account',
+                                        text:
+                                            FFLocalizations.of(context).getText(
+                                          '3a4kmz6x' /* Create Account */,
+                                        ),
                                         options: FFButtonOptions(
                                           width: 370.0,
                                           height: 44.0,

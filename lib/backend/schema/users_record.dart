@@ -101,6 +101,26 @@ class UsersRecord extends FirestoreRecord {
   String get beneficiaireAdresse => _beneficiaireAdresse ?? '';
   bool hasBeneficiaireAdresse() => _beneficiaireAdresse != null;
 
+  // "StoreEmail" field.
+  String? _storeEmail;
+  String get storeEmail => _storeEmail ?? '';
+  bool hasStoreEmail() => _storeEmail != null;
+
+  // "StoreBankBenefName" field.
+  String? _storeBankBenefName;
+  String get storeBankBenefName => _storeBankBenefName ?? '';
+  bool hasStoreBankBenefName() => _storeBankBenefName != null;
+
+  // "StoreBankBenefIBAN" field.
+  String? _storeBankBenefIBAN;
+  String get storeBankBenefIBAN => _storeBankBenefIBAN ?? '';
+  bool hasStoreBankBenefIBAN() => _storeBankBenefIBAN != null;
+
+  // "StoreBankBenefAdress" field.
+  String? _storeBankBenefAdress;
+  String get storeBankBenefAdress => _storeBankBenefAdress ?? '';
+  bool hasStoreBankBenefAdress() => _storeBankBenefAdress != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -119,6 +139,10 @@ class UsersRecord extends FirestoreRecord {
     _invitation = snapshotData['invitation'] as String?;
     _beneficiaireName = snapshotData['beneficiaireName'] as String?;
     _beneficiaireAdresse = snapshotData['beneficiaireAdresse'] as String?;
+    _storeEmail = snapshotData['StoreEmail'] as String?;
+    _storeBankBenefName = snapshotData['StoreBankBenefName'] as String?;
+    _storeBankBenefIBAN = snapshotData['StoreBankBenefIBAN'] as String?;
+    _storeBankBenefAdress = snapshotData['StoreBankBenefAdress'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -172,6 +196,10 @@ Map<String, dynamic> createUsersRecordData({
   String? invitation,
   String? beneficiaireName,
   String? beneficiaireAdresse,
+  String? storeEmail,
+  String? storeBankBenefName,
+  String? storeBankBenefIBAN,
+  String? storeBankBenefAdress,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -192,6 +220,10 @@ Map<String, dynamic> createUsersRecordData({
       'invitation': invitation,
       'beneficiaireName': beneficiaireName,
       'beneficiaireAdresse': beneficiaireAdresse,
+      'StoreEmail': storeEmail,
+      'StoreBankBenefName': storeBankBenefName,
+      'StoreBankBenefIBAN': storeBankBenefIBAN,
+      'StoreBankBenefAdress': storeBankBenefAdress,
     }.withoutNulls,
   );
 
@@ -219,7 +251,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.userRef == e2?.userRef &&
         e1?.invitation == e2?.invitation &&
         e1?.beneficiaireName == e2?.beneficiaireName &&
-        e1?.beneficiaireAdresse == e2?.beneficiaireAdresse;
+        e1?.beneficiaireAdresse == e2?.beneficiaireAdresse &&
+        e1?.storeEmail == e2?.storeEmail &&
+        e1?.storeBankBenefName == e2?.storeBankBenefName &&
+        e1?.storeBankBenefIBAN == e2?.storeBankBenefIBAN &&
+        e1?.storeBankBenefAdress == e2?.storeBankBenefAdress;
   }
 
   @override
@@ -240,7 +276,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.userRef,
         e?.invitation,
         e?.beneficiaireName,
-        e?.beneficiaireAdresse
+        e?.beneficiaireAdresse,
+        e?.storeEmail,
+        e?.storeBankBenefName,
+        e?.storeBankBenefIBAN,
+        e?.storeBankBenefAdress
       ]);
 
   @override

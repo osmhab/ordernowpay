@@ -58,7 +58,11 @@ class _OrderListEmptyWidgetState extends State<OrderListEmptyWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AutoSizeText(
-                'Seems you don’t have \nany orders',
+                FFLocalizations.of(context).getText(
+                  '5out5q08' /* Seems you don’t have 
+any orde... */
+                  ,
+                ),
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).headlineSmall.override(
                       fontFamily: 'Open Sans',
@@ -77,7 +81,9 @@ class _OrderListEmptyWidgetState extends State<OrderListEmptyWidget> {
             children: [
               Expanded(
                 child: Text(
-                  'To create a new order, start by scanning your customer\'s table',
+                  FFLocalizations.of(context).getText(
+                    'bzbv6h5c' /* To create a new order, start b... */,
+                  ),
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodySmall,
                 ),

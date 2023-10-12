@@ -70,14 +70,18 @@ class _Card40PropertyDetailsWidgetState
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 4.0),
                 child: Text(
-                  '56292 West Hollywood Blvd.',
+                  FFLocalizations.of(context).getText(
+                    'u9t3v838' /* 56292 West Hollywood Blvd. */,
+                  ),
                   style: FlutterFlowTheme.of(context).titleLarge,
                 ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
                 child: Text(
-                  'San Fransico, CA. 98210',
+                  FFLocalizations.of(context).getText(
+                    'jofu6m8f' /* San Fransico, CA. 98210 */,
+                  ),
                   style: FlutterFlowTheme.of(context).labelMedium,
                 ),
               ),
@@ -98,7 +102,9 @@ class _Card40PropertyDetailsWidgetState
                         padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Text(
-                          'Available',
+                          FFLocalizations.of(context).getText(
+                            '9vx8olvh' /* Available */,
+                          ),
                           style:
                               FlutterFlowTheme.of(context).bodySmall.override(
                                     fontFamily: 'Open Sans',
@@ -110,7 +116,9 @@ class _Card40PropertyDetailsWidgetState
                   ),
                   Expanded(
                     child: Text(
-                      '621 Views',
+                      FFLocalizations.of(context).getText(
+                        'suq009i0' /* 621 Views */,
+                      ),
                       style: FlutterFlowTheme.of(context).labelSmall,
                     ),
                   ),

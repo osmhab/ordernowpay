@@ -50,7 +50,9 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
         title: 'ticketDetail',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -74,7 +76,9 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                       },
                     ),
                     title: Text(
-                      'Order Details',
+                      FFLocalizations.of(context).getText(
+                        'owyvz7h7' /* Order Details */,
+                      ),
                       style: FlutterFlowTheme.of(context).bodyLarge,
                     ),
                     actions: [],
@@ -207,7 +211,10 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Payment Details',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '1k9lq4d5' /* Payment Details */,
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .headlineMedium,
@@ -224,7 +231,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Transaction ID',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'eena52fo' /* Transaction ID */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -256,7 +267,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Date',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'tm4dtury' /* Date */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -299,7 +314,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Amount',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'bc11qf5e' /* Amount */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -341,7 +360,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Status',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '02367vwd' /* Status */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -355,7 +378,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Completed',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '3v06lvwz' /* Completed */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -376,7 +403,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Payment Method',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'gxt0rgmh' /* Payment Method */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -390,7 +421,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        'Debit/Credit Card',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'z833o7la' /* Debit/Credit Card */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -415,7 +450,10 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                       .fromSTEB(
                                                           0.0, 0.0, 0.0, 12.0),
                                                   child: Text(
-                                                    'Transaction Breakdown (VAT Incl.)',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '515qjm9i' /* Transaction Breakdown (VAT Inc... */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyLarge,
@@ -426,11 +464,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                   stream: queryItemDetailRecord(
                                                     queryBuilder:
                                                         (itemDetailRecord) =>
-                                                            itemDetailRecord.where(
-                                                                'cartRef',
-                                                                isEqualTo: widget
-                                                                    .orderDetail
-                                                                    ?.reference),
+                                                            itemDetailRecord
+                                                                .where(
+                                                      'cartRef',
+                                                      isEqualTo: widget
+                                                          .orderDetail
+                                                          ?.reference,
+                                                    ),
                                                   ),
                                                   builder: (context, snapshot) {
                                                     // Customize what your widget looks like when it's loading.
@@ -571,7 +611,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Subtotal',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'ucv811j4' /* Subtotal */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -613,7 +657,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Extra charges',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'u08ywe7r' /* Extra charges */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -655,7 +703,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Tip',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          '71p6putr' /* Tip */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -707,7 +759,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Discount',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'vf8o0xwc' /* Discount */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -759,7 +815,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .spaceBetween,
                                                     children: [
                                                       Text(
-                                                        'Total',
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'mv14dugh' /* Total */,
+                                                        ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -822,7 +882,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                       0.0,
                                                                       12.0),
                                                           child: Text(
-                                                            'Store details',
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                              '0kb8r8cz' /* Store details */,
+                                                            ),
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .labelMedium,
@@ -1004,8 +1068,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                             getWidgetBoundingBox(context),
                                                                       );
                                                                     },
-                                                                    text:
-                                                                        'Share',
+                                                                    text: FFLocalizations.of(
+                                                                            context)
+                                                                        .getText(
+                                                                      'lk0ty2fb' /* Share */,
+                                                                    ),
                                                                     icon: Icon(
                                                                       Icons
                                                                           .ios_share_rounded,
@@ -1076,7 +1143,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             .fromSTEB(0.0, 4.0,
                                                                 0.0, 12.0),
                                                     child: Text(
-                                                      'Store details',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '694orle0' /* Store details */,
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1235,7 +1306,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                           0.0,
                                                                           0.0),
                                                               child: Text(
-                                                                'Address',
+                                                                FFLocalizations.of(
+                                                                        context)
+                                                                    .getText(
+                                                                  'lu5xzqu4' /* Address */,
+                                                                ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelSmall,
@@ -1285,7 +1360,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                               'Button pressed ...');
                                                         },
                                                         text:
-                                                            'Message Customer',
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          'bmavrn9n' /* Message Customer */,
+                                                        ),
                                                         options:
                                                             FFButtonOptions(
                                                           width:
@@ -1338,7 +1417,12 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                           print(
                                                               'Button pressed ...');
                                                         },
-                                                        text: 'Report Now',
+                                                        text:
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          '8qzzjlc6' /* Report Now */,
+                                                        ),
                                                         options:
                                                             FFButtonOptions(
                                                           width:

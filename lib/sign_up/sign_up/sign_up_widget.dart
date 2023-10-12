@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         title: 'SignUp',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -126,7 +129,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Create a business account',
+                                        FFLocalizations.of(context).getText(
+                                          '90q4r65s' /* Create a business account */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .headlineLarge
                                             .override(
@@ -140,7 +145,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 12.0, 0.0, 24.0),
                                         child: Text(
-                                          'Let\'s get started by filling out the form below.',
+                                          FFLocalizations.of(context).getText(
+                                            'cr6l3yif' /* Smart Order Processing System */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelMedium
                                               .override(
@@ -162,7 +169,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             autofillHints: [AutofillHints.name],
                                             obscureText: false,
                                             decoration: InputDecoration(
-                                              labelText: 'Your name',
+                                              labelText:
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                '8m2k3zp5' /* Your name (i.e. John Doe) */,
+                                              ),
                                               labelStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .labelLarge
@@ -238,7 +249,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             ],
                                             obscureText: false,
                                             decoration: InputDecoration(
-                                              labelText: 'Email',
+                                              labelText:
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                '9hryc0wd' /* Email */,
+                                              ),
                                               labelStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .labelLarge
@@ -317,7 +332,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             obscureText:
                                                 !_model.passwordVisibility,
                                             decoration: InputDecoration(
-                                              labelText: 'Password',
+                                              labelText:
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                'rczel21o' /* Password */,
+                                              ),
                                               labelStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .labelLarge
@@ -413,7 +432,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             obscureText: !_model
                                                 .passwordConfirmVisibility,
                                             decoration: InputDecoration(
-                                              labelText: 'Confirm Password',
+                                              labelText:
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                'g5psaqnj' /* Confirm Password */,
+                                              ),
                                               labelStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .labelLarge
@@ -533,6 +556,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               userRef: currentUserReference,
                                               role: 'Admin',
                                               name: _model.nameController.text,
+                                              photoUrl:
+                                                  random_data.randomImageUrl(
+                                                200,
+                                                200,
+                                              ),
                                             ));
 
                                             context.pushNamedAuth(
@@ -549,7 +577,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               },
                                             );
                                           },
-                                          text: 'Create Account',
+                                          text: FFLocalizations.of(context)
+                                              .getText(
+                                            '3wg2ejup' /* Create Account */,
+                                          ),
                                           options: FFButtonOptions(
                                             width: double.infinity,
                                             height: 44.0,
@@ -619,7 +650,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                       AlignmentDirectional(
                                                           0.00, 0.00),
                                                   child: Text(
-                                                    'OR',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'ffuogz8k' /* OR */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .labelLarge
@@ -663,8 +697,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                               text: TextSpan(
                                                 children: [
                                                   TextSpan(
-                                                    text:
-                                                        'Already have an account? ',
+                                                    text: FFLocalizations.of(
+                                                            context)
+                                                        .getText(
+                                                      'rruico30' /* Already have an account?  */,
+                                                    ),
                                                     style: TextStyle(),
                                                     mouseCursor:
                                                         SystemMouseCursors
@@ -677,7 +714,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                           },
                                                   ),
                                                   TextSpan(
-                                                    text: ' Sign In here',
+                                                    text: FFLocalizations.of(
+                                                            context)
+                                                        .getText(
+                                                      'dfumtc6e' /*  Sign In here */,
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium

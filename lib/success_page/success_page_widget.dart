@@ -43,7 +43,9 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
         title: 'SuccessPage',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primary,
@@ -60,8 +62,8 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Lottie.asset(
-                          'assets/lottie_animations/lf20_xlkxtmul.json',
+                        Lottie.network(
+                          'https://assets10.lottiefiles.com/packages/lf20_xlkxtmul.json',
                           width: 200.0,
                           height: 200.0,
                           fit: BoxFit.cover,
@@ -73,7 +75,9 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                     ),
                   ),
                   Text(
-                    'Thank you!',
+                    FFLocalizations.of(context).getText(
+                      'rjmgqn56' /* Payment successful */,
+                    ),
                     style: FlutterFlowTheme.of(context).headlineMedium.override(
                           fontFamily: 'Open Sans',
                           color: FlutterFlowTheme.of(context).primaryBtnText,
@@ -84,7 +88,9 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                     child: Text(
-                      'Payment completed',
+                      FFLocalizations.of(context).getText(
+                        'iwp2knyv' /* Thank you ! */,
+                      ),
                       style: FlutterFlowTheme.of(context).titleSmall.override(
                             fontFamily: 'Open Sans',
                             color: FlutterFlowTheme.of(context).primaryBtnText,
@@ -103,22 +109,24 @@ class _SuccessPageWidgetState extends State<SuccessPageWidget> {
                           extra: <String, dynamic>{
                             kTransitionInfoKey: TransitionInfo(
                               hasTransition: true,
-                              transitionType: PageTransitionType.topToBottom,
+                              transitionType: PageTransitionType.leftToRight,
                             ),
                           },
                         );
                       },
-                      text: 'Go Home',
+                      text: FFLocalizations.of(context).getText(
+                        '6bc51u0j' /* Go Home */,
+                      ),
                       options: FFButtonOptions(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         iconPadding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primaryBtnText,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
                                   fontFamily: 'Open Sans',
-                                  color: FlutterFlowTheme.of(context).primary,
+                                  color: FlutterFlowTheme.of(context).secondary,
                                 ),
                         elevation: 3.0,
                         borderSide: BorderSide(

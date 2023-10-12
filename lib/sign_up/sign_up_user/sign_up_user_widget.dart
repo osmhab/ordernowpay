@@ -50,7 +50,9 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
         title: 'SignUp',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -131,7 +133,9 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Sign up',
+                                          FFLocalizations.of(context).getText(
+                                            '1kl9sc8o' /* Sign up */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .headlineLarge
                                               .override(
@@ -146,7 +150,9 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 12.0, 0.0, 24.0),
                                           child: Text(
-                                            'Pay your bill online',
+                                            FFLocalizations.of(context).getText(
+                                              '39eackbk' /* Pay your bill online */,
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .labelMedium
                                                 .override(
@@ -172,7 +178,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                               ],
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText: 'Your name',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'd2umx05j' /* Your name */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge
@@ -258,7 +268,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                               ],
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText: 'Email',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'l11nlv2q' /* Email */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge
@@ -347,7 +361,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                               obscureText:
                                                   !_model.passwordVisibility,
                                               decoration: InputDecoration(
-                                                labelText: 'Password',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'el4na3zd' /* Password */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge
@@ -453,7 +471,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                               obscureText: !_model
                                                   .passwordConfirmVisibility,
                                               decoration: InputDecoration(
-                                                labelText: 'Confirm Password',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'ebb5anju' /* Confirm Password */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge
@@ -590,7 +612,10 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                               context.pushNamedAuth(
                                                   'Dashboard', context.mounted);
                                             },
-                                            text: 'Create Account',
+                                            text: FFLocalizations.of(context)
+                                                .getText(
+                                              'rn8zkhuq' /* Create Account */,
+                                            ),
                                             options: FFButtonOptions(
                                               width: double.infinity,
                                               height: 44.0,
@@ -663,7 +688,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                                         AlignmentDirectional(
                                                             0.00, 0.00),
                                                     child: Text(
-                                                      'OR',
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'w96elwqt' /* OR */,
+                                                      ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .labelLarge
@@ -708,8 +737,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                                 text: TextSpan(
                                                   children: [
                                                     TextSpan(
-                                                      text:
-                                                          'Already have an account? ',
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'zbz9mpxb' /* Already have an account?  */,
+                                                      ),
                                                       style: TextStyle(),
                                                       mouseCursor:
                                                           SystemMouseCursors
@@ -722,7 +754,11 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                                             },
                                                     ),
                                                     TextSpan(
-                                                      text: ' Sign In here',
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'r2316awf' /*  Sign In here */,
+                                                      ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -803,10 +839,13 @@ class _SignUpUserWidgetState extends State<SignUpUserWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  context.pushNamed('SignIn');
+                                                  context.pushNamed('SignUp');
                                                 },
                                                 child: Text(
-                                                  'I am a professional\nGo to Business page',
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'facq8d7e' /* Create account for my restaura... */,
+                                                  ),
                                                   textAlign: TextAlign.start,
                                                   style: FlutterFlowTheme.of(
                                                           context)

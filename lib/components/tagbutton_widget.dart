@@ -56,7 +56,9 @@ class _TagbuttonWidgetState extends State<TagbuttonWidget> {
         child: Align(
           alignment: AlignmentDirectional(0.00, 0.00),
           child: Text(
-            'Hello World',
+            FFLocalizations.of(context).getText(
+              '4fn81jir' /* Hello World */,
+            ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
                   fontFamily: 'Open Sans',
                   color: FlutterFlowTheme.of(context).primaryBtnText,

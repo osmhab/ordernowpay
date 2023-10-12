@@ -38,6 +38,138 @@ class InvitationSendGridCall {
       );
 }
 
+class PrintTablesEmailCall {
+  static Future<ApiCallResponse> call({
+    String? userId = '',
+    String? name = '',
+    String? adress = '',
+    String? locality = '',
+    String? from = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'PrintTablesEmailCall',
+        'variables': {
+          'userId': userId,
+          'name': name,
+          'adress': adress,
+          'locality': locality,
+          'from': from,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class FactureRestaurantCall {
+  static Future<ApiCallResponse> call({
+    String? orderId = '',
+    int? date,
+    double? subtotal,
+    double? fraisSuppl,
+    double? tips,
+    double? discount,
+    double? total,
+    double? netTotal,
+    String? emailTo = '',
+    String? iban = '',
+    String? beneficiaryName = '',
+    String? beneficiaryAdress = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'FactureRestaurantCall',
+        'variables': {
+          'orderId': orderId,
+          'date': date,
+          'subtotal': subtotal,
+          'fraisSuppl': fraisSuppl,
+          'tips': tips,
+          'discount': discount,
+          'total': total,
+          'netTotal': netTotal,
+          'emailTo': emailTo,
+          'iban': iban,
+          'beneficiaryName': beneficiaryName,
+          'beneficiaryAdress': beneficiaryAdress,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class FactureStaffTipsCall {
+  static Future<ApiCallResponse> call({
+    String? orderId = '',
+    int? date,
+    String? storeName = '',
+    double? tips,
+    double? netTotal,
+    String? beneficiaryName = '',
+    String? beneficiaryAdress = '',
+    String? beneficiaryIBAN = '',
+    String? emailTo = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'FactureStaffTipsCall',
+        'variables': {
+          'orderId': orderId,
+          'date': date,
+          'storeName': storeName,
+          'tips': tips,
+          'netTotal': netTotal,
+          'beneficiaryName': beneficiaryName,
+          'beneficiaryAdress': beneficiaryAdress,
+          'beneficiaryIBAN': beneficiaryIBAN,
+          'emailTo': emailTo,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class ConfirmationPaymentToUsersCall {
+  static Future<ApiCallResponse> call({
+    String? orderId = '',
+    String? transactionID = '',
+    int? date,
+    String? emailTo = '',
+    String? storeName = '',
+    double? subtotal,
+    double? fraisSuppl,
+    double? tips,
+    double? discount,
+    double? total,
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'ConfirmationPaymentToUsersCall',
+        'variables': {
+          'orderId': orderId,
+          'transactionID': transactionID,
+          'date': date,
+          'emailTo': emailTo,
+          'storeName': storeName,
+          'subtotal': subtotal,
+          'fraisSuppl': fraisSuppl,
+          'tips': tips,
+          'discount': discount,
+          'total': total,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

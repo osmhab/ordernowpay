@@ -64,7 +64,9 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
         title: 'CreateStore1',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -113,7 +115,9 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 32.0, 0.0, 8.0),
                                   child: Text(
-                                    'Your store details',
+                                    FFLocalizations.of(context).getText(
+                                      '0u4c9s1a' /* Your store details */,
+                                    ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
                                         .displayMedium,
@@ -123,7 +127,9 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 0.0, 0.0, 12.0),
                                   child: Text(
-                                    'Create your store 1/2',
+                                    FFLocalizations.of(context).getText(
+                                      '53jrljgi' /* Create your store 1/2 */,
+                                    ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
                                         .labelLarge
@@ -148,7 +154,11 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                               _model.storeNameController,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Name of your store\n',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'wuiv1p3z' /* Name of your store */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
@@ -232,7 +242,11 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                               _model.storeAdressController,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'Adress and number\n',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'poznsbl0' /* Adress and number */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
@@ -318,7 +332,11 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                               _model.storeCityController,
                                           obscureText: false,
                                           decoration: InputDecoration(
-                                            labelText: 'ZIP Code and City',
+                                            labelText:
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                              'q140i61q' /* ZIP Code and City */,
+                                            ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelLarge,
@@ -431,7 +449,10 @@ class _CreateStore1WidgetState extends State<CreateStore1Widget> {
                                                 },
                                               );
                                             },
-                                            text: 'Continue',
+                                            text: FFLocalizations.of(context)
+                                                .getText(
+                                              'r9ufxz5p' /* Continue */,
+                                            ),
                                             options: FFButtonOptions(
                                               width: double.infinity,
                                               height: 60.0,

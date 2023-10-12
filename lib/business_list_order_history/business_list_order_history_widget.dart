@@ -48,7 +48,9 @@ class _BusinessListOrderHistoryWidgetState
         title: 'BusinessListOrderHistory',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -89,7 +91,9 @@ class _BusinessListOrderHistoryWidgetState
                         padding:
                             EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
                         child: Text(
-                          'Recent Orders',
+                          FFLocalizations.of(context).getText(
+                            'bjmm93pw' /* Recent Orders */,
+                          ),
                           style: FlutterFlowTheme.of(context).headlineMedium,
                         ),
                       ),
@@ -97,7 +101,9 @@ class _BusinessListOrderHistoryWidgetState
                         padding:
                             EdgeInsetsDirectional.fromSTEB(24.0, 4.0, 0.0, 0.0),
                         child: Text(
-                          'Below are your most recent orders',
+                          FFLocalizations.of(context).getText(
+                            'aoejo1c2' /* Below are your most recent ord... */,
+                          ),
                           textAlign: TextAlign.start,
                           style: FlutterFlowTheme.of(context).labelMedium,
                         ),
@@ -110,9 +116,14 @@ class _BusinessListOrderHistoryWidgetState
                               StreamBuilder<List<CartsRecord>>(
                             stream: queryCartsRecord(
                               queryBuilder: (cartsRecord) => cartsRecord
-                                  .where('userRef',
-                                      isEqualTo: currentUserDocument?.userRef)
-                                  .where('cartPaid', isEqualTo: true),
+                                  .where(
+                                    'userRef',
+                                    isEqualTo: currentUserDocument?.userRef,
+                                  )
+                                  .where(
+                                    'cartPaid',
+                                    isEqualTo: true,
+                                  ),
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
@@ -213,7 +224,11 @@ class _BusinessListOrderHistoryWidgetState
                                                       text: TextSpan(
                                                         children: [
                                                           TextSpan(
-                                                            text: 'Order #: ',
+                                                            text: FFLocalizations
+                                                                    .of(context)
+                                                                .getText(
+                                                              'cljinu9z' /* Order #:  */,
+                                                            ),
                                                             style: TextStyle(),
                                                           ),
                                                           TextSpan(

@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'add_update_item_widget.dart' show AddUpdateItemWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,7 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class AddUpdateItemModel extends FlutterFlowModel {
+class AddUpdateItemModel extends FlutterFlowModel<AddUpdateItemWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -22,7 +23,9 @@ class AddUpdateItemModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? itemNameControllerValidator;
   String? _itemNameControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return FFLocalizations.of(context).getText(
+        'ei5ix61l' /* Field is required */,
+      );
     }
 
     return null;
@@ -33,7 +36,9 @@ class AddUpdateItemModel extends FlutterFlowModel {
   String? Function(BuildContext, String?)? itemPriceControllerValidator;
   String? _itemPriceControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return FFLocalizations.of(context).getText(
+        'j1ju5w4i' /* Field is required */,
+      );
     }
 
     return null;

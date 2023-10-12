@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/stripe/payment_manager.dart';
 import '/components/discount_sheet/discount_sheet_widget.dart';
@@ -13,7 +14,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'checkout_model.dart';
 export 'checkout_model.dart';
 
@@ -56,8 +56,18 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
     return StreamBuilder<List<CartsRecord>>(
       stream: queryCartsRecord(
         queryBuilder: (cartsRecord) => cartsRecord
-            .where('orderID', isEqualTo: widget.orderParametres?.orderID)
-            .where('tableID', isEqualTo: widget.orderParametres?.tableID),
+            .where(
+              'orderID',
+              isEqualTo: widget.orderParametres?.orderID,
+            )
+            .where(
+              'tableID',
+              isEqualTo: widget.orderParametres?.tableID,
+            )
+            .where(
+              'cartActive',
+              isEqualTo: true,
+            ),
         singleRecord: true,
       ),
       builder: (context, snapshot) {
@@ -90,8 +100,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
             title: 'Checkout',
             color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
             child: GestureDetector(
-              onTap: () =>
-                  FocusScope.of(context).requestFocus(_model.unfocusNode),
+              onTap: () => _model.unfocusNode.canRequestFocus
+                  ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                  : FocusScope.of(context).unfocus(),
               child: Scaffold(
                 key: scaffoldKey,
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -154,174 +165,6 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Flexible(
-                                    flex: 2,
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 12.0, 16.0, 0.0),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
-                                        height: 142.0,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText
-                                            ],
-                                            stops: [0.0, 1.0],
-                                            begin: AlignmentDirectional(
-                                                0.94, -1.0),
-                                            end: AlignmentDirectional(
-                                                -0.94, 1.0),
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      24.0, 15.0, 16.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Text(
-                                                        valueOrDefault<String>(
-                                                          widget.orderParametres
-                                                              ?.restaurantName,
-                                                          'Restaurant?',
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleMedium,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    'Table: ${widget.orderParametres?.cartTable}',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .labelMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Open Sans',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBtnText,
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      24.0, 5.0, 16.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  Icon(
-                                                    Icons.payments,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondary,
-                                                    size: 36.0,
-                                                  ),
-                                                  Text(
-                                                    formatNumber(
-                                                      checkoutCartsRecord!
-                                                          .total,
-                                                      formatType:
-                                                          FormatType.custom,
-                                                      currency: 'CHF ',
-                                                      format: '0.00',
-                                                      locale: '',
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .headlineMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Open Sans',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBtnText,
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      24.0, 24.0, 16.0, 0.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            -1.00, 0.00),
-                                                    child: GradientText(
-                                                      'Tip : ${formatNumber(
-                                                        checkoutCartsRecord
-                                                            ?.tip,
-                                                        formatType:
-                                                            FormatType.custom,
-                                                        format: '0.00',
-                                                        locale: '',
-                                                      )}',
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium,
-                                                      colors: [
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .secondary
-                                                      ],
-                                                      gradientDirection:
-                                                          GradientDirection.ltr,
-                                                      gradientType:
-                                                          GradientType.linear,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 12.0, 0.0, 0.0),
@@ -329,9 +172,11 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                         StreamBuilder<List<ItemDetailRecord>>(
                                       stream: queryItemDetailRecord(
                                         queryBuilder: (itemDetailRecord) =>
-                                            itemDetailRecord.where('cartRef',
-                                                isEqualTo: checkoutCartsRecord
-                                                    ?.reference),
+                                            itemDetailRecord.where(
+                                          'cartRef',
+                                          isEqualTo:
+                                              checkoutCartsRecord?.reference,
+                                        ),
                                       ),
                                       builder: (context, snapshot) {
                                         // Customize what your widget looks like when it's loading.
@@ -528,33 +373,36 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                                               await checkoutCartsRecord!
                                                                   .reference
                                                                   .update({
-                                                                'subtotal': FieldValue.increment(-(functions.deleteItem(
-                                                                    listViewItemDetailRecord
-                                                                        .quantity,
-                                                                    listViewItemDetailRecord
-                                                                        .price))),
-                                                                'cartItems':
-                                                                    FieldValue
-                                                                        .arrayRemove([
-                                                                  widget.orderParametres
-                                                                          ?.cartItems?[
-                                                                      listViewIndex]
-                                                                ]),
-                                                                'total': FieldValue.increment(-(functions.totalCalculate(
-                                                                    checkoutCartsRecord!
-                                                                        .extraCharge,
-                                                                    checkoutCartsRecord!
-                                                                        .tip,
-                                                                    checkoutCartsRecord!
-                                                                        .discount,
-                                                                    listViewItemDetailRecord
-                                                                        .quantity,
-                                                                    listViewItemDetailRecord
-                                                                        .price))),
-                                                                'itemCount': FieldValue
-                                                                    .increment(
-                                                                        -(listViewItemDetailRecord
-                                                                            .quantity)),
+                                                                ...mapToFirestore(
+                                                                  {
+                                                                    'subtotal': FieldValue.increment(-(functions.deleteItem(
+                                                                        listViewItemDetailRecord
+                                                                            .quantity,
+                                                                        listViewItemDetailRecord
+                                                                            .price))),
+                                                                    'cartItems':
+                                                                        FieldValue
+                                                                            .arrayRemove([
+                                                                      widget
+                                                                          .orderParametres
+                                                                          ?.cartItems?[listViewIndex]
+                                                                    ]),
+                                                                    'total': FieldValue.increment(-(functions.totalCalculate(
+                                                                        checkoutCartsRecord!
+                                                                            .extraCharge,
+                                                                        checkoutCartsRecord!
+                                                                            .tip,
+                                                                        checkoutCartsRecord!
+                                                                            .discount,
+                                                                        listViewItemDetailRecord
+                                                                            .quantity,
+                                                                        listViewItemDetailRecord
+                                                                            .price))),
+                                                                    'itemCount':
+                                                                        FieldValue.increment(
+                                                                            -(listViewItemDetailRecord.quantity)),
+                                                                  },
+                                                                ),
                                                               });
                                                             },
                                                           ),
@@ -574,14 +422,85 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                         24.0, 16.0, 24.0, 4.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
+                                      children: [],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24.0, 4.0, 24.0, 5.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'Price Breakdown',
+                                          'Table ${checkoutCartsRecord?.cartTable}',
                                           style: FlutterFlowTheme.of(context)
-                                              .bodySmall,
+                                              .labelLarge,
                                         ),
                                       ],
                                     ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24.0, 0.0, 24.0, 5.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${checkoutCartsRecord?.restaurantName}',
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24.0, 0.0, 24.0, 16.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          valueOrDefault<String>(
+                                            checkoutCartsRecord
+                                                ?.restaurantAdress,
+                                            'adress?',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(
+                                    thickness: 1.0,
+                                    color:
+                                        FlutterFlowTheme.of(context).lineColor,
+                                  ),
+                                  Align(
+                                    alignment:
+                                        AlignmentDirectional(-1.00, 0.00),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          21.0, 0.0, 0.0, 0.0),
+                                      child: Text(
+                                        FFLocalizations.of(context).getText(
+                                          'hflxqq6b' /* Price Breakdown */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                  ),
+                                  Divider(
+                                    thickness: 1.0,
+                                    color:
+                                        FlutterFlowTheme.of(context).lineColor,
                                   ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
@@ -592,7 +511,9 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'Subtotal',
+                                          FFLocalizations.of(context).getText(
+                                            '5ercb35x' /* Subtotal */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelLarge,
                                         ),
@@ -610,87 +531,126 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 4.0, 24.0, 0.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Extra charges',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelLarge,
-                                        ),
-                                        Text(
-                                          formatNumber(
-                                            checkoutCartsRecord!.extraCharge,
-                                            formatType: FormatType.custom,
-                                            currency: '+',
-                                            format: '0.00',
-                                            locale: '',
+                                  if (checkoutCartsRecord!.extraCharge > 0.0)
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 4.0, 24.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            FFLocalizations.of(context).getText(
+                                              'jr1t9dhk' /* Extra charges */,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelLarge,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 4.0, 24.0, 0.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Discount',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelLarge,
-                                        ),
-                                        Text(
-                                          formatNumber(
-                                            checkoutCartsRecord!.discount,
-                                            formatType: FormatType.custom,
-                                            currency: '-',
-                                            format: '0.00',
-                                            locale: '',
+                                          Text(
+                                            formatNumber(
+                                              checkoutCartsRecord!.extraCharge,
+                                              formatType: FormatType.custom,
+                                              currency: '+',
+                                              format: '0.00',
+                                              locale: '',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelSmall,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24.0, 4.0, 24.0, 0.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Tip',
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelLarge,
-                                        ),
-                                        Text(
-                                          formatNumber(
-                                            checkoutCartsRecord!.tip,
-                                            formatType: FormatType.custom,
-                                            currency: '+',
-                                            format: '0.00',
-                                            locale: '',
+                                  if (checkoutCartsRecord!.discount > 0.0)
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 4.0, 24.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            FFLocalizations.of(context).getText(
+                                              'lliu3wtb' /* Discount */,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelLarge,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelSmall,
-                                        ),
-                                      ],
+                                          Text(
+                                            formatNumber(
+                                              checkoutCartsRecord!.discount,
+                                              formatType: FormatType.custom,
+                                              currency: '-',
+                                              format: '0.00',
+                                              locale: '',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelSmall,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                  if (checkoutCartsRecord!.tip > 0.0)
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 4.0, 24.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            FFLocalizations.of(context).getText(
+                                              'rhz0gmgt' /* Tip */,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelLarge,
+                                          ),
+                                          Text(
+                                            formatNumber(
+                                              checkoutCartsRecord!.tip,
+                                              formatType: FormatType.custom,
+                                              currency: '+',
+                                              format: '0.00',
+                                              locale: '',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelSmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (checkoutCartsRecord!.tip > 0.0)
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24.0, 4.0, 24.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            FFLocalizations.of(context).getText(
+                                              'j33amz85' /* OrderNow Pay fees */,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelLarge,
+                                          ),
+                                          Text(
+                                            formatNumber(
+                                              checkoutCartsRecord!.tip,
+                                              formatType: FormatType.custom,
+                                              currency: '+',
+                                              format: '0.00',
+                                              locale: '',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelSmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         24.0, 4.0, 24.0, 24.0),
@@ -703,7 +663,10 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Text(
-                                              'Total',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'afcy56k9' /* Total */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .labelLarge,
@@ -746,428 +709,794 @@ class _CheckoutWidgetState extends State<CheckoutWidget> {
                                           1.0,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
+                                            .primaryBtnText,
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          if (valueOrDefault(
-                                                  currentUserDocument?.role,
-                                                  '') ==
-                                              'User')
-                                            Flexible(
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 16.0, 16.0, 0.0),
-                                                child: AuthUserStreamWidget(
-                                                  builder: (context) =>
-                                                      FFButtonWidget(
-                                                    onPressed: () async {
-                                                      await showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return GestureDetector(
-                                                            onTap: () => FocusScope
-                                                                    .of(context)
-                                                                .requestFocus(_model
-                                                                    .unfocusNode),
-                                                            child: Padding(
-                                                              padding: MediaQuery
-                                                                  .viewInsetsOf(
-                                                                      context),
-                                                              child:
-                                                                  TipSheetWidget(
-                                                                orderParameters:
-                                                                    checkoutCartsRecord!,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            if (valueOrDefault(
+                                                    currentUserDocument?.role,
+                                                    '') ==
+                                                'User')
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 16.0, 16.0, 0.0),
+                                                  child: AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        FFButtonWidget(
+                                                      onPressed: () async {
+                                                        await showModalBottomSheet(
+                                                          isScrollControlled:
+                                                              true,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return GestureDetector(
+                                                              onTap: () => _model
+                                                                      .unfocusNode
+                                                                      .canRequestFocus
+                                                                  ? FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          _model
+                                                                              .unfocusNode)
+                                                                  : FocusScope.of(
+                                                                          context)
+                                                                      .unfocus(),
+                                                              child: Padding(
+                                                                padding: MediaQuery
+                                                                    .viewInsetsOf(
+                                                                        context),
+                                                                child:
+                                                                    TipSheetWidget(
+                                                                  orderParameters:
+                                                                      checkoutCartsRecord!,
+                                                                ),
                                                               ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ).then((value) =>
-                                                          setState(() {}));
-                                                    },
-                                                    text: 'Tip',
-                                                    options: FFButtonOptions(
-                                                      height: 70.0,
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  24.0,
-                                                                  0.0,
-                                                                  24.0,
-                                                                  0.0),
-                                                      iconPadding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .success,
-                                                      textStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleMedium,
-                                                      elevation: 3.0,
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Colors.transparent,
-                                                        width: 1.0,
+                                                            );
+                                                          },
+                                                        ).then((value) =>
+                                                            safeSetState(
+                                                                () {}));
+                                                      },
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '5whot6tx' /* Tip */,
                                                       ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          if ((valueOrDefault(
-                                                      currentUserDocument?.role,
-                                                      '') ==
-                                                  'Admin') ||
-                                              (valueOrDefault(
-                                                      currentUserDocument?.role,
-                                                      '') ==
-                                                  'Staff'))
-                                            Flexible(
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 16.0, 16.0, 0.0),
-                                                child: AuthUserStreamWidget(
-                                                  builder: (context) =>
-                                                      FFButtonWidget(
-                                                    onPressed: () async {
-                                                      await showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return GestureDetector(
-                                                            onTap: () => FocusScope
-                                                                    .of(context)
-                                                                .requestFocus(_model
-                                                                    .unfocusNode),
-                                                            child: Padding(
-                                                              padding: MediaQuery
-                                                                  .viewInsetsOf(
-                                                                      context),
-                                                              child:
-                                                                  ExtraChargeSheetWidget(
-                                                                orderParameters:
-                                                                    checkoutCartsRecord!,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ).then((value) =>
-                                                          setState(() {}));
-                                                    },
-                                                    text: '\$',
-                                                    options: FFButtonOptions(
-                                                      width: 70.0,
-                                                      height: 70.0,
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  24.0,
-                                                                  0.0,
-                                                                  24.0,
-                                                                  0.0),
-                                                      iconPadding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .success,
-                                                      textStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleMedium,
-                                                      elevation: 3.0,
-                                                      borderSide: BorderSide(
+                                                      options: FFButtonOptions(
+                                                        height: 70.0,
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    24.0,
+                                                                    0.0,
+                                                                    24.0,
+                                                                    0.0),
+                                                        iconPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
                                                         color:
-                                                            Colors.transparent,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          if ((valueOrDefault(
-                                                      currentUserDocument?.role,
-                                                      '') ==
-                                                  'Admin') ||
-                                              (valueOrDefault(
-                                                      currentUserDocument?.role,
-                                                      '') ==
-                                                  'Staff'))
-                                            Flexible(
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 16.0, 16.0, 0.0),
-                                                child: AuthUserStreamWidget(
-                                                  builder: (context) =>
-                                                      FFButtonWidget(
-                                                    onPressed: () async {
-                                                      await showModalBottomSheet(
-                                                        isScrollControlled:
-                                                            true,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return GestureDetector(
-                                                            onTap: () => FocusScope
-                                                                    .of(context)
-                                                                .requestFocus(_model
-                                                                    .unfocusNode),
-                                                            child: Padding(
-                                                              padding: MediaQuery
-                                                                  .viewInsetsOf(
-                                                                      context),
-                                                              child:
-                                                                  DiscountSheetWidget(
-                                                                orderParameters:
-                                                                    checkoutCartsRecord!,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ).then((value) =>
-                                                          setState(() {}));
-                                                    },
-                                                    text: '%',
-                                                    options: FFButtonOptions(
-                                                      width: 70.0,
-                                                      height: 70.0,
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  24.0,
-                                                                  0.0,
-                                                                  24.0,
-                                                                  0.0),
-                                                      iconPadding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .customColor4,
-                                                      textStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleMedium,
-                                                      elevation: 3.0,
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Colors.transparent,
-                                                        width: 1.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          if (valueOrDefault(
-                                                  currentUserDocument?.role,
-                                                  '') ==
-                                              'User')
-                                            Flexible(
-                                              child: Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 16.0, 16.0, 0.0),
-                                                child: AuthUserStreamWidget(
-                                                  builder: (context) =>
-                                                      FFButtonWidget(
-                                                    onPressed: () async {
-                                                      var _shouldSetState =
-                                                          false;
-                                                      final paymentResponse =
-                                                          await processStripePayment(
-                                                        context,
-                                                        amount: functions
-                                                            .stripePay(
-                                                                checkoutCartsRecord!
-                                                                    .total)
-                                                            .round(),
-                                                        currency: 'CHF',
-                                                        customerEmail:
-                                                            currentUserEmail,
-                                                        customerName:
-                                                            valueOrDefault(
-                                                                currentUserDocument
-                                                                    ?.name,
-                                                                ''),
-                                                        description:
-                                                            'OrderNow Pay',
-                                                        allowGooglePay: false,
-                                                        allowApplePay: true,
-                                                        themeStyle:
-                                                            ThemeMode.light,
-                                                        buttonColor:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .primary,
-                                                        buttonTextColor:
+                                                                .success,
+                                                        textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .primaryBtnText,
-                                                      );
-                                                      if (paymentResponse
-                                                              .paymentId ==
-                                                          null) {
+                                                                .titleMedium,
+                                                        elevation: 3.0,
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .transparent,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            if ((valueOrDefault(
+                                                        currentUserDocument
+                                                            ?.role,
+                                                        '') ==
+                                                    'Admin') ||
+                                                (valueOrDefault(
+                                                        currentUserDocument
+                                                            ?.role,
+                                                        '') ==
+                                                    'Staff'))
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 16.0, 16.0, 0.0),
+                                                  child: AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        FFButtonWidget(
+                                                      onPressed: () async {
+                                                        await showModalBottomSheet(
+                                                          isScrollControlled:
+                                                              true,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return GestureDetector(
+                                                              onTap: () => _model
+                                                                      .unfocusNode
+                                                                      .canRequestFocus
+                                                                  ? FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          _model
+                                                                              .unfocusNode)
+                                                                  : FocusScope.of(
+                                                                          context)
+                                                                      .unfocus(),
+                                                              child: Padding(
+                                                                padding: MediaQuery
+                                                                    .viewInsetsOf(
+                                                                        context),
+                                                                child:
+                                                                    ExtraChargeSheetWidget(
+                                                                  orderParameters:
+                                                                      checkoutCartsRecord!,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ).then((value) =>
+                                                            safeSetState(
+                                                                () {}));
+                                                      },
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'hhnblemg' /* Extra charges */,
+                                                      ),
+                                                      options: FFButtonOptions(
+                                                        height: 70.0,
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    24.0,
+                                                                    0.0,
+                                                                    24.0,
+                                                                    0.0),
+                                                        iconPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .success,
+                                                        textStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleMedium,
+                                                        elevation: 3.0,
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .transparent,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            if ((valueOrDefault(
+                                                        currentUserDocument
+                                                            ?.role,
+                                                        '') ==
+                                                    'Admin') ||
+                                                (valueOrDefault(
+                                                        currentUserDocument
+                                                            ?.role,
+                                                        '') ==
+                                                    'Staff'))
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 16.0, 16.0, 0.0),
+                                                  child: AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        FFButtonWidget(
+                                                      onPressed: () async {
+                                                        await showModalBottomSheet(
+                                                          isScrollControlled:
+                                                              true,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return GestureDetector(
+                                                              onTap: () => _model
+                                                                      .unfocusNode
+                                                                      .canRequestFocus
+                                                                  ? FocusScope.of(
+                                                                          context)
+                                                                      .requestFocus(
+                                                                          _model
+                                                                              .unfocusNode)
+                                                                  : FocusScope.of(
+                                                                          context)
+                                                                      .unfocus(),
+                                                              child: Padding(
+                                                                padding: MediaQuery
+                                                                    .viewInsetsOf(
+                                                                        context),
+                                                                child:
+                                                                    DiscountSheetWidget(
+                                                                  orderParameters:
+                                                                      checkoutCartsRecord!,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ).then((value) =>
+                                                            safeSetState(
+                                                                () {}));
+                                                      },
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'ldhts9xe' /* Discount */,
+                                                      ),
+                                                      options: FFButtonOptions(
+                                                        height: 70.0,
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    24.0,
+                                                                    0.0,
+                                                                    24.0,
+                                                                    0.0),
+                                                        iconPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .customColor4,
+                                                        textStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleMedium,
+                                                        elevation: 3.0,
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .transparent,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            if (valueOrDefault(
+                                                    currentUserDocument?.role,
+                                                    '') ==
+                                                'User')
+                                              Flexible(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 16.0, 16.0, 0.0),
+                                                  child: AuthUserStreamWidget(
+                                                    builder: (context) =>
+                                                        FFButtonWidget(
+                                                      onPressed: () async {
+                                                        var _shouldSetState =
+                                                            false;
+                                                        final paymentResponse =
+                                                            await processStripePayment(
+                                                          context,
+                                                          amount: functions
+                                                              .stripePay(
+                                                                  checkoutCartsRecord!
+                                                                      .total)
+                                                              .round(),
+                                                          currency: 'CHF',
+                                                          customerEmail:
+                                                              currentUserEmail,
+                                                          customerName:
+                                                              valueOrDefault(
+                                                                  currentUserDocument
+                                                                      ?.name,
+                                                                  ''),
+                                                          description:
+                                                              'OrderNow Pay',
+                                                          allowGooglePay: false,
+                                                          allowApplePay: true,
+                                                          themeStyle:
+                                                              ThemeMode.light,
+                                                          buttonColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primary,
+                                                          buttonTextColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primaryBtnText,
+                                                        );
                                                         if (paymentResponse
-                                                                .errorMessage !=
-                                                            null) {
+                                                                    .paymentId ==
+                                                                null &&
+                                                            paymentResponse
+                                                                    .errorMessage !=
+                                                                null) {
                                                           showSnackbar(
                                                             context,
-                                                            'Error: ${paymentResponse.errorMessage}',
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                              '68ud3bzc' /* Payment error! Check your paym... */,
+                                                            ),
                                                           );
                                                         }
-                                                        return;
-                                                      }
-                                                      _model.paymentId =
-                                                          paymentResponse
-                                                              .paymentId!;
+                                                        _model.paymentId =
+                                                            paymentResponse
+                                                                    .paymentId ??
+                                                                '';
 
-                                                      _shouldSetState = true;
-                                                      if (_model.paymentId !=
-                                                              null &&
-                                                          _model.paymentId !=
-                                                              '') {
-                                                        await widget
-                                                            .orderParametres!
-                                                            .reference
-                                                            .update(
-                                                                createCartsRecordData(
-                                                          stripePaymentID:
-                                                              _model.paymentId,
-                                                          cartActive: false,
-                                                          cartPaid: true,
-                                                          payerName: valueOrDefault(
-                                                              currentUserDocument
-                                                                  ?.name,
-                                                              ''),
-                                                          tableID: '-',
-                                                          restaurantPaid: false,
-                                                        ));
+                                                        _shouldSetState = true;
+                                                        if (_model.paymentId !=
+                                                                null &&
+                                                            _model.paymentId !=
+                                                                '') {
+                                                          context.goNamed(
+                                                              'SuccessPage');
 
-                                                        context.goNamed(
-                                                            'Dashboard');
-                                                      } else {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .clearSnackBars();
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                            content: Text(
-                                                              'Payment error, please try a valid payment method',
-                                                              style: FlutterFlowTheme
+                                                          await widget
+                                                              .orderParametres!
+                                                              .reference
+                                                              .update(
+                                                                  createCartsRecordData(
+                                                            stripePaymentID:
+                                                                _model
+                                                                    .paymentId,
+                                                            cartActive: false,
+                                                            cartPaid: true,
+                                                            payerName:
+                                                                valueOrDefault(
+                                                                    currentUserDocument
+                                                                        ?.name,
+                                                                    ''),
+                                                            tableID: '-',
+                                                            restaurantPaid:
+                                                                false,
+                                                            employePaid: false,
+                                                          ));
+                                                          _model.apiResult25k =
+                                                              await FactureRestaurantCall
+                                                                  .call(
+                                                            orderId:
+                                                                valueOrDefault<
+                                                                    String>(
+                                                              widget
+                                                                  .orderParametres
+                                                                  ?.orderID,
+                                                              'orderID?',
+                                                            ),
+                                                            date:
+                                                                valueOrDefault<
+                                                                    int>(
+                                                              getCurrentTimestamp
+                                                                  .secondsSinceEpoch,
+                                                              1234,
+                                                            ),
+                                                            subtotal:
+                                                                valueOrDefault<
+                                                                    double>(
+                                                              widget
+                                                                  .orderParametres
+                                                                  ?.subtotal,
+                                                              1234.0,
+                                                            ),
+                                                            fraisSuppl:
+                                                                valueOrDefault<
+                                                                    double>(
+                                                              widget
+                                                                  .orderParametres
+                                                                  ?.extraCharge,
+                                                              1234.0,
+                                                            ),
+                                                            tips:
+                                                                valueOrDefault<
+                                                                    double>(
+                                                              widget
+                                                                  .orderParametres
+                                                                  ?.tip,
+                                                              1234.0,
+                                                            ),
+                                                            discount:
+                                                                valueOrDefault<
+                                                                    double>(
+                                                              widget
+                                                                  .orderParametres
+                                                                  ?.discount,
+                                                              1234.0,
+                                                            ),
+                                                            total:
+                                                                valueOrDefault<
+                                                                    double>(
+                                                              widget
+                                                                  .orderParametres
+                                                                  ?.total,
+                                                              1234.0,
+                                                            ),
+                                                            emailTo:
+                                                                valueOrDefault<
+                                                                    String>(
+                                                              valueOrDefault(
+                                                                  currentUserDocument
+                                                                      ?.storeEmail,
+                                                                  ''),
+                                                              'email ?',
+                                                            ),
+                                                            iban:
+                                                                valueOrDefault<
+                                                                    String>(
+                                                              valueOrDefault(
+                                                                  currentUserDocument
+                                                                      ?.storeBankBenefIBAN,
+                                                                  ''),
+                                                              'IBAN?',
+                                                            ),
+                                                            beneficiaryName:
+                                                                valueOrDefault<
+                                                                    String>(
+                                                              valueOrDefault(
+                                                                  currentUserDocument
+                                                                      ?.storeBankBenefName,
+                                                                  ''),
+                                                              'NAME?',
+                                                            ),
+                                                            beneficiaryAdress:
+                                                                valueOrDefault<
+                                                                    String>(
+                                                              valueOrDefault(
+                                                                  currentUserDocument
+                                                                      ?.storeBankBenefAdress,
+                                                                  ''),
+                                                              'ADRESS??',
+                                                            ),
+                                                            netTotal:
+                                                                valueOrDefault<
+                                                                    double>(
+                                                              () {
+                                                                if (widget
+                                                                        .orderParametres
+                                                                        ?.role ==
+                                                                    'Staff') {
+                                                                  return functions.fraisStripeEtOrderNowCreatedByStaff(
+                                                                      widget
+                                                                          .orderParametres!
+                                                                          .total,
+                                                                      3.9,
+                                                                      0.30,
+                                                                      widget
+                                                                          .orderParametres!
+                                                                          .tip);
+                                                                } else if (widget
+                                                                        .orderParametres
+                                                                        ?.role ==
+                                                                    'Admin') {
+                                                                  return functions.fraisStripeEtOrderNowCreatedByAdmin(
+                                                                      checkoutCartsRecord!
+                                                                          .total,
+                                                                      3.9,
+                                                                      0.30,
+                                                                      checkoutCartsRecord!
+                                                                          .tip);
+                                                                } else {
+                                                                  return 0.0;
+                                                                }
+                                                              }(),
+                                                              1234.0,
+                                                            ),
+                                                          );
+                                                          _shouldSetState =
+                                                              true;
+                                                          if ((_model
+                                                                  .apiResult25k
+                                                                  ?.succeeded ??
+                                                              true)) {
+                                                            _model.apiConfirmUsers =
+                                                                await ConfirmationPaymentToUsersCall
+                                                                    .call(
+                                                              orderId: widget
+                                                                  .orderParametres
+                                                                  ?.orderID,
+                                                              transactionID:
+                                                                  _model
+                                                                      .paymentId,
+                                                              date: getCurrentTimestamp
+                                                                  .secondsSinceEpoch,
+                                                              emailTo:
+                                                                  currentUserEmail,
+                                                              storeName: widget
+                                                                  .orderParametres
+                                                                  ?.restaurantName,
+                                                              subtotal: widget
+                                                                  .orderParametres
+                                                                  ?.subtotal,
+                                                              fraisSuppl: widget
+                                                                  .orderParametres
+                                                                  ?.extraCharge,
+                                                              tips: widget
+                                                                  .orderParametres
+                                                                  ?.tip,
+                                                              discount: widget
+                                                                  .orderParametres
+                                                                  ?.discount,
+                                                              total: widget
+                                                                  .orderParametres
+                                                                  ?.total,
+                                                            );
+                                                            _shouldSetState =
+                                                                true;
+                                                            if ((_model
+                                                                    .apiConfirmUsers
+                                                                    ?.succeeded ??
+                                                                true)) {
+                                                              if ((checkoutCartsRecord
+                                                                          ?.role ==
+                                                                      'Staff') &&
+                                                                  (checkoutCartsRecord!
+                                                                          .tip >
+                                                                      0.0)) {
+                                                                _model.apiResultavm =
+                                                                    await FactureStaffTipsCall
+                                                                        .call(
+                                                                  orderId: widget
+                                                                      .orderParametres
+                                                                      ?.orderID,
+                                                                  date: getCurrentTimestamp
+                                                                      .secondsSinceEpoch,
+                                                                  storeName: widget
+                                                                      .orderParametres
+                                                                      ?.restaurantName,
+                                                                  tips: widget
+                                                                      .orderParametres
+                                                                      ?.tip,
+                                                                  netTotal: functions
+                                                                      .fraisStripeEtOrderNowStaff(
+                                                                          3.9,
+                                                                          0.30,
+                                                                          widget
+                                                                              .orderParametres!
+                                                                              .tip),
+                                                                );
+                                                                _shouldSetState =
+                                                                    true;
+                                                                if ((_model
+                                                                        .apiResultavm
+                                                                        ?.succeeded ??
+                                                                    true)) {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                    SnackBar(
+                                                                      content:
+                                                                          Text(
+                                                                        'Toutes les API sont OK',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primaryBtnText,
+                                                                        ),
+                                                                      ),
+                                                                      duration: Duration(
+                                                                          milliseconds:
+                                                                              4000),
+                                                                      backgroundColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .customColor1,
+                                                                    ),
+                                                                  );
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                  return;
+                                                                } else {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                    SnackBar(
+                                                                      content:
+                                                                          Text(
+                                                                        'L\'API  facture pour les pourboires n\'a pas été déclenchée',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primaryBtnText,
+                                                                        ),
+                                                                      ),
+                                                                      duration: Duration(
+                                                                          milliseconds:
+                                                                              4000),
+                                                                      backgroundColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .customColor3,
+                                                                    ),
+                                                                  );
+                                                                  if (_shouldSetState)
+                                                                    setState(
+                                                                        () {});
+                                                                  return;
+                                                                }
+                                                              } else {
+                                                                if (_shouldSetState)
+                                                                  setState(
+                                                                      () {});
+                                                                return;
+                                                              }
+                                                            } else {
+                                                              ScaffoldMessenger
                                                                       .of(context)
-                                                                  .titleMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Open Sans',
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                  content: Text(
+                                                                    'API pour confirmation Users non déclenchée',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryBtnText,
+                                                                    ),
+                                                                  ),
+                                                                  duration: Duration(
+                                                                      milliseconds:
+                                                                          4000),
+                                                                  backgroundColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .customColor3,
+                                                                ),
+                                                              );
+                                                              if (_shouldSetState)
+                                                                setState(() {});
+                                                              return;
+                                                            }
+                                                          } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  'API Facture restaurant non déclenchée',
+                                                                  style:
+                                                                      TextStyle(
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .primaryBtnText,
+                                                                        .customColor3,
                                                                   ),
+                                                                ),
+                                                                duration: Duration(
+                                                                    milliseconds:
+                                                                        4000),
+                                                                backgroundColor:
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primaryBtnText,
+                                                              ),
+                                                            );
+                                                            if (_shouldSetState)
+                                                              setState(() {});
+                                                            return;
+                                                          }
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                'Payment error !',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBtnText,
+                                                                ),
+                                                              ),
+                                                              duration: Duration(
+                                                                  milliseconds:
+                                                                      4000),
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .customColor3,
                                                             ),
-                                                            duration: Duration(
-                                                                milliseconds:
-                                                                    4000),
-                                                            backgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .error,
-                                                          ),
-                                                        );
+                                                          );
+                                                          if (_shouldSetState)
+                                                            setState(() {});
+                                                          return;
+                                                        }
+
                                                         if (_shouldSetState)
                                                           setState(() {});
-                                                        return;
-                                                      }
-
-                                                      if (_shouldSetState)
-                                                        setState(() {});
-                                                    },
-                                                    text: 'Pay',
-                                                    options: FFButtonOptions(
-                                                      width: 80.0,
-                                                      height: 70.0,
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  24.0,
-                                                                  0.0,
-                                                                  24.0,
-                                                                  0.0),
-                                                      iconPadding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .customColor4,
-                                                      textStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .titleMedium,
-                                                      elevation: 3.0,
-                                                      borderSide: BorderSide(
-                                                        color:
-                                                            Colors.transparent,
-                                                        width: 1.0,
+                                                      },
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'vnriltvf' /* Pay */,
                                                       ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
+                                                      options: FFButtonOptions(
+                                                        height: 70.0,
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    24.0,
+                                                                    0.0,
+                                                                    24.0,
+                                                                    0.0),
+                                                        iconPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .customColor4,
+                                                        textStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleMedium,
+                                                        elevation: 3.0,
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .transparent,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

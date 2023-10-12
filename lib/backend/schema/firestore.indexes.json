@@ -41,8 +41,26 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "tableName",
+          "fieldPath": "createdAt",
           "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Carts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "cartPaid",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "role",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "tip",
+          "order": "ASCENDING"
         }
       ]
     }

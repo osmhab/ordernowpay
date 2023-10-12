@@ -83,7 +83,9 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
         title: 'UpdateItem',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -140,7 +142,9 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 32.0, 0.0, 8.0),
                                       child: Text(
-                                        'Update item',
+                                        FFLocalizations.of(context).getText(
+                                          'ikatvup2' /* Update item */,
+                                        ),
                                         textAlign: TextAlign.start,
                                         style: FlutterFlowTheme.of(context)
                                             .displayMedium,
@@ -162,7 +166,11 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   _model.itemNameController,
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText: 'Name',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  '27r0048h' /* Name */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge,
@@ -260,12 +268,19 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   _model.itemPriceController,
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText: 'Price\n',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'ujwdtpza' /* Price */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge,
                                                 hintText:
-                                                    'Comma [ , ] is not allowed',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'sjnbq8tb' /* Comma [ , ] is not allowed */,
+                                                ),
                                                 hintStyle: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyLarge
@@ -376,7 +391,11 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   .itemDescriptionController,
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText: 'Description',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'spd7s5eh' /* Description */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge,
@@ -474,12 +493,19 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   .itemSpecificsController,
                                               obscureText: false,
                                               decoration: InputDecoration(
-                                                labelText: 'Specifications',
+                                                labelText:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'dwyuvsjj' /* Specifications */,
+                                                ),
                                                 labelStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .labelLarge,
                                                 hintText:
-                                                    'Inform service personnel about the item. (e.g. no more mozzarella)',
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'wfj2i7y0' /* Inform service personnel about... */,
+                                                ),
                                                 enabledBorder:
                                                     UnderlineInputBorder(
                                                   borderSide: BorderSide(
@@ -590,7 +616,11 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                   onPressed: () async {
                                                     context.safePop();
                                                   },
-                                                  text: 'Cancel',
+                                                  text: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    '1r0wwe57' /* Cancel */,
+                                                  ),
                                                   options: FFButtonOptions(
                                                     width: double.infinity,
                                                     height: 60.0,
@@ -657,12 +687,20 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
                                                           .itemSpecificsController
                                                           .text,
                                                     ),
-                                                    'modified_at': FieldValue
-                                                        .serverTimestamp(),
+                                                    ...mapToFirestore(
+                                                      {
+                                                        'modified_at': FieldValue
+                                                            .serverTimestamp(),
+                                                      },
+                                                    ),
                                                   });
                                                   context.safePop();
                                                 },
-                                                text: 'Save',
+                                                text:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  '3nd1bgy7' /* Save */,
+                                                ),
                                                 options: FFButtonOptions(
                                                   width: double.infinity,
                                                   height: 60.0,
@@ -797,7 +835,11 @@ class _UpdateItemWidgetState extends State<UpdateItemWidget> {
 
                                                   context.pushNamed('Items');
                                                 },
-                                                text: 'Delete item',
+                                                text:
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                  'zs2etkx3' /* Delete item */,
+                                                ),
                                                 icon: Icon(
                                                   Icons.delete,
                                                   size: 15.0,

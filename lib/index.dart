@@ -36,3 +36,11 @@ export '/user_order_history/user_order_history_widget.dart'
 export '/payment_list/payment_list_widget.dart' show PaymentListWidget;
 export '/ticket_detail/ticket_detail_widget.dart' show TicketDetailWidget;
 export '/success_page/success_page_widget.dart' show SuccessPageWidget;
+export '/restaurant_payment_details/restaurant_payment_details_widget.dart'
+    show RestaurantPaymentDetailsWidget;
+export '/auth_cindy/auth_cindy_widget.dart' show AuthCindyWidget;
+export '/page/page_widget.dart' show PageWidget;
+export '/payment_staff_list/payment_staff_list_widget.dart'
+    show PaymentStaffListWidget;
+export '/payment_staff_details/payment_staff_details_widget.dart'
+    show PaymentStaffDetailsWidget;

@@ -58,8 +58,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     return AuthUserStreamWidget(
       builder: (context) => StreamBuilder<List<CartsRecord>>(
         stream: queryCartsRecord(
-          queryBuilder: (cartsRecord) => cartsRecord.where('userRef',
-              isEqualTo: currentUserDocument?.userRef),
+          queryBuilder: (cartsRecord) => cartsRecord.where(
+            'userRef',
+            isEqualTo: currentUserDocument?.userRef,
+          ),
           singleRecord: true,
         ),
         builder: (context, snapshot) {
@@ -93,8 +95,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               title: 'ProductDetails',
               color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
               child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(_model.unfocusNode),
+                onTap: () => _model.unfocusNode.canRequestFocus
+                    ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                    : FocusScope.of(context).unfocus(),
                 child: Scaffold(
                   key: scaffoldKey,
                   backgroundColor:
@@ -126,8 +129,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     child: StreamBuilder<List<CartsRecord>>(
                       stream: queryCartsRecord(
                         queryBuilder: (cartsRecord) => cartsRecord.where(
-                            'userRef',
-                            isEqualTo: currentUserDocument?.userRef),
+                          'userRef',
+                          isEqualTo: currentUserDocument?.userRef,
+                        ),
                         singleRecord: true,
                       ),
                       builder: (context, snapshot) {
@@ -221,7 +225,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             16.0, 0.0, 0.0, 0.0),
                                         child: Text(
-                                          'Description',
+                                          FFLocalizations.of(context).getText(
+                                            's3nitay0' /* Description */,
+                                          ),
                                           style: FlutterFlowTheme.of(context)
                                               .labelMedium,
                                         ),
@@ -285,7 +291,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                               alignment: AlignmentDirectional(
                                                   -0.90, 0.00),
                                               child: Text(
-                                                'Extra comments',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  '0mig3lyr' /* Extra comments */,
+                                                ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .labelMedium,
@@ -311,8 +320,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                                 autofocus: true,
                                                 obscureText: false,
                                                 decoration: InputDecoration(
-                                                  labelText:
-                                                      'e.g. without mushrooms',
+                                                  labelText: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    '0z7htsjg' /* e.g. without mushrooms */,
+                                                  ),
                                                   labelStyle:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -401,7 +413,10 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                               alignment: AlignmentDirectional(
                                                   -0.90, 0.00),
                                               child: Text(
-                                                'Quanity',
+                                                FFLocalizations.of(context)
+                                                    .getText(
+                                                  'cakadscq' /* Quanity */,
+                                                ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .labelMedium,
@@ -524,31 +539,41 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   _model.orderIDFound =
                                       await queryCartsRecordOnce(
                                     queryBuilder: (cartsRecord) => cartsRecord
-                                        .where('userRef',
-                                            isEqualTo:
-                                                currentUserDocument?.userRef)
-                                        .where('orderID',
-                                            isEqualTo: widget
-                                                .orderparam?.reference.id),
+                                        .where(
+                                          'userRef',
+                                          isEqualTo:
+                                              currentUserDocument?.userRef,
+                                        )
+                                        .where(
+                                          'orderID',
+                                          isEqualTo:
+                                              widget.orderparam?.reference.id,
+                                        ),
                                     singleRecord: true,
                                   ).then((s) => s.firstOrNull);
 
                                   await _model.orderIDFound!.reference.update({
-                                    'itemCount': FieldValue.increment(
-                                        _model.countControllerValue!),
-                                    'subtotal': FieldValue.increment(
-                                        functions.newCustomFunction(
-                                            _model.countControllerValue!,
-                                            widget.productSelection!.price)),
-                                    'cartItems': FieldValue.arrayUnion(
-                                        [_model.itemsInCart?.reference]),
-                                    'total': FieldValue.increment(
-                                        functions.totalCalculate(
-                                            _model.orderIDFound!.extraCharge,
-                                            _model.orderIDFound!.tip,
-                                            _model.orderIDFound!.discount,
-                                            _model.countControllerValue!,
-                                            _model.itemsInCart!.price)),
+                                    ...mapToFirestore(
+                                      {
+                                        'itemCount': FieldValue.increment(
+                                            _model.countControllerValue!),
+                                        'subtotal': FieldValue.increment(
+                                            functions.newCustomFunction(
+                                                _model.countControllerValue!,
+                                                widget
+                                                    .productSelection!.price)),
+                                        'cartItems': FieldValue.arrayUnion(
+                                            [_model.itemsInCart?.reference]),
+                                        'total': FieldValue.increment(
+                                            functions.totalCalculate(
+                                                _model
+                                                    .orderIDFound!.extraCharge,
+                                                _model.orderIDFound!.tip,
+                                                _model.orderIDFound!.discount,
+                                                _model.countControllerValue!,
+                                                _model.itemsInCart!.price)),
+                                      },
+                                    ),
                                   });
 
                                   context.pushNamed(
@@ -566,7 +591,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
 
                                   setState(() {});
                                 },
-                                text: 'Add To Cart',
+                                text: FFLocalizations.of(context).getText(
+                                  'gpbvrq5z' /* Add To Cart */,
+                                ),
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 50.0,

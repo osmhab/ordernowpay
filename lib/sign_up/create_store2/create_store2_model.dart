@@ -5,13 +5,14 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'create_store2_widget.dart' show CreateStore2Widget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class CreateStore2Model extends FlutterFlowModel {
+class CreateStore2Model extends FlutterFlowModel<CreateStore2Widget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -22,7 +23,9 @@ class CreateStore2Model extends FlutterFlowModel {
   String? _beneficiareNameControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return FFLocalizations.of(context).getText(
+        '7g3aewgx' /* Field is required */,
+      );
     }
 
     return null;
@@ -35,7 +38,9 @@ class CreateStore2Model extends FlutterFlowModel {
   String? _beneficiaryAdresseControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return FFLocalizations.of(context).getText(
+        'pjy6l2y0' /* Field is required */,
+      );
     }
 
     return null;
@@ -46,7 +51,9 @@ class CreateStore2Model extends FlutterFlowModel {
   String? Function(BuildContext, String?)? bankIbanControllerValidator;
   String? _bankIbanControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Field is required';
+      return FFLocalizations.of(context).getText(
+        'ilmdq5yh' /* Field is required */,
+      );
     }
 
     return null;

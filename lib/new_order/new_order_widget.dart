@@ -12,7 +12,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'new_order_model.dart';
 export 'new_order_model.dart';
 
@@ -83,11 +82,18 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
       builder: (context) => StreamBuilder<List<CartsRecord>>(
         stream: queryCartsRecord(
           queryBuilder: (cartsRecord) => cartsRecord
-              .where('userRef', isEqualTo: currentUserDocument?.userRef)
-              .where('orderID',
-                  isEqualTo: widget.orderParams?.orderID != ''
-                      ? widget.orderParams?.orderID
-                      : null),
+              .where(
+                'userRef',
+                isEqualTo: currentUserDocument?.userRef,
+              )
+              .where(
+                'orderID',
+                isEqualTo: widget.orderParams?.orderID,
+              )
+              .where(
+                'cartActive',
+                isEqualTo: true,
+              ),
           singleRecord: true,
         ),
         builder: (context, snapshot) {
@@ -116,8 +122,9 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
               title: 'NewOrder',
               color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
               child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(_model.unfocusNode),
+                onTap: () => _model.unfocusNode.canRequestFocus
+                    ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                    : FocusScope.of(context).unfocus(),
                 child: Scaffold(
                   key: scaffoldKey,
                   backgroundColor:
@@ -156,59 +163,99 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Table ${widget.orderParams?.cartTable}',
+                            'Table ${newOrderCartsRecord?.cartTable}',
                             style: FlutterFlowTheme.of(context).headlineMedium,
                           ),
-                          FFButtonWidget(
-                            onPressed: () async {
-                              context.pushNamed(
-                                'Checkout',
-                                queryParameters: {
-                                  'orderParametres': serializeParam(
-                                    newOrderCartsRecord,
-                                    ParamType.Document,
+                          StreamBuilder<List<CartsRecord>>(
+                            stream: queryCartsRecord(
+                              queryBuilder: (cartsRecord) => cartsRecord
+                                  .where(
+                                    'orderID',
+                                    isEqualTo: widget.orderParams?.orderID,
+                                  )
+                                  .where(
+                                    'cartActive',
+                                    isEqualTo: true,
                                   ),
-                                }.withoutNulls,
-                                extra: <String, dynamic>{
-                                  'orderParametres': newOrderCartsRecord,
-                                  kTransitionInfoKey: TransitionInfo(
-                                    hasTransition: true,
-                                    transitionType:
-                                        PageTransitionType.bottomToTop,
+                              singleRecord: true,
+                            ),
+                            builder: (context, snapshot) {
+                              // Customize what your widget looks like when it's loading.
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: SizedBox(
+                                    width: 50.0,
+                                    height: 50.0,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        FlutterFlowTheme.of(context).primary,
+                                      ),
+                                    ),
                                   ),
+                                );
+                              }
+                              List<CartsRecord> buttonCartsRecordList =
+                                  snapshot.data!;
+                              // Return an empty Container when the item does not exist.
+                              if (snapshot.data!.isEmpty) {
+                                return Container();
+                              }
+                              final buttonCartsRecord =
+                                  buttonCartsRecordList.isNotEmpty
+                                      ? buttonCartsRecordList.first
+                                      : null;
+                              return FFButtonWidget(
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    'Checkout',
+                                    queryParameters: {
+                                      'orderParametres': serializeParam(
+                                        newOrderCartsRecord,
+                                        ParamType.Document,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
+                                      'orderParametres': newOrderCartsRecord,
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.bottomToTop,
+                                      ),
+                                    },
+                                  );
                                 },
+                                text: '${formatNumber(
+                                  buttonCartsRecord?.total,
+                                  formatType: FormatType.custom,
+                                  format: '0.00',
+                                  locale: '',
+                                )}',
+                                icon: Icon(
+                                  Icons.shopping_cart_outlined,
+                                  size: 15.0,
+                                ),
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: Colors.white,
+                                      ),
+                                  elevation: 3.0,
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
                               );
                             },
-                            text: '${formatNumber(
-                              newOrderCartsRecord?.total,
-                              formatType: FormatType.custom,
-                              format: '0.00',
-                              locale: '',
-                            )}',
-                            icon: Icon(
-                              Icons.shopping_cart_outlined,
-                              size: 15.0,
-                            ),
-                            options: FFButtonOptions(
-                              height: 40.0,
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).primary,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    fontFamily: 'Open Sans',
-                                    color: Colors.white,
-                                  ),
-                              elevation: 3.0,
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
                           ),
                         ],
                       ),
@@ -256,37 +303,52 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
-                                        height: 100.0,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                        ),
-                                        child: Align(
-                                          alignment:
-                                              AlignmentDirectional(-1.00, 0.00),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16.0, 0.0, 0.0, 0.0),
-                                            child: GradientText(
-                                              'Add items',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .displaySmall,
-                                              colors: [
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary
-                                              ],
-                                              gradientDirection:
-                                                  GradientDirection.ltr,
-                                              gradientType: GradientType.linear,
-                                            ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 16.0),
+                                        child: Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  1.0,
+                                          height: 100.0,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        16.0, 0.0, 0.0, 0.0),
+                                                child: Icon(
+                                                  Icons.library_add_outlined,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  size: 24.0,
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    -1.00, 0.00),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          12.0, 0.0, 0.0, 0.0),
+                                                  child: AutoSizeText(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '5dc3zra4' /* Add items */,
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .headlineLarge,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
@@ -363,7 +425,11 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                           decoration:
                                                               InputDecoration(
                                                             hintText:
-                                                                'Search by name',
+                                                                FFLocalizations.of(
+                                                                        context)
+                                                                    .getText(
+                                                              '2y4taya9' /* Search by name */,
+                                                            ),
                                                             enabledBorder:
                                                                 UnderlineInputBorder(
                                                               borderSide:
@@ -496,14 +562,19 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                             child: StreamBuilder<
                                                 List<MenuItemsRecord>>(
                                               stream: queryMenuItemsRecord(
-                                                queryBuilder: (menuItemsRecord) =>
-                                                    menuItemsRecord
-                                                        .where('userRef',
-                                                            isEqualTo:
-                                                                currentUserDocument
-                                                                    ?.userRef)
-                                                        .where('isActive',
-                                                            isEqualTo: true),
+                                                queryBuilder:
+                                                    (menuItemsRecord) =>
+                                                        menuItemsRecord
+                                                            .where(
+                                                              'userRef',
+                                                              isEqualTo:
+                                                                  currentUserDocument
+                                                                      ?.userRef,
+                                                            )
+                                                            .where(
+                                                              'isActive',
+                                                              isEqualTo: true,
+                                                            ),
                                               ),
                                               builder: (context, snapshot) {
                                                 // Customize what your widget looks like when it's loading.
@@ -528,8 +599,9 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                 List<MenuItemsRecord>
                                                     listViewMenuItemsRecordList =
                                                     snapshot.data!;
-                                                return ListView.builder(
-                                                  padding: EdgeInsets.zero,
+                                                return ListView.separated(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10.0),
                                                   primary: false,
                                                   shrinkWrap: true,
                                                   scrollDirection:
@@ -537,6 +609,8 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                   itemCount:
                                                       listViewMenuItemsRecordList
                                                           .length,
+                                                  separatorBuilder: (_, __) =>
+                                                      SizedBox(height: 10.0),
                                                   itemBuilder:
                                                       (context, listViewIndex) {
                                                     final listViewMenuItemsRecord =
@@ -706,7 +780,7 @@ class _NewOrderWidgetState extends State<NewOrderWidget>
                                                                         child:
                                                                             Icon(
                                                                           Icons
-                                                                              .add_box,
+                                                                              .add_shopping_cart_outlined,
                                                                           color:
                                                                               Colors.black,
                                                                           size:

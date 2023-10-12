@@ -1,10 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/buy_stickers_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -45,8 +45,10 @@ class _TablesWidgetState extends State<TablesWidget> {
 
     return StreamBuilder<List<TablesRecord>>(
       stream: queryTablesRecord(
-        queryBuilder: (tablesRecord) =>
-            tablesRecord.where('userRef', isEqualTo: currentUserReference),
+        queryBuilder: (tablesRecord) => tablesRecord.where(
+          'userRef',
+          isEqualTo: currentUserReference,
+        ),
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -71,8 +73,9 @@ class _TablesWidgetState extends State<TablesWidget> {
             title: 'Tables',
             color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
             child: GestureDetector(
-              onTap: () =>
-                  FocusScope.of(context).requestFocus(_model.unfocusNode),
+              onTap: () => _model.unfocusNode.canRequestFocus
+                  ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                  : FocusScope.of(context).unfocus(),
               child: Scaffold(
                 key: scaffoldKey,
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -113,7 +116,9 @@ class _TablesWidgetState extends State<TablesWidget> {
                   title: Align(
                     alignment: AlignmentDirectional(0.00, 0.00),
                     child: Text(
-                      'My tables',
+                      FFLocalizations.of(context).getText(
+                        'jmj70uxe' /* My tables */,
+                      ),
                       style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
                   ),
@@ -126,16 +131,18 @@ class _TablesWidgetState extends State<TablesWidget> {
                           children: [
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 20.0, 0.0),
+                                  0.0, 0.0, 8.0, 0.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
                                   context.pushNamed('AddTable');
                                 },
-                                text: 'Add table',
+                                text: FFLocalizations.of(context).getText(
+                                  '52kb2jxv' /* Add table */,
+                                ),
                                 options: FFButtonOptions(
                                   height: 40.0,
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      24.0, 0.0, 24.0, 0.0),
+                                      8.0, 0.0, 8.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context).primary,
@@ -154,6 +161,70 @@ class _TablesWidgetState extends State<TablesWidget> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 24.0, 0.0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  await showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    barrierColor:
+                                        FlutterFlowTheme.of(context).lineColor,
+                                    useSafeArea: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
+                                        child: Padding(
+                                          padding:
+                                              MediaQuery.viewInsetsOf(context),
+                                          child: Container(
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.8,
+                                            child: BuyStickersWidget(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => safeSetState(() {}));
+                                },
+                                text: FFLocalizations.of(context).getText(
+                                  'gqmvdmc4' /* Print */,
+                                ),
+                                icon: Icon(
+                                  Icons.print,
+                                  size: 15.0,
+                                ),
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: Colors.white,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Open Sans',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                      ),
+                                  elevation: 1.0,
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ],
@@ -164,153 +235,107 @@ class _TablesWidgetState extends State<TablesWidget> {
                 ),
                 body: SafeArea(
                   top: true,
-                  child: SingleChildScrollView(
-                    child: Column(
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                    child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        AuthUserStreamWidget(
-                          builder: (context) =>
-                              StreamBuilder<List<TablesRecord>>(
-                            stream: queryTablesRecord(
-                              queryBuilder: (tablesRecord) => tablesRecord
-                                  .where('userRef',
-                                      isEqualTo: currentUserDocument?.userRef)
-                                  .orderBy('tableName', descending: true),
-                            ),
-                            builder: (context, snapshot) {
-                              // Customize what your widget looks like when it's loading.
-                              if (!snapshot.hasData) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        FlutterFlowTheme.of(context).primary,
-                                      ),
-                                    ),
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 1.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
                                   ),
-                                );
-                              }
-                              List<TablesRecord> columnTablesRecordList =
-                                  snapshot.data!;
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: List.generate(
-                                      columnTablesRecordList.length,
-                                      (columnIndex) {
-                                    final columnTablesRecord =
-                                        columnTablesRecordList[columnIndex];
-                                    return Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 12.0, 12.0, 12.0),
-                                      child: Container(
-                                        height: 104.0,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 4.0,
-                                              color: Color(0x33000000),
-                                              offset: Offset(0.0, 2.0),
-                                            )
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        alignment:
-                                            AlignmentDirectional(0.00, 0.00),
-                                        child: Align(
-                                          alignment:
-                                              AlignmentDirectional(-1.00, 0.00),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 12.0, 0.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
+                                  child: AuthUserStreamWidget(
+                                    builder: (context) =>
+                                        StreamBuilder<List<TablesRecord>>(
+                                      stream: queryTablesRecord(
+                                        queryBuilder: (tablesRecord) =>
+                                            tablesRecord
+                                                .where(
+                                                  'userRef',
+                                                  isEqualTo: currentUserDocument
+                                                      ?.userRef,
+                                                )
+                                                .orderBy('createdAt',
+                                                    descending: true),
+                                      ),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        List<TablesRecord>
+                                            listViewTablesRecordList =
+                                            snapshot.data!;
+                                        return ListView.builder(
+                                          padding: EdgeInsets.zero,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              listViewTablesRecordList.length,
+                                          itemBuilder:
+                                              (context, listViewIndex) {
+                                            final listViewTablesRecord =
+                                                listViewTablesRecordList[
+                                                    listViewIndex];
+                                            return Container(
+                                              width: 100.0,
+                                              height: 100.0,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
-                                                            .fromSTEB(12.0, 0.0,
+                                                            .fromSTEB(16.0, 0.0,
                                                                 0.0, 0.0),
-                                                    child: AutoSizeText(
-                                                      columnTablesRecord
+                                                    child: Text(
+                                                      listViewTablesRecord
                                                           .tableName,
-                                                      textAlign:
-                                                          TextAlign.start,
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .headlineMedium,
+                                                              .titleSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Open Sans',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                              ),
                                                     ),
                                                   ),
-                                                ),
-                                                InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    await Navigator.push(
-                                                      context,
-                                                      PageTransition(
-                                                        type: PageTransitionType
-                                                            .fade,
-                                                        child:
-                                                            FlutterFlowExpandedImageView(
-                                                          image: Image.network(
-                                                            columnTablesRecord
-                                                                .tableQrImage,
-                                                            fit: BoxFit.contain,
-                                                          ),
-                                                          allowRotation: false,
-                                                          tag:
-                                                              columnTablesRecord
-                                                                  .tableQrImage,
-                                                          useHeroAnimation:
-                                                              true,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Hero(
-                                                    tag: columnTablesRecord
-                                                        .tableQrImage,
-                                                    transitionOnUserGestures:
-                                                        true,
-                                                    child: Container(
-                                                      width: 100.0,
-                                                      height: 100.0,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: Image.network(
-                                                        columnTablesRecord
-                                                            .tableQrImage,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional(
-                                                          1.00, 0.00),
-                                                  child: InkWell(
+                                                  InkWell(
                                                     splashColor:
                                                         Colors.transparent,
                                                     focusColor:
@@ -320,55 +345,95 @@ class _TablesWidgetState extends State<TablesWidget> {
                                                     highlightColor:
                                                         Colors.transparent,
                                                     onTap: () async {
-                                                      await columnTablesRecord
-                                                          .reference
-                                                          .delete();
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .clearSnackBars();
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'Table deleted',
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
+                                                      await Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .fade,
+                                                          child:
+                                                              FlutterFlowExpandedImageView(
+                                                            image:
+                                                                Image.network(
+                                                              listViewTablesRecord
+                                                                  .tableQrImage,
+                                                              fit: BoxFit
+                                                                  .contain,
                                                             ),
+                                                            allowRotation:
+                                                                false,
+                                                            tag: listViewTablesRecord
+                                                                .tableQrImage,
+                                                            useHeroAnimation:
+                                                                true,
                                                           ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primary,
                                                         ),
                                                       );
                                                     },
-                                                    child: Icon(
-                                                      Icons.delete,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      size: 24.0,
+                                                    child: Hero(
+                                                      tag: listViewTablesRecord
+                                                          .tableQrImage,
+                                                      transitionOnUserGestures:
+                                                          true,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.network(
+                                                          listViewTablesRecord
+                                                              .tableQrImage,
+                                                          width: 90.0,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.9,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                16.0, 0.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        await listViewTablesRecord
+                                                            .reference
+                                                            .delete();
+                                                      },
+                                                      child: Icon(
+                                                        Icons.delete_forever,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                        size: 24.0,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),

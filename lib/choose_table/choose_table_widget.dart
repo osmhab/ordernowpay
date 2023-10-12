@@ -70,7 +70,9 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
             title: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Cancel',
+                FFLocalizations.of(context).getText(
+                  'op19v9hx' /* Cancel */,
+                ),
                 style: FlutterFlowTheme.of(context).displaySmall.override(
                       fontFamily: 'Open Sans',
                       fontSize: 16.0,
@@ -113,7 +115,9 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'Scan table',
+                                        FFLocalizations.of(context).getText(
+                                          '42apecf9' /* Scan table */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .headlineMedium,
                                       ),
@@ -122,7 +126,9 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 4.0, 16.0, 25.0),
                                       child: Text(
-                                        'If you want to take a new order, you must scan the QR code',
+                                        FFLocalizations.of(context).getText(
+                                          'n6uyvtcn' /* If you want to take a new orde... */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelMedium,
                                       ),
@@ -149,15 +155,19 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                       _model.scanResult =
                           await FlutterBarcodeScanner.scanBarcode(
                         '#C62828', // scanning line color
-                        'Cancel', // cancel button text
+                        FFLocalizations.of(context).getText(
+                          'pxkewsky' /* Cancel */,
+                        ), // cancel button text
                         true, // whether to show the flash icon
                         ScanMode.QR,
                       );
 
                       _shouldSetState = true;
                       _model.tableFound = await queryTablesRecordOnce(
-                        queryBuilder: (tablesRecord) => tablesRecord
-                            .where('tableID', isEqualTo: _model.scanResult),
+                        queryBuilder: (tablesRecord) => tablesRecord.where(
+                          'tableID',
+                          isEqualTo: _model.scanResult,
+                        ),
                         singleRecord: true,
                       ).then((s) => s.firstOrNull);
                       _shouldSetState = true;
@@ -165,8 +175,9 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                           (_model.tableFound?.tableInUse == false)) {
                         _model.queryUserResult = await queryUsersRecordOnce(
                           queryBuilder: (usersRecord) => usersRecord.where(
-                              'userRef',
-                              isEqualTo: currentUserDocument?.userRef),
+                            'userRef',
+                            isEqualTo: currentUserDocument?.userRef,
+                          ),
                           singleRecord: true,
                         ).then((s) => s.firstOrNull);
                         _shouldSetState = true;
@@ -194,8 +205,19 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                             restaurantAdress:
                                 _model.queryUserResult?.storeLocality,
                             iban: _model.queryUserResult?.bankIBAN,
+                            role: valueOrDefault(currentUserDocument?.role, ''),
+                            staffBenefName: valueOrDefault(
+                                currentUserDocument?.beneficiaireName, ''),
+                            staffBenefAdress: valueOrDefault(
+                                currentUserDocument?.beneficiaireAdresse, ''),
+                            staffBenefIBAN: valueOrDefault(
+                                currentUserDocument?.bankIBAN, ''),
                           ),
-                          'created_at': FieldValue.serverTimestamp(),
+                          ...mapToFirestore(
+                            {
+                              'created_at': FieldValue.serverTimestamp(),
+                            },
+                          ),
                         });
                         _model.createdOrder = CartsRecord.getDocumentFromData({
                           ...createCartsRecordData(
@@ -219,8 +241,19 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                             restaurantAdress:
                                 _model.queryUserResult?.storeLocality,
                             iban: _model.queryUserResult?.bankIBAN,
+                            role: valueOrDefault(currentUserDocument?.role, ''),
+                            staffBenefName: valueOrDefault(
+                                currentUserDocument?.beneficiaireName, ''),
+                            staffBenefAdress: valueOrDefault(
+                                currentUserDocument?.beneficiaireAdresse, ''),
+                            staffBenefIBAN: valueOrDefault(
+                                currentUserDocument?.bankIBAN, ''),
                           ),
-                          'created_at': DateTime.now(),
+                          ...mapToFirestore(
+                            {
+                              'created_at': DateTime.now(),
+                            },
+                          ),
                         }, cartsRecordReference);
                         _shouldSetState = true;
                       } else {
@@ -241,11 +274,24 @@ class _ChooseTableWidgetState extends State<ChooseTableWidget> {
                         return;
                       }
 
-                      context.goNamed('Dashboard');
+                      context.goNamed(
+                        'Dashboard',
+                        queryParameters: {
+                          'ordersParams': serializeParam(
+                            _model.createdOrder,
+                            ParamType.Document,
+                          ),
+                        }.withoutNulls,
+                        extra: <String, dynamic>{
+                          'ordersParams': _model.createdOrder,
+                        },
+                      );
 
                       if (_shouldSetState) setState(() {});
                     },
-                    text: 'Scan table QR',
+                    text: FFLocalizations.of(context).getText(
+                      '4w77qrpw' /* Scan table QR */,
+                    ),
                     icon: Icon(
                       Icons.qr_code,
                       size: 15.0,

@@ -66,7 +66,9 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
         title: 'AddUpdateItem',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -121,7 +123,9 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 32.0, 0.0, 8.0),
                                   child: Text(
-                                    'Add item',
+                                    FFLocalizations.of(context).getText(
+                                      's3oxdjgv' /* Add item */,
+                                    ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
                                         .displayMedium,
@@ -147,7 +151,11 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
                                                     _model.itemNameController,
                                                 obscureText: false,
                                                 decoration: InputDecoration(
-                                                  labelText: 'Name',
+                                                  labelText: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    'h2d12361' /* Name */,
+                                                  ),
                                                   labelStyle:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -252,13 +260,20 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
                                                     _model.itemPriceController,
                                                 obscureText: false,
                                                 decoration: InputDecoration(
-                                                  labelText: 'Price\n',
+                                                  labelText: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    'cogzt4p1' /* Price */,
+                                                  ),
                                                   labelStyle:
                                                       FlutterFlowTheme.of(
                                                               context)
                                                           .labelLarge,
-                                                  hintText:
-                                                      'Comma [ , ] is not allowed',
+                                                  hintText: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    'eogfffd5' /* Comma [ , ] is not allowed */,
+                                                  ),
                                                   enabledBorder:
                                                       UnderlineInputBorder(
                                                     borderSide: BorderSide(
@@ -364,7 +379,11 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
                                                     .itemDescriptionController,
                                                 obscureText: false,
                                                 decoration: InputDecoration(
-                                                  labelText: 'Description',
+                                                  labelText: FFLocalizations.of(
+                                                          context)
+                                                      .getText(
+                                                    '0n63w9xv' /* Description */,
+                                                  ),
                                                   labelStyle:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -486,7 +505,11 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
                                                           onPressed: () async {
                                                             context.safePop();
                                                           },
-                                                          text: 'Cancel',
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            'eevza735' /* Cancel */,
+                                                          ),
                                                           options:
                                                               FFButtonOptions(
                                                             width:
@@ -570,12 +593,22 @@ class _AddUpdateItemWidgetState extends State<AddUpdateItemWidget> {
                                                                       ?.userRef,
                                                               isActive: true,
                                                             ),
-                                                            'created_at': FieldValue
-                                                                .serverTimestamp(),
+                                                            ...mapToFirestore(
+                                                              {
+                                                                'created_at':
+                                                                    FieldValue
+                                                                        .serverTimestamp(),
+                                                              },
+                                                            ),
                                                           });
                                                           context.safePop();
                                                         },
-                                                        text: 'Save',
+                                                        text:
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          'u4gym8k5' /* Save */,
+                                                        ),
                                                         options:
                                                             FFButtonOptions(
                                                           width:

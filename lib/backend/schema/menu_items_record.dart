@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:from_css_color/from_css_color.dart';
+import '/backend/algolia/serialization_util.dart';
 import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
@@ -125,25 +126,37 @@ class MenuItemsRecord extends FirestoreRecord {
         {
           'name': snapshot.data['name'],
           'description': snapshot.data['description'],
-          'price': snapshot.data['price']?.toDouble(),
+          'price': convertAlgoliaParam(
+            snapshot.data['price'],
+            ParamType.double,
+            false,
+          ),
           'specification': snapshot.data['specification'],
-          'created_at': safeGet(
-            () => DateTime.fromMillisecondsSinceEpoch(
-                snapshot.data['created_at']),
+          'created_at': convertAlgoliaParam(
+            snapshot.data['created_at'],
+            ParamType.DateTime,
+            false,
           ),
-          'modified_at': safeGet(
-            () => DateTime.fromMillisecondsSinceEpoch(
-                snapshot.data['modified_at']),
+          'modified_at': convertAlgoliaParam(
+            snapshot.data['modified_at'],
+            ParamType.DateTime,
+            false,
           ),
-          'quantity': snapshot.data['quantity']?.round(),
+          'quantity': convertAlgoliaParam(
+            snapshot.data['quantity'],
+            ParamType.int,
+            false,
+          ),
           'modifiers': safeGet(
             () => snapshot.data['modifiers'].toList(),
           ),
           'modifiers_2': safeGet(
             () => snapshot.data['modifiers_2'].toList(),
           ),
-          'userRef': safeGet(
-            () => toRef(snapshot.data['userRef']),
+          'userRef': convertAlgoliaParam(
+            snapshot.data['userRef'],
+            ParamType.DocumentReference,
+            false,
           ),
           'tags': safeGet(
             () => snapshot.data['tags'].toList(),

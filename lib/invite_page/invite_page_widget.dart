@@ -76,7 +76,9 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
             title: Padding(
               padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Back',
+                FFLocalizations.of(context).getText(
+                  'f06ta97j' /* Back */,
+                ),
                 style: FlutterFlowTheme.of(context).displaySmall.override(
                       fontFamily: 'Open Sans',
                       fontSize: 16.0,
@@ -100,7 +102,9 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 25.0),
                     child: Text(
-                      'Invite your staff',
+                      FFLocalizations.of(context).getText(
+                        '2k7kes4i' /* Invite your staff */,
+                      ),
                       style: FlutterFlowTheme.of(context).headlineMedium,
                     ),
                   ),
@@ -108,7 +112,9 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 16.0),
                     child: Text(
-                      'Invite your team to join OrderNow. They\'ll be able to take orders, access items, add tables.',
+                      FFLocalizations.of(context).getText(
+                        'wwwl8k90' /* Invite your team to join Order... */,
+                      ),
                       style: FlutterFlowTheme.of(context).labelMedium,
                     ),
                   ),
@@ -122,9 +128,13 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                         autofillHints: [AutofillHints.email],
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'Email adress',
+                          labelText: FFLocalizations.of(context).getText(
+                            '1d2bbl6g' /* Email adress */,
+                          ),
                           labelStyle: FlutterFlowTheme.of(context).labelMedium,
-                          hintText: 'Enter email',
+                          hintText: FFLocalizations.of(context).getText(
+                            'jkvbo883' /* Enter email */,
+                          ),
                           hintStyle: FlutterFlowTheme.of(context).labelMedium,
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -208,8 +218,10 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                           _model.invitationQuery =
                               await queryInvitationsRecordOnce(
                             queryBuilder: (invitationsRecord) =>
-                                invitationsRecord.where('userRef',
-                                    isEqualTo: currentUserReference),
+                                invitationsRecord.where(
+                              'userRef',
+                              isEqualTo: currentUserReference,
+                            ),
                             singleRecord: true,
                           ).then((s) => s.firstOrNull);
                           _shouldSetState = true;
@@ -231,7 +243,9 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
 
                           if (_shouldSetState) setState(() {});
                         },
-                        text: 'Send invitation',
+                        text: FFLocalizations.of(context).getText(
+                          '01rr0i4l' /* Send invitation */,
+                        ),
                         options: FFButtonOptions(
                           width: 270.0,
                           height: 50.0,
@@ -267,7 +281,9 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                             },
                           );
                         },
-                        text: 'Cancel',
+                        text: FFLocalizations.of(context).getText(
+                          'hkvxz1zg' /* Cancel */,
+                        ),
                         options: FFButtonOptions(
                           width: 270.0,
                           height: 50.0,

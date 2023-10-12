@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/components/language_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -13,7 +14,14 @@ import 'my_account_model.dart';
 export 'my_account_model.dart';
 
 class MyAccountWidget extends StatefulWidget {
-  const MyAccountWidget({Key? key}) : super(key: key);
+  const MyAccountWidget({
+    Key? key,
+    this.itemsParams,
+    this.tablesParams,
+  }) : super(key: key);
+
+  final List<DocumentReference>? itemsParams;
+  final List<DocumentReference>? tablesParams;
 
   @override
   _MyAccountWidgetState createState() => _MyAccountWidgetState();
@@ -47,7 +55,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
         title: 'MyAccount',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+          onTap: () => _model.unfocusNode.canRequestFocus
+              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+              : FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -105,8 +115,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                               StreamBuilder<List<UsersRecord>>(
                             stream: queryUsersRecord(
                               queryBuilder: (usersRecord) => usersRecord.where(
-                                  'userRef',
-                                  isEqualTo: currentUserDocument?.userRef),
+                                'userRef',
+                                isEqualTo: currentUserDocument?.userRef,
+                              ),
                               singleRecord: true,
                             ),
                             builder: (context, snapshot) {
@@ -162,6 +173,11 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
 
                                           var downloadUrls = <String>[];
                                           try {
+                                            showUploadMessage(
+                                              context,
+                                              'Uploading file...',
+                                              showLoading: true,
+                                            );
                                             selectedUploadedFiles =
                                                 selectedMedia
                                                     .map((m) => FFUploadedFile(
@@ -187,6 +203,8 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                                 .map((u) => u!)
                                                 .toList();
                                           } finally {
+                                            ScaffoldMessenger.of(context)
+                                                .hideCurrentSnackBar();
                                             _model.isDataUploading = false;
                                           }
                                           if (selectedUploadedFiles.length ==
@@ -199,16 +217,25 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                               _model.uploadedFileUrl =
                                                   downloadUrls.first;
                                             });
+                                            showUploadMessage(
+                                                context, 'Success!');
                                           } else {
                                             setState(() {});
+                                            showUploadMessage(context,
+                                                'Failed to upload data');
                                             return;
                                           }
                                         }
 
-                                        await currentUserReference!
-                                            .update(createUsersRecordData(
-                                          photoUrl: _model.uploadedFileUrl,
-                                        ));
+                                        if (_model.uploadedFileUrl != null &&
+                                            _model.uploadedFileUrl != '') {
+                                          await currentUserReference!
+                                              .update(createUsersRecordData(
+                                            photoUrl: _model.uploadedFileUrl,
+                                          ));
+                                        } else {
+                                          return;
+                                        }
                                       },
                                       child: Container(
                                         width: 100.0,
@@ -302,7 +329,16 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                                     '@ ${rowUsersRecord?.storeName}',
                                                     style: FlutterFlowTheme.of(
                                                             context)
-                                                        .labelLarge,
+                                                        .labelLarge
+                                                        .override(
+                                                          fontFamily:
+                                                              'Open Sans',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                   ),
                                                 ),
                                             ],
@@ -322,7 +358,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 0.0, 0.0),
                       child: Text(
-                        'Account',
+                        FFLocalizations.of(context).getText(
+                          'up98zaxn' /* Account */,
+                        ),
                         style: FlutterFlowTheme.of(context).labelLarge,
                       ),
                     ),
@@ -339,7 +377,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               context.pushNamed(
-                                'StoreDetails',
+                                'UpdateStoreDetails',
                                 extra: <String, dynamic>{
                                   kTransitionInfoKey: TransitionInfo(
                                     hasTransition: true,
@@ -375,7 +413,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'Edit store details',
+                                        FFLocalizations.of(context).getText(
+                                          '2khlweni' /* Shop data */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelLarge,
                                       ),
@@ -399,6 +439,122 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                           ),
                         ),
                       ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          12.0, 12.0, 12.0, 12.0),
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          context.pushNamed(
+                            'UpdateBankDetails',
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.rightToLeft,
+                                duration: Duration(milliseconds: 2),
+                              ),
+                            },
+                          );
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 60.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          alignment: AlignmentDirectional(0.00, 0.00),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 12.0, 12.0, 12.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.account_balance,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  size: 24.0,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    FFLocalizations.of(context).getText(
+                                      'xx664n43' /* Edit bank details */,
+                                    ),
+                                    style:
+                                        FlutterFlowTheme.of(context).labelLarge,
+                                  ),
+                                ),
+                                if ((valueOrDefault(
+                                                currentUserDocument?.bankIBAN,
+                                                '') ==
+                                            null ||
+                                        valueOrDefault(
+                                                currentUserDocument?.bankIBAN,
+                                                '') ==
+                                            '') ||
+                                    (valueOrDefault(
+                                                currentUserDocument
+                                                    ?.beneficiaireName,
+                                                '') ==
+                                            null ||
+                                        valueOrDefault(
+                                                currentUserDocument
+                                                    ?.beneficiaireName,
+                                                '') ==
+                                            '') ||
+                                    (valueOrDefault(
+                                                currentUserDocument
+                                                    ?.beneficiaireAdresse,
+                                                '') ==
+                                            null ||
+                                        valueOrDefault(
+                                                currentUserDocument
+                                                    ?.beneficiaireAdresse,
+                                                '') ==
+                                            ''))
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        12.0, 0.0, 0.0, 0.0),
+                                    child: AuthUserStreamWidget(
+                                      builder: (context) => Text(
+                                        FFLocalizations.of(context).getText(
+                                          'bobwa9c9' /* Please fill in ! */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Open Sans',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .customColor3,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: AlignmentDirectional(0.90, 0.00),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 18.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     if ((valueOrDefault(currentUserDocument?.role, '') ==
                             'Admin') ||
                         (valueOrDefault(currentUserDocument?.role, '') ==
@@ -440,7 +596,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'My items',
+                                        FFLocalizations.of(context).getText(
+                                          'cnf34vox' /* My items */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelLarge,
                                       ),
@@ -505,7 +663,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'My tables',
+                                        FFLocalizations.of(context).getText(
+                                          'j1uirksk' /* My tables */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelLarge,
                                       ),
@@ -570,7 +730,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'Orders history',
+                                        FFLocalizations.of(context).getText(
+                                          'z9t4z17g' /* Orders history */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelLarge,
                                       ),
@@ -623,7 +785,7 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Icon(
-                                      Icons.ballot,
+                                      Icons.history,
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryText,
                                       size: 24.0,
@@ -632,7 +794,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'My orders',
+                                        FFLocalizations.of(context).getText(
+                                          '6xna5bs1' /* My orders */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelLarge,
                                       ),
@@ -660,7 +824,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 0.0, 0.0),
                       child: Text(
-                        'General',
+                        FFLocalizations.of(context).getText(
+                          'qnkp6lwa' /* General */,
+                        ),
                         style: FlutterFlowTheme.of(context).labelLarge,
                       ),
                     ),
@@ -712,7 +878,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Text(
-                                        'Team',
+                                        FFLocalizations.of(context).getText(
+                                          'dii70qkf' /* Team */,
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .labelLarge,
                                       ),
@@ -764,7 +932,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 0.0, 0.0),
                                 child: Text(
-                                  'Terms of Service',
+                                  FFLocalizations.of(context).getText(
+                                    'qhxun5go' /* Terms of Service */,
+                                  ),
                                   style:
                                       FlutterFlowTheme.of(context).labelLarge,
                                 ),
@@ -785,6 +955,86 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
+                      child: InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).primaryBtnText,
+                            useSafeArea: true,
+                            context: context,
+                            builder: (context) {
+                              return GestureDetector(
+                                onTap: () => _model.unfocusNode.canRequestFocus
+                                    ? FocusScope.of(context)
+                                        .requestFocus(_model.unfocusNode)
+                                    : FocusScope.of(context).unfocus(),
+                                child: Padding(
+                                  padding: MediaQuery.viewInsetsOf(context),
+                                  child: Container(
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.8,
+                                    child: LanguageWidget(),
+                                  ),
+                                ),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 60.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          alignment: AlignmentDirectional(0.00, 0.00),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 12.0, 12.0, 12.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Icon(
+                                  Icons.language,
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryText,
+                                  size: 24.0,
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    'Language | ${FFLocalizations.of(context).languageCode}',
+                                    style:
+                                        FlutterFlowTheme.of(context).labelLarge,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: AlignmentDirectional(0.90, 0.00),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      size: 18.0,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Align(
                       alignment: AlignmentDirectional(-1.00, 0.00),
                       child: Padding(
@@ -798,7 +1048,9 @@ class _MyAccountWidgetState extends State<MyAccountWidget> {
 
                             context.pushNamedAuth('SignIn', context.mounted);
                           },
-                          text: 'Log Out',
+                          text: FFLocalizations.of(context).getText(
+                            'dzaxg07o' /* Log Out */,
+                          ),
                           icon: Icon(
                             Icons.logout,
                             size: 15.0,

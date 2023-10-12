@@ -56,6 +56,21 @@ class TablesRecord extends FirestoreRecord {
   String get tableID => _tableID ?? '';
   bool hasTableID() => _tableID != null;
 
+  // "createdAt" field.
+  DateTime? _createdAt;
+  DateTime? get createdAt => _createdAt;
+  bool hasCreatedAt() => _createdAt != null;
+
+  // "tablesToPrint" field.
+  bool? _tablesToPrint;
+  bool get tablesToPrint => _tablesToPrint ?? false;
+  bool hasTablesToPrint() => _tablesToPrint != null;
+
+  // "printed" field.
+  bool? _printed;
+  bool get printed => _printed ?? false;
+  bool hasPrinted() => _printed != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _tableName = snapshotData['tableName'] as String?;
@@ -65,6 +80,9 @@ class TablesRecord extends FirestoreRecord {
     _tableQrImage = snapshotData['tableQrImage'] as String?;
     _tableId = snapshotData['tableId'] as String?;
     _tableID = snapshotData['tableID'] as String?;
+    _createdAt = snapshotData['createdAt'] as DateTime?;
+    _tablesToPrint = snapshotData['tablesToPrint'] as bool?;
+    _printed = snapshotData['printed'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -109,6 +127,9 @@ Map<String, dynamic> createTablesRecordData({
   String? tableQrImage,
   String? tableId,
   String? tableID,
+  DateTime? createdAt,
+  bool? tablesToPrint,
+  bool? printed,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -120,6 +141,9 @@ Map<String, dynamic> createTablesRecordData({
       'tableQrImage': tableQrImage,
       'tableId': tableId,
       'tableID': tableID,
+      'createdAt': createdAt,
+      'tablesToPrint': tablesToPrint,
+      'printed': printed,
     }.withoutNulls,
   );
 
@@ -138,7 +162,10 @@ class TablesRecordDocumentEquality implements Equality<TablesRecord> {
         e1?.description == e2?.description &&
         e1?.tableQrImage == e2?.tableQrImage &&
         e1?.tableId == e2?.tableId &&
-        e1?.tableID == e2?.tableID;
+        e1?.tableID == e2?.tableID &&
+        e1?.createdAt == e2?.createdAt &&
+        e1?.tablesToPrint == e2?.tablesToPrint &&
+        e1?.printed == e2?.printed;
   }
 
   @override
@@ -150,7 +177,10 @@ class TablesRecordDocumentEquality implements Equality<TablesRecord> {
         e?.description,
         e?.tableQrImage,
         e?.tableId,
-        e?.tableID
+        e?.tableID,
+        e?.createdAt,
+        e?.tablesToPrint,
+        e?.printed
       ]);
 
   @override
