@@ -1,10 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'dart:ui';
 import 'add_table_widget.dart' show AddTableWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,25 +15,25 @@ import 'package:provider/provider.dart';
 class AddTableModel extends FlutterFlowModel<AddTableWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for table_name widget.
-  TextEditingController? tableNameController;
-  String? Function(BuildContext, String?)? tableNameControllerValidator;
+  FocusNode? tableNameFocusNode;
+  TextEditingController? tableNameTextController;
+  String? Function(BuildContext, String?)? tableNameTextControllerValidator;
   // State field(s) for table_description widget.
-  TextEditingController? tableDescriptionController;
-  String? Function(BuildContext, String?)? tableDescriptionControllerValidator;
+  FocusNode? tableDescriptionFocusNode;
+  TextEditingController? tableDescriptionTextController;
+  String? Function(BuildContext, String?)?
+      tableDescriptionTextControllerValidator;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {
-    unfocusNode.dispose();
-    tableNameController?.dispose();
-    tableDescriptionController?.dispose();
+    tableNameFocusNode?.dispose();
+    tableNameTextController?.dispose();
+
+    tableDescriptionFocusNode?.dispose();
+    tableDescriptionTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

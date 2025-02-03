@@ -11,16 +11,16 @@ export 'switch_availability_item_model.dart';
 
 class SwitchAvailabilityItemWidget extends StatefulWidget {
   const SwitchAvailabilityItemWidget({
-    Key? key,
+    super.key,
     this.parameter1,
     this.parameter2,
-  }) : super(key: key);
+  });
 
   final MenuItemsRecord? parameter1;
   final MenuItemsRecord? parameter2;
 
   @override
-  _SwitchAvailabilityItemWidgetState createState() =>
+  State<SwitchAvailabilityItemWidget> createState() =>
       _SwitchAvailabilityItemWidgetState();
 }
 
@@ -39,7 +39,8 @@ class _SwitchAvailabilityItemWidgetState
     super.initState();
     _model = createModel(context, () => SwitchAvailabilityItemModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.switchAvailabilityValue = widget!.parameter1!.isActive;
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -51,24 +52,22 @@ class _SwitchAvailabilityItemWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Switch.adaptive(
-      value: _model.switchAvailabilityValue ??= widget.parameter1!.isActive,
+      value: _model.switchAvailabilityValue!,
       onChanged: (newValue) async {
-        setState(() => _model.switchAvailabilityValue = newValue!);
+        safeSetState(() => _model.switchAvailabilityValue = newValue!);
         if (newValue!) {
-          await widget.parameter1!.reference.update(createMenuItemsRecordData(
+          await widget!.parameter1!.reference.update(createMenuItemsRecordData(
             isActive: true,
           ));
         } else {
-          await widget.parameter2!.reference.update(createMenuItemsRecordData(
+          await widget!.parameter2!.reference.update(createMenuItemsRecordData(
             isActive: false,
           ));
         }
       },
       activeColor: FlutterFlowTheme.of(context).primary,
-      activeTrackColor: FlutterFlowTheme.of(context).accent1,
+      activeTrackColor: FlutterFlowTheme.of(context).primary,
       inactiveTrackColor: FlutterFlowTheme.of(context).alternate,
       inactiveThumbColor: FlutterFlowTheme.of(context).secondaryText,
     );

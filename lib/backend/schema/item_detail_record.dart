@@ -66,6 +66,11 @@ class ItemDetailRecord extends FirestoreRecord {
   String get modifiers => _modifiers ?? '';
   bool hasModifiers() => _modifiers != null;
 
+  // "isReady" field.
+  bool? _isReady;
+  bool get isReady => _isReady ?? false;
+  bool hasIsReady() => _isReady != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
@@ -77,6 +82,7 @@ class ItemDetailRecord extends FirestoreRecord {
     _menuItemPhoto = snapshotData['menuItemPhoto'] as String?;
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _modifiers = snapshotData['modifiers'] as String?;
+    _isReady = snapshotData['isReady'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -124,6 +130,7 @@ Map<String, dynamic> createItemDetailRecordData({
   String? menuItemPhoto,
   DocumentReference? userRef,
   String? modifiers,
+  bool? isReady,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -137,6 +144,7 @@ Map<String, dynamic> createItemDetailRecordData({
       'menuItemPhoto': menuItemPhoto,
       'userRef': userRef,
       'modifiers': modifiers,
+      'isReady': isReady,
     }.withoutNulls,
   );
 
@@ -157,7 +165,8 @@ class ItemDetailRecordDocumentEquality implements Equality<ItemDetailRecord> {
         e1?.menuItemRef == e2?.menuItemRef &&
         e1?.menuItemPhoto == e2?.menuItemPhoto &&
         e1?.userRef == e2?.userRef &&
-        e1?.modifiers == e2?.modifiers;
+        e1?.modifiers == e2?.modifiers &&
+        e1?.isReady == e2?.isReady;
   }
 
   @override
@@ -171,7 +180,8 @@ class ItemDetailRecordDocumentEquality implements Equality<ItemDetailRecord> {
         e?.menuItemRef,
         e?.menuItemPhoto,
         e?.userRef,
-        e?.modifiers
+        e?.modifiers,
+        e?.isReady
       ]);
 
   @override

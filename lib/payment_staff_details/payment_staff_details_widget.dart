@@ -1,9 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +16,14 @@ export 'payment_staff_details_model.dart';
 
 class PaymentStaffDetailsWidget extends StatefulWidget {
   const PaymentStaffDetailsWidget({
-    Key? key,
+    super.key,
     required this.cartsParams,
-  }) : super(key: key);
+  });
 
   final CartsRecord? cartsParams;
 
   @override
-  _PaymentStaffDetailsWidgetState createState() =>
+  State<PaymentStaffDetailsWidget> createState() =>
       _PaymentStaffDetailsWidgetState();
 }
 
@@ -36,21 +38,40 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
     _model = createModel(context, () => PaymentStaffDetailsModel());
 
     _model.textController1 ??=
-        TextEditingController(text: widget.cartsParams?.orderID);
-    _model.textController2 ??=
-        TextEditingController(text: widget.cartsParams?.staffBenefName);
-    _model.textController3 ??=
-        TextEditingController(text: widget.cartsParams?.staffBenefAdress);
-    _model.textController4 ??=
-        TextEditingController(text: widget.cartsParams?.staffBenefIBAN);
-    _model.textController5 ??= TextEditingController(
+        TextEditingController(text: widget!.cartsParams?.orderID);
+    _model.textFieldFocusNode1 ??= FocusNode();
+
+    _model.montantBrutTextController ??= TextEditingController(
         text: formatNumber(
-      functions.fraisStripeEtOrderNowStaff(3.9, 0.30, widget.cartsParams!.tip),
+      widget!.cartsParams?.tip,
       formatType: FormatType.custom,
       format: '0.00',
       locale: '',
     ));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.montantBrutFocusNode ??= FocusNode();
+
+    _model.textController3 ??=
+        TextEditingController(text: widget!.cartsParams?.beneficiaryName);
+    _model.textFieldFocusNode2 ??= FocusNode();
+
+    _model.textController4 ??=
+        TextEditingController(text: widget!.cartsParams?.beneficiaryAdress);
+    _model.textFieldFocusNode3 ??= FocusNode();
+
+    _model.textController5 ??=
+        TextEditingController(text: widget!.cartsParams?.iban);
+    _model.textFieldFocusNode4 ??= FocusNode();
+
+    _model.textController6 ??= TextEditingController(
+        text: formatNumber(
+      functions.fraisStripeEtOrderNowStaff(3.9, 0.30, widget!.cartsParams!.tip),
+      formatType: FormatType.custom,
+      format: '0.00',
+      locale: '',
+    ));
+    _model.textFieldFocusNode5 ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -62,15 +83,14 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'restaurantPaymentDetails',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -88,7 +108,7 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                   size: 30.0,
                 ),
                 onPressed: () async {
-                  context.pushNamed('PaymentList');
+                  context.pushNamed('PaymentStaffList');
                 },
               ),
               actions: [],
@@ -98,7 +118,7 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
             body: SafeArea(
               top: true,
               child: Align(
-                alignment: AlignmentDirectional(0.00, 0.00),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Container(
                   width: double.infinity,
                   constraints: BoxConstraints(
@@ -129,7 +149,11 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                     ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
-                                        .displayMedium,
+                                        .displayMedium
+                                        .override(
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
+                                        ),
                                   ),
                                 ),
                                 Padding(
@@ -140,8 +164,12 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                       '1p447fnc' /* Lorsque le paiement a bien été... */,
                                     ),
                                     textAlign: TextAlign.start,
-                                    style:
-                                        FlutterFlowTheme.of(context).labelLarge,
+                                    style: FlutterFlowTheme.of(context)
+                                        .labelLarge
+                                        .override(
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
+                                        ),
                                   ),
                                 ),
                                 Padding(
@@ -149,6 +177,8 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
                                     controller: _model.textController1,
+                                    focusNode: _model.textFieldFocusNode1,
+                                    autofocus: false,
                                     readOnly: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
@@ -159,7 +189,11 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                         ,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -214,7 +248,8 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model.textController1Validator
@@ -225,17 +260,25 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.textController2,
+                                    controller:
+                                        _model.montantBrutTextController,
+                                    focusNode: _model.montantBrutFocusNode,
+                                    autofocus: false,
                                     textCapitalization: TextCapitalization.none,
                                     readOnly: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText:
                                           FFLocalizations.of(context).getText(
-                                        'wky63pzy' /* Bénéficiaire */,
+                                        'wky63pzy' /* Montant brut */,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            color: Color(0xFFA8A8A8),
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -290,10 +333,14 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          color: FlutterFlowTheme.of(context)
+                                              .grayIcon,
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
-                                    validator: _model.textController2Validator
+                                    validator: _model
+                                        .montantBrutTextControllerValidator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -302,16 +349,22 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
                                     controller: _model.textController3,
+                                    focusNode: _model.textFieldFocusNode2,
+                                    autofocus: false,
                                     textCapitalization: TextCapitalization.none,
                                     readOnly: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText:
                                           FFLocalizations.of(context).getText(
-                                        'izjdpu10' /* Adresse */,
+                                        'molwitz4' /* Bénéficiaire */,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -366,7 +419,8 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model.textController3Validator
@@ -378,16 +432,22 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
                                     controller: _model.textController4,
+                                    focusNode: _model.textFieldFocusNode3,
+                                    autofocus: false,
                                     textCapitalization: TextCapitalization.none,
                                     readOnly: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText:
                                           FFLocalizations.of(context).getText(
-                                        'at6fe0g9' /* IBAN */,
+                                        'izjdpu10' /* Adresse */,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -442,7 +502,8 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model.textController4Validator
@@ -454,16 +515,22 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
                                     controller: _model.textController5,
+                                    focusNode: _model.textFieldFocusNode4,
+                                    autofocus: false,
                                     textCapitalization: TextCapitalization.none,
                                     readOnly: true,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText:
                                           FFLocalizations.of(context).getText(
-                                        'ydafk6hb' /* Montant net à verser (CHF) */,
+                                        'at6fe0g9' /* IBAN */,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -518,10 +585,94 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model.textController5Validator
+                                        .asValidator(context),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 12.0, 16.0, 0.0),
+                                  child: TextFormField(
+                                    controller: _model.textController6,
+                                    focusNode: _model.textFieldFocusNode5,
+                                    autofocus: false,
+                                    textCapitalization: TextCapitalization.none,
+                                    readOnly: true,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      labelText:
+                                          FFLocalizations.of(context).getText(
+                                        'ydafk6hb' /* Montant net à verser (CHF) */,
+                                      ),
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(4.0),
+                                          topRight: Radius.circular(4.0),
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(4.0),
+                                          topRight: Radius.circular(4.0),
+                                        ),
+                                      ),
+                                      errorBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(4.0),
+                                          topRight: Radius.circular(4.0),
+                                        ),
+                                      ),
+                                      focusedErrorBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(4.0),
+                                          topRight: Radius.circular(4.0),
+                                        ),
+                                      ),
+                                      filled: true,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      contentPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 16.0, 16.0, 8.0),
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyLarge
+                                        .override(
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
+                                          lineHeight: 3.0,
+                                        ),
+                                    validator: _model.textController6Validator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -535,6 +686,7 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                             16.0, 12.0, 16.0, 24.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            var _shouldSetState = false;
                             var confirmDialogResponse = await showDialog<bool>(
                                   context: context,
                                   builder: (alertDialogContext) {
@@ -560,13 +712,38 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                                 ) ??
                                 false;
                             if (confirmDialogResponse) {
-                              await widget.cartsParams!.reference
+                              await widget!.cartsParams!.reference
                                   .update(createCartsRecordData(
-                                restaurantPaid: true,
+                                employePaid: true,
                               ));
+                              _model.apiResult2ms =
+                                  await FactureStaffTipsCall.call(
+                                orderId: widget!.cartsParams?.orderID,
+                                date: dateTimeFormat(
+                                  "d/M/y H:mm",
+                                  getCurrentTimestamp,
+                                  locale:
+                                      FFLocalizations.of(context).languageCode,
+                                ),
+                                storeName: widget!.cartsParams?.restaurantName,
+                                tips: double.tryParse(
+                                    _model.montantBrutTextController.text),
+                                netTotal: double.tryParse(
+                                    _model.textController6.text),
+                                beneficiaryName: _model.textController3.text,
+                                beneficiaryAdress: _model.textController4.text,
+                                beneficiaryIBAN: _model.textController5.text,
+                                emailTo: widget!.cartsParams?.createdByEmail,
+                              );
+
+                              _shouldSetState = true;
                             } else {
+                              if (_shouldSetState) safeSetState(() {});
                               return;
                             }
+
+                            context.safePop();
+                            if (_shouldSetState) safeSetState(() {});
                           },
                           text: FFLocalizations.of(context).getText(
                             'u6f1k9s8' /* Pay */,
@@ -582,9 +759,10 @@ class _PaymentStaffDetailsWidgetState extends State<PaymentStaffDetailsWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleMedium
                                 .override(
-                                  fontFamily: 'Open Sans',
+                                  fontFamily: 'Manrope',
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
+                                  letterSpacing: 0.0,
                                 ),
                             elevation: 4.0,
                             borderSide: BorderSide(

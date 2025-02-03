@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,18 +16,18 @@ export 'invited_user_model.dart';
 
 class InvitedUserWidget extends StatefulWidget {
   const InvitedUserWidget({
-    Key? key,
+    super.key,
     this.invitationParams,
     required this.codeInvitationParams,
     this.usersParams,
-  }) : super(key: key);
+  });
 
   final InvitationsRecord? invitationParams;
   final String? codeInvitationParams;
   final UsersRecord? usersParams;
 
   @override
-  _InvitedUserWidgetState createState() => _InvitedUserWidgetState();
+  State<InvitedUserWidget> createState() => _InvitedUserWidgetState();
 }
 
 class _InvitedUserWidgetState extends State<InvitedUserWidget> {
@@ -39,13 +40,23 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
     super.initState();
     _model = createModel(context, () => InvitedUserModel());
 
-    _model.codeInvitationController ??=
-        TextEditingController(text: widget.codeInvitationParams);
-    _model.nameController ??= TextEditingController();
-    _model.emailAddressController ??= TextEditingController();
-    _model.passwordController ??= TextEditingController();
-    _model.passwordConfirmController ??= TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.codeInvitationTextController ??=
+        TextEditingController(text: widget!.codeInvitationParams);
+    _model.codeInvitationFocusNode ??= FocusNode();
+
+    _model.invitedNameTextController ??= TextEditingController();
+    _model.invitedNameFocusNode ??= FocusNode();
+
+    _model.invitedEmailAddressTextController ??= TextEditingController();
+    _model.invitedEmailAddressFocusNode ??= FocusNode();
+
+    _model.passwordTextController ??= TextEditingController();
+    _model.passwordFocusNode ??= FocusNode();
+
+    _model.passwordConfirmTextController ??= TextEditingController();
+    _model.passwordConfirmFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -57,15 +68,14 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'InvitedUser',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -82,14 +92,14 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
-                      alignment: AlignmentDirectional(0.00, -1.00),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0.00, 0.00),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     32.0, 50.0, 32.0, 32.0),
@@ -116,7 +126,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                         'hjma4j6y' /* Join OrderNow */,
                                       ),
                                       style: FlutterFlowTheme.of(context)
-                                          .displaySmall,
+                                          .displaySmall
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -126,7 +140,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           'nzsc7tuq' /* Create your profile as a staff... */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              letterSpacing: 0.0,
+                                            ),
                                       ),
                                     ),
                                     Padding(
@@ -145,8 +163,10 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       child: Container(
                                         width: 370.0,
                                         child: TextFormField(
-                                          controller:
-                                              _model.codeInvitationController,
+                                          controller: _model
+                                              .codeInvitationTextController,
+                                          focusNode:
+                                              _model.codeInvitationFocusNode,
                                           autofocus: true,
                                           autofillHints: [AutofillHints.name],
                                           readOnly: true,
@@ -154,7 +174,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           decoration: InputDecoration(
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelMedium,
+                                                    .labelMedium
+                                                    .override(
+                                                      fontFamily: 'Manrope',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -202,9 +226,13 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                     .primaryBackground,
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
                                           validator: _model
-                                              .codeInvitationControllerValidator
+                                              .codeInvitationTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -215,7 +243,10 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       child: Container(
                                         width: 370.0,
                                         child: TextFormField(
-                                          controller: _model.nameController,
+                                          controller:
+                                              _model.invitedNameTextController,
+                                          focusNode:
+                                              _model.invitedNameFocusNode,
                                           autofocus: true,
                                           autofillHints: [AutofillHints.name],
                                           obscureText: false,
@@ -227,7 +258,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                             ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelMedium,
+                                                    .labelMedium
+                                                    .override(
+                                                      fontFamily: 'Manrope',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -275,9 +310,13 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                     .primaryBackground,
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
                                           validator: _model
-                                              .nameControllerValidator
+                                              .invitedNameTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -288,8 +327,10 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       child: Container(
                                         width: 370.0,
                                         child: TextFormField(
-                                          controller:
-                                              _model.emailAddressController,
+                                          controller: _model
+                                              .invitedEmailAddressTextController,
+                                          focusNode: _model
+                                              .invitedEmailAddressFocusNode,
                                           autofocus: true,
                                           autofillHints: [AutofillHints.email],
                                           obscureText: false,
@@ -301,7 +342,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                             ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelMedium,
+                                                    .labelMedium
+                                                    .override(
+                                                      fontFamily: 'Manrope',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -349,11 +394,15 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                     .primaryBackground,
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
                                           keyboardType:
                                               TextInputType.emailAddress,
                                           validator: _model
-                                              .emailAddressControllerValidator
+                                              .invitedEmailAddressTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -364,7 +413,9 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       child: Container(
                                         width: 370.0,
                                         child: TextFormField(
-                                          controller: _model.passwordController,
+                                          controller:
+                                              _model.passwordTextController,
+                                          focusNode: _model.passwordFocusNode,
                                           autofocus: true,
                                           autofillHints: [
                                             AutofillHints.password
@@ -379,7 +430,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                             ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelMedium,
+                                                    .labelMedium
+                                                    .override(
+                                                      fontFamily: 'Manrope',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -426,7 +481,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .primaryBackground,
                                             suffixIcon: InkWell(
-                                              onTap: () => setState(
+                                              onTap: () => safeSetState(
                                                 () => _model
                                                         .passwordVisibility =
                                                     !_model.passwordVisibility,
@@ -446,9 +501,13 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                             ),
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
                                           validator: _model
-                                              .passwordControllerValidator
+                                              .passwordTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -459,8 +518,10 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                       child: Container(
                                         width: 370.0,
                                         child: TextFormField(
-                                          controller:
-                                              _model.passwordConfirmController,
+                                          controller: _model
+                                              .passwordConfirmTextController,
+                                          focusNode:
+                                              _model.passwordConfirmFocusNode,
                                           autofocus: true,
                                           autofillHints: [
                                             AutofillHints.password
@@ -475,7 +536,11 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                             ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelMedium,
+                                                    .labelMedium
+                                                    .override(
+                                                      fontFamily: 'Manrope',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -522,7 +587,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .primaryBackground,
                                             suffixIcon: InkWell(
-                                              onTap: () => setState(
+                                              onTap: () => safeSetState(
                                                 () => _model
                                                         .passwordConfirmVisibility =
                                                     !_model
@@ -543,10 +608,14 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                             ),
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
                                           minLines: 1,
                                           validator: _model
-                                              .passwordConfirmControllerValidator
+                                              .passwordConfirmTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -556,10 +625,13 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
+                                          // CreatInvitedAccout
                                           GoRouter.of(context)
                                               .prepareAuthEvent();
-                                          if (_model.passwordController.text !=
-                                              _model.passwordConfirmController
+                                          if (_model.passwordTextController
+                                                  .text !=
+                                              _model
+                                                  .passwordConfirmTextController
                                                   .text) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -575,8 +647,10 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           final user = await authManager
                                               .createAccountWithEmail(
                                             context,
-                                            _model.emailAddressController.text,
-                                            _model.passwordController.text,
+                                            _model
+                                                .invitedEmailAddressTextController
+                                                .text,
+                                            _model.passwordTextController.text,
                                           );
                                           if (user == null) {
                                             return;
@@ -588,7 +662,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                 usersRecord.where(
                                               'uid',
                                               isEqualTo: _model
-                                                  .codeInvitationController
+                                                  .codeInvitationTextController
                                                   .text,
                                             ),
                                             singleRecord: true,
@@ -596,10 +670,12 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
 
                                           await currentUserReference!
                                               .update(createUsersRecordData(
-                                            name: _model.nameController.text,
+                                            name: _model
+                                                .invitedNameTextController.text,
                                             role: 'Staff',
                                             email: _model
-                                                .emailAddressController.text,
+                                                .invitedEmailAddressTextController
+                                                .text,
                                             userRef:
                                                 _model.resultQuery?.reference,
                                             invitation: 'Accepted',
@@ -619,6 +695,13 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                 _model.resultQuery?.bankIBAN,
                                             storeName:
                                                 _model.resultQuery?.storeName,
+                                            subscriptionActive: _model
+                                                .resultQuery
+                                                ?.subscriptionActive,
+                                            subscriptionStart: _model
+                                                .resultQuery?.subscriptionStart,
+                                            subscriptionEnd: _model
+                                                .resultQuery?.subscriptionEnd,
                                           ));
                                           _model.resultQueryInvitation =
                                               await queryInvitationsRecordOnce(
@@ -626,7 +709,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                                 invitationsRecord.where(
                                               'inviterID',
                                               isEqualTo: _model
-                                                  .codeInvitationController
+                                                  .codeInvitationTextController
                                                   .text,
                                             ),
                                             singleRecord: true,
@@ -638,7 +721,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                           context.goNamedAuth(
                                               'Dashboard', context.mounted);
 
-                                          setState(() {});
+                                          safeSetState(() {});
                                         },
                                         text:
                                             FFLocalizations.of(context).getText(
@@ -659,8 +742,9 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                                               FlutterFlowTheme.of(context)
                                                   .titleSmall
                                                   .override(
-                                                    fontFamily: 'Open Sans',
+                                                    fontFamily: 'Manrope',
                                                     color: Colors.white,
+                                                    letterSpacing: 0.0,
                                                   ),
                                           elevation: 3.0,
                                           borderSide: BorderSide(
@@ -689,8 +773,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                     Expanded(
                       flex: 6,
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 16.0, 16.0, 16.0),
+                        padding: EdgeInsets.all(16.0),
                         child: Container(
                           width: 100.0,
                           height: double.infinity,
@@ -700,7 +783,7 @@ class _InvitedUserWidgetState extends State<InvitedUserWidget> {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: CachedNetworkImageProvider(
-                                'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1380&q=80',
+                                'https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxM3x8cmVzdGF1cmFudHxlbnwwfHx8fDE2OTkzODEwNzh8MA&ixlib=rb-4.0.3&q=80&w=1080',
                               ),
                             ),
                             borderRadius: BorderRadius.circular(16.0),

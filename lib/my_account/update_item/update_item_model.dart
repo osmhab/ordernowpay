@@ -1,40 +1,34 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/components/account_blocked_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'dart:ui';
 import 'update_item_widget.dart' show UpdateItemWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class UpdateItemModel extends FlutterFlowModel<UpdateItemWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for item_name widget.
-  TextEditingController? itemNameController;
-  String? Function(BuildContext, String?)? itemNameControllerValidator;
-  String? _itemNameControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        '6zebc9yi' /* Field is required */,
-      );
-    }
-
-    return null;
-  }
-
+  FocusNode? itemNameFocusNode;
+  TextEditingController? itemNameTextController;
+  String? Function(BuildContext, String?)? itemNameTextControllerValidator;
   // State field(s) for item_price widget.
-  TextEditingController? itemPriceController;
-  String? Function(BuildContext, String?)? itemPriceControllerValidator;
-  String? _itemPriceControllerValidator(BuildContext context, String? val) {
+  FocusNode? itemPriceFocusNode;
+  TextEditingController? itemPriceTextController;
+  String? Function(BuildContext, String?)? itemPriceTextControllerValidator;
+  String? _itemPriceTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
         'yk6mnfla' /* Field is required */,
@@ -45,28 +39,32 @@ class UpdateItemModel extends FlutterFlowModel<UpdateItemWidget> {
   }
 
   // State field(s) for item_description widget.
-  TextEditingController? itemDescriptionController;
-  String? Function(BuildContext, String?)? itemDescriptionControllerValidator;
+  FocusNode? itemDescriptionFocusNode;
+  TextEditingController? itemDescriptionTextController;
+  String? Function(BuildContext, String?)?
+      itemDescriptionTextControllerValidator;
   // State field(s) for item_specifics widget.
-  TextEditingController? itemSpecificsController;
-  String? Function(BuildContext, String?)? itemSpecificsControllerValidator;
+  FocusNode? itemSpecificsFocusNode;
+  TextEditingController? itemSpecificsTextController;
+  String? Function(BuildContext, String?)? itemSpecificsTextControllerValidator;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {
-    itemNameControllerValidator = _itemNameControllerValidator;
-    itemPriceControllerValidator = _itemPriceControllerValidator;
+    itemPriceTextControllerValidator = _itemPriceTextControllerValidator;
   }
 
+  @override
   void dispose() {
-    unfocusNode.dispose();
-    itemNameController?.dispose();
-    itemPriceController?.dispose();
-    itemDescriptionController?.dispose();
-    itemSpecificsController?.dispose();
+    itemNameFocusNode?.dispose();
+    itemNameTextController?.dispose();
+
+    itemPriceFocusNode?.dispose();
+    itemPriceTextController?.dispose();
+
+    itemDescriptionFocusNode?.dispose();
+    itemDescriptionTextController?.dispose();
+
+    itemSpecificsFocusNode?.dispose();
+    itemSpecificsTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

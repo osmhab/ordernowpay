@@ -43,7 +43,7 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>ordernowpay.com</string>
+        <string>app.ordernowpay.com</string>
         <key>CFBundleURLSchemes</key>
         <array>
         <string>ordernowpay</string>
@@ -60,10 +60,13 @@
 	<true/>
 
 	<key>NSCameraUsageDescription</key>
-    <string>In order to take a picture or video, this app requires permission to access the camera.</string>
+    <string>In order to scan tables, this app requires permission to access the camera.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>In order to upload data, this app requires permission to access the photo library.</string>
-
+	<key>NSMicrophoneUsageDescription</key>
+    <string>In order to use your keyboard microphone, this app requires permission to access the microphone.</string>
+	<key>PermissionGroupNotification</key>
+    <string>Enable notifications to stay on top of important updates and exclusive offers from OrderNow Pay. We’ll send you timely alerts about your account, new features, and special promotions tailored just for you. You can customize or opt out of notifications anytime in your settings.</string>
 
 
 	<key>UILaunchStoryboardName</key>

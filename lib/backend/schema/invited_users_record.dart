@@ -92,8 +92,8 @@ class InvitedUsersRecord extends FirestoreRecord {
           ? parent.collection('invitedUsers')
           : FirebaseFirestore.instance.collectionGroup('invitedUsers');
 
-  static DocumentReference createDoc(DocumentReference parent) =>
-      parent.collection('invitedUsers').doc();
+  static DocumentReference createDoc(DocumentReference parent, {String? id}) =>
+      parent.collection('invitedUsers').doc(id);
 
   static Stream<InvitedUsersRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => InvitedUsersRecord.fromSnapshot(s));

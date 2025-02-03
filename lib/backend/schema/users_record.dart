@@ -121,6 +121,41 @@ class UsersRecord extends FirestoreRecord {
   String get storeBankBenefAdress => _storeBankBenefAdress ?? '';
   bool hasStoreBankBenefAdress() => _storeBankBenefAdress != null;
 
+  // "SubscriptionStart" field.
+  DateTime? _subscriptionStart;
+  DateTime? get subscriptionStart => _subscriptionStart;
+  bool hasSubscriptionStart() => _subscriptionStart != null;
+
+  // "SubscriptionEnd" field.
+  DateTime? _subscriptionEnd;
+  DateTime? get subscriptionEnd => _subscriptionEnd;
+  bool hasSubscriptionEnd() => _subscriptionEnd != null;
+
+  // "stripeAccountID" field.
+  String? _stripeAccountID;
+  String get stripeAccountID => _stripeAccountID ?? '';
+  bool hasStripeAccountID() => _stripeAccountID != null;
+
+  // "stripeChargesEnabled" field.
+  bool? _stripeChargesEnabled;
+  bool get stripeChargesEnabled => _stripeChargesEnabled ?? false;
+  bool hasStripeChargesEnabled() => _stripeChargesEnabled != null;
+
+  // "SubscriptionActive" field.
+  bool? _subscriptionActive;
+  bool get subscriptionActive => _subscriptionActive ?? false;
+  bool hasSubscriptionActive() => _subscriptionActive != null;
+
+  // "SubscriptionFinished" field.
+  bool? _subscriptionFinished;
+  bool get subscriptionFinished => _subscriptionFinished ?? false;
+  bool hasSubscriptionFinished() => _subscriptionFinished != null;
+
+  // "PackageSent" field.
+  bool? _packageSent;
+  bool get packageSent => _packageSent ?? false;
+  bool hasPackageSent() => _packageSent != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -143,6 +178,13 @@ class UsersRecord extends FirestoreRecord {
     _storeBankBenefName = snapshotData['StoreBankBenefName'] as String?;
     _storeBankBenefIBAN = snapshotData['StoreBankBenefIBAN'] as String?;
     _storeBankBenefAdress = snapshotData['StoreBankBenefAdress'] as String?;
+    _subscriptionStart = snapshotData['SubscriptionStart'] as DateTime?;
+    _subscriptionEnd = snapshotData['SubscriptionEnd'] as DateTime?;
+    _stripeAccountID = snapshotData['stripeAccountID'] as String?;
+    _stripeChargesEnabled = snapshotData['stripeChargesEnabled'] as bool?;
+    _subscriptionActive = snapshotData['SubscriptionActive'] as bool?;
+    _subscriptionFinished = snapshotData['SubscriptionFinished'] as bool?;
+    _packageSent = snapshotData['PackageSent'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -200,6 +242,13 @@ Map<String, dynamic> createUsersRecordData({
   String? storeBankBenefName,
   String? storeBankBenefIBAN,
   String? storeBankBenefAdress,
+  DateTime? subscriptionStart,
+  DateTime? subscriptionEnd,
+  String? stripeAccountID,
+  bool? stripeChargesEnabled,
+  bool? subscriptionActive,
+  bool? subscriptionFinished,
+  bool? packageSent,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -224,6 +273,13 @@ Map<String, dynamic> createUsersRecordData({
       'StoreBankBenefName': storeBankBenefName,
       'StoreBankBenefIBAN': storeBankBenefIBAN,
       'StoreBankBenefAdress': storeBankBenefAdress,
+      'SubscriptionStart': subscriptionStart,
+      'SubscriptionEnd': subscriptionEnd,
+      'stripeAccountID': stripeAccountID,
+      'stripeChargesEnabled': stripeChargesEnabled,
+      'SubscriptionActive': subscriptionActive,
+      'SubscriptionFinished': subscriptionFinished,
+      'PackageSent': packageSent,
     }.withoutNulls,
   );
 
@@ -255,7 +311,14 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.storeEmail == e2?.storeEmail &&
         e1?.storeBankBenefName == e2?.storeBankBenefName &&
         e1?.storeBankBenefIBAN == e2?.storeBankBenefIBAN &&
-        e1?.storeBankBenefAdress == e2?.storeBankBenefAdress;
+        e1?.storeBankBenefAdress == e2?.storeBankBenefAdress &&
+        e1?.subscriptionStart == e2?.subscriptionStart &&
+        e1?.subscriptionEnd == e2?.subscriptionEnd &&
+        e1?.stripeAccountID == e2?.stripeAccountID &&
+        e1?.stripeChargesEnabled == e2?.stripeChargesEnabled &&
+        e1?.subscriptionActive == e2?.subscriptionActive &&
+        e1?.subscriptionFinished == e2?.subscriptionFinished &&
+        e1?.packageSent == e2?.packageSent;
   }
 
   @override
@@ -280,7 +343,14 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.storeEmail,
         e?.storeBankBenefName,
         e?.storeBankBenefIBAN,
-        e?.storeBankBenefAdress
+        e?.storeBankBenefAdress,
+        e?.subscriptionStart,
+        e?.subscriptionEnd,
+        e?.stripeAccountID,
+        e?.stripeChargesEnabled,
+        e?.subscriptionActive,
+        e?.subscriptionFinished,
+        e?.packageSent
       ]);
 
   @override

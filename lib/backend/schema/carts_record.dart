@@ -171,6 +171,66 @@ class CartsRecord extends FirestoreRecord {
   String get staffBenefIBAN => _staffBenefIBAN ?? '';
   bool hasStaffBenefIBAN() => _staffBenefIBAN != null;
 
+  // "storeEmail" field.
+  String? _storeEmail;
+  String get storeEmail => _storeEmail ?? '';
+  bool hasStoreEmail() => _storeEmail != null;
+
+  // "StoreBenefName" field.
+  String? _storeBenefName;
+  String get storeBenefName => _storeBenefName ?? '';
+  bool hasStoreBenefName() => _storeBenefName != null;
+
+  // "StoreBenefAdress" field.
+  String? _storeBenefAdress;
+  String get storeBenefAdress => _storeBenefAdress ?? '';
+  bool hasStoreBenefAdress() => _storeBenefAdress != null;
+
+  // "StoreBenefIBAN" field.
+  String? _storeBenefIBAN;
+  String get storeBenefIBAN => _storeBenefIBAN ?? '';
+  bool hasStoreBenefIBAN() => _storeBenefIBAN != null;
+
+  // "createdByEmail" field.
+  String? _createdByEmail;
+  String get createdByEmail => _createdByEmail ?? '';
+  bool hasCreatedByEmail() => _createdByEmail != null;
+
+  // "paidAt" field.
+  DateTime? _paidAt;
+  DateTime? get paidAt => _paidAt;
+  bool hasPaidAt() => _paidAt != null;
+
+  // "userID" field.
+  String? _userID;
+  String get userID => _userID ?? '';
+  bool hasUserID() => _userID != null;
+
+  // "scannedByUser" field.
+  bool? _scannedByUser;
+  bool get scannedByUser => _scannedByUser ?? false;
+  bool hasScannedByUser() => _scannedByUser != null;
+
+  // "scannedBy" field.
+  String? _scannedBy;
+  String get scannedBy => _scannedBy ?? '';
+  bool hasScannedBy() => _scannedBy != null;
+
+  // "photoPaidBy" field.
+  String? _photoPaidBy;
+  String get photoPaidBy => _photoPaidBy ?? '';
+  bool hasPhotoPaidBy() => _photoPaidBy != null;
+
+  // "read" field.
+  bool? _read;
+  bool get read => _read ?? false;
+  bool hasRead() => _read != null;
+
+  // "paymentMethod" field.
+  String? _paymentMethod;
+  String get paymentMethod => _paymentMethod ?? '';
+  bool hasPaymentMethod() => _paymentMethod != null;
+
   void _initializeFields() {
     _userRef = snapshotData['userRef'] as DocumentReference?;
     _itemCount = castToType<int>(snapshotData['itemCount']);
@@ -203,6 +263,18 @@ class CartsRecord extends FirestoreRecord {
     _staffBenefName = snapshotData['StaffBenefName'] as String?;
     _staffBenefAdress = snapshotData['StaffBenefAdress'] as String?;
     _staffBenefIBAN = snapshotData['StaffBenefIBAN'] as String?;
+    _storeEmail = snapshotData['storeEmail'] as String?;
+    _storeBenefName = snapshotData['StoreBenefName'] as String?;
+    _storeBenefAdress = snapshotData['StoreBenefAdress'] as String?;
+    _storeBenefIBAN = snapshotData['StoreBenefIBAN'] as String?;
+    _createdByEmail = snapshotData['createdByEmail'] as String?;
+    _paidAt = snapshotData['paidAt'] as DateTime?;
+    _userID = snapshotData['userID'] as String?;
+    _scannedByUser = snapshotData['scannedByUser'] as bool?;
+    _scannedBy = snapshotData['scannedBy'] as String?;
+    _photoPaidBy = snapshotData['photoPaidBy'] as String?;
+    _read = snapshotData['read'] as bool?;
+    _paymentMethod = snapshotData['paymentMethod'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -269,6 +341,18 @@ Map<String, dynamic> createCartsRecordData({
   String? staffBenefName,
   String? staffBenefAdress,
   String? staffBenefIBAN,
+  String? storeEmail,
+  String? storeBenefName,
+  String? storeBenefAdress,
+  String? storeBenefIBAN,
+  String? createdByEmail,
+  DateTime? paidAt,
+  String? userID,
+  bool? scannedByUser,
+  String? scannedBy,
+  String? photoPaidBy,
+  bool? read,
+  String? paymentMethod,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -302,6 +386,18 @@ Map<String, dynamic> createCartsRecordData({
       'StaffBenefName': staffBenefName,
       'StaffBenefAdress': staffBenefAdress,
       'StaffBenefIBAN': staffBenefIBAN,
+      'storeEmail': storeEmail,
+      'StoreBenefName': storeBenefName,
+      'StoreBenefAdress': storeBenefAdress,
+      'StoreBenefIBAN': storeBenefIBAN,
+      'createdByEmail': createdByEmail,
+      'paidAt': paidAt,
+      'userID': userID,
+      'scannedByUser': scannedByUser,
+      'scannedBy': scannedBy,
+      'photoPaidBy': photoPaidBy,
+      'read': read,
+      'paymentMethod': paymentMethod,
     }.withoutNulls,
   );
 
@@ -344,7 +440,19 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e1?.role == e2?.role &&
         e1?.staffBenefName == e2?.staffBenefName &&
         e1?.staffBenefAdress == e2?.staffBenefAdress &&
-        e1?.staffBenefIBAN == e2?.staffBenefIBAN;
+        e1?.staffBenefIBAN == e2?.staffBenefIBAN &&
+        e1?.storeEmail == e2?.storeEmail &&
+        e1?.storeBenefName == e2?.storeBenefName &&
+        e1?.storeBenefAdress == e2?.storeBenefAdress &&
+        e1?.storeBenefIBAN == e2?.storeBenefIBAN &&
+        e1?.createdByEmail == e2?.createdByEmail &&
+        e1?.paidAt == e2?.paidAt &&
+        e1?.userID == e2?.userID &&
+        e1?.scannedByUser == e2?.scannedByUser &&
+        e1?.scannedBy == e2?.scannedBy &&
+        e1?.photoPaidBy == e2?.photoPaidBy &&
+        e1?.read == e2?.read &&
+        e1?.paymentMethod == e2?.paymentMethod;
   }
 
   @override
@@ -379,7 +487,19 @@ class CartsRecordDocumentEquality implements Equality<CartsRecord> {
         e?.role,
         e?.staffBenefName,
         e?.staffBenefAdress,
-        e?.staffBenefIBAN
+        e?.staffBenefIBAN,
+        e?.storeEmail,
+        e?.storeBenefName,
+        e?.storeBenefAdress,
+        e?.storeBenefIBAN,
+        e?.createdByEmail,
+        e?.paidAt,
+        e?.userID,
+        e?.scannedByUser,
+        e?.scannedBy,
+        e?.photoPaidBy,
+        e?.read,
+        e?.paymentMethod
       ]);
 
   @override

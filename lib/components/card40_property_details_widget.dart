@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -7,10 +8,10 @@ import 'card40_property_details_model.dart';
 export 'card40_property_details_model.dart';
 
 class Card40PropertyDetailsWidget extends StatefulWidget {
-  const Card40PropertyDetailsWidget({Key? key}) : super(key: key);
+  const Card40PropertyDetailsWidget({super.key});
 
   @override
-  _Card40PropertyDetailsWidgetState createState() =>
+  State<Card40PropertyDetailsWidget> createState() =>
       _Card40PropertyDetailsWidgetState();
 }
 
@@ -29,7 +30,7 @@ class _Card40PropertyDetailsWidgetState
     super.initState();
     _model = createModel(context, () => Card40PropertyDetailsModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -41,8 +42,6 @@ class _Card40PropertyDetailsWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 12.0),
       child: Container(
@@ -56,13 +55,16 @@ class _Card40PropertyDetailsWidgetState
             BoxShadow(
               blurRadius: 3.0,
               color: Color(0x33000000),
-              offset: Offset(0.0, 1.0),
+              offset: Offset(
+                0.0,
+                1.0,
+              ),
             )
           ],
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +75,10 @@ class _Card40PropertyDetailsWidgetState
                   FFLocalizations.of(context).getText(
                     'u9t3v838' /* 56292 West Hollywood Blvd. */,
                   ),
-                  style: FlutterFlowTheme.of(context).titleLarge,
+                  style: FlutterFlowTheme.of(context).titleLarge.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                 ),
               ),
               Padding(
@@ -82,7 +87,10 @@ class _Card40PropertyDetailsWidgetState
                   FFLocalizations.of(context).getText(
                     'jofu6m8f' /* San Fransico, CA. 98210 */,
                   ),
-                  style: FlutterFlowTheme.of(context).labelMedium,
+                  style: FlutterFlowTheme.of(context).labelMedium.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                 ),
               ),
               Row(
@@ -97,7 +105,7 @@ class _Card40PropertyDetailsWidgetState
                         color: FlutterFlowTheme.of(context).secondary,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      alignment: AlignmentDirectional(0.00, 0.00),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
@@ -107,8 +115,9 @@ class _Card40PropertyDetailsWidgetState
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodySmall.override(
-                                    fontFamily: 'Open Sans',
+                                    fontFamily: 'Manrope',
                                     color: Colors.white,
+                                    letterSpacing: 0.0,
                                   ),
                         ),
                       ),
@@ -119,7 +128,10 @@ class _Card40PropertyDetailsWidgetState
                       FFLocalizations.of(context).getText(
                         'suq009i0' /* 621 Views */,
                       ),
-                      style: FlutterFlowTheme.of(context).labelSmall,
+                      style: FlutterFlowTheme.of(context).labelSmall.override(
+                            fontFamily: 'Manrope',
+                            letterSpacing: 0.0,
+                          ),
                     ),
                   ),
                   Icon(

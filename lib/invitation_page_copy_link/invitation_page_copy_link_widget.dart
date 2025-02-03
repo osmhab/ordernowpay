@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,10 +10,10 @@ import 'invitation_page_copy_link_model.dart';
 export 'invitation_page_copy_link_model.dart';
 
 class InvitationPageCopyLinkWidget extends StatefulWidget {
-  const InvitationPageCopyLinkWidget({Key? key}) : super(key: key);
+  const InvitationPageCopyLinkWidget({super.key});
 
   @override
-  _InvitationPageCopyLinkWidgetState createState() =>
+  State<InvitationPageCopyLinkWidget> createState() =>
       _InvitationPageCopyLinkWidgetState();
 }
 
@@ -27,8 +28,10 @@ class _InvitationPageCopyLinkWidgetState
     super.initState();
     _model = createModel(context, () => InvitationPageCopyLinkModel());
 
-    _model.codeInvitationController ??= TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.codeInvitationTextController ??= TextEditingController();
+    _model.codeInvitationFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -40,15 +43,14 @@ class _InvitationPageCopyLinkWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'InvitationPageCopyLink',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -65,14 +67,14 @@ class _InvitationPageCopyLinkWidgetState
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
-                      alignment: AlignmentDirectional(0.00, -1.00),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0.00, 0.00),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     32.0, 50.0, 32.0, 32.0),
@@ -99,7 +101,11 @@ class _InvitationPageCopyLinkWidgetState
                                         '86xy1gzi' /* Join OrderNow */,
                                       ),
                                       style: FlutterFlowTheme.of(context)
-                                          .displaySmall,
+                                          .displaySmall
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -109,7 +115,11 @@ class _InvitationPageCopyLinkWidgetState
                                           'zgr3f1wq' /* Paste the code you received by... */,
                                         ),
                                         style: FlutterFlowTheme.of(context)
-                                            .labelMedium,
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              letterSpacing: 0.0,
+                                            ),
                                       ),
                                     ),
                                     Padding(
@@ -118,8 +128,10 @@ class _InvitationPageCopyLinkWidgetState
                                       child: Container(
                                         width: 370.0,
                                         child: TextFormField(
-                                          controller:
-                                              _model.codeInvitationController,
+                                          controller: _model
+                                              .codeInvitationTextController,
+                                          focusNode:
+                                              _model.codeInvitationFocusNode,
                                           autofocus: true,
                                           obscureText: false,
                                           decoration: InputDecoration(
@@ -130,7 +142,11 @@ class _InvitationPageCopyLinkWidgetState
                                             ),
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .labelMedium,
+                                                    .labelMedium
+                                                    .override(
+                                                      fontFamily: 'Manrope',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
                                                 color:
@@ -178,9 +194,13 @@ class _InvitationPageCopyLinkWidgetState
                                                     .primaryBackground,
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
                                           validator: _model
-                                              .codeInvitationControllerValidator
+                                              .codeInvitationTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -189,28 +209,28 @@ class _InvitationPageCopyLinkWidgetState
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
-                                        onPressed: _model
-                                                        .codeInvitationController
-                                                        .text ==
-                                                    null ||
-                                                _model.codeInvitationController
-                                                        .text ==
-                                                    ''
-                                            ? null
-                                            : () async {
-                                                context.pushNamed(
-                                                  'InvitedUser',
-                                                  queryParameters: {
-                                                    'codeInvitationParams':
-                                                        serializeParam(
-                                                      _model
-                                                          .codeInvitationController
-                                                          .text,
-                                                      ParamType.String,
-                                                    ),
-                                                  }.withoutNulls,
-                                                );
-                                              },
+                                        onPressed:
+                                            (_model.codeInvitationTextController
+                                                            .text ==
+                                                        null ||
+                                                    _model.codeInvitationTextController
+                                                            .text ==
+                                                        '')
+                                                ? null
+                                                : () async {
+                                                    context.pushNamed(
+                                                      'InvitedUser',
+                                                      queryParameters: {
+                                                        'codeInvitationParams':
+                                                            serializeParam(
+                                                          _model
+                                                              .codeInvitationTextController
+                                                              .text,
+                                                          ParamType.String,
+                                                        ),
+                                                      }.withoutNulls,
+                                                    );
+                                                  },
                                         text:
                                             FFLocalizations.of(context).getText(
                                           'pot0n8aq' /* Continue with registration */,
@@ -230,8 +250,9 @@ class _InvitationPageCopyLinkWidgetState
                                               FlutterFlowTheme.of(context)
                                                   .titleSmall
                                                   .override(
-                                                    fontFamily: 'Open Sans',
+                                                    fontFamily: 'Manrope',
                                                     color: Colors.white,
+                                                    letterSpacing: 0.0,
                                                   ),
                                           elevation: 3.0,
                                           borderSide: BorderSide(
@@ -263,8 +284,7 @@ class _InvitationPageCopyLinkWidgetState
                     Expanded(
                       flex: 6,
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 16.0, 16.0, 16.0),
+                        padding: EdgeInsets.all(16.0),
                         child: Container(
                           width: 100.0,
                           height: double.infinity,

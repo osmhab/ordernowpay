@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'discount_sheet_widget.dart' show DiscountSheetWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,18 +16,17 @@ class DiscountSheetModel extends FlutterFlowModel<DiscountSheetWidget> {
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for discountAmount widget.
-  TextEditingController? discountAmountController;
-  String? Function(BuildContext, String?)? discountAmountControllerValidator;
+  FocusNode? discountAmountFocusNode;
+  TextEditingController? discountAmountTextController;
+  String? Function(BuildContext, String?)?
+      discountAmountTextControllerValidator;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {
-    discountAmountController?.dispose();
+    discountAmountFocusNode?.dispose();
+    discountAmountTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

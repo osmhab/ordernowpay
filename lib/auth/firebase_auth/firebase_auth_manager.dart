@@ -46,11 +46,11 @@ class FirebasePhoneAuthManager extends ChangeNotifier {
 class FirebaseAuthManager extends AuthManager
     with
         EmailSignInManager,
-        AnonymousSignInManager,
-        AppleSignInManager,
         GoogleSignInManager,
-        GithubSignInManager,
+        AppleSignInManager,
+        AnonymousSignInManager,
         JwtSignInManager,
+        GithubSignInManager,
         PhoneSignInManager {
   // Set when using phone verification (after phone number is provided).
   String? _phoneAuthVerificationCode;
@@ -102,6 +102,27 @@ class FirebaseAuthManager extends AuthManager
           SnackBar(
               content: Text(
                   'Too long since most recent sign in. Sign in again before updating your email.')),
+        );
+      }
+    }
+  }
+
+  @override
+  Future updatePassword({
+    required String newPassword,
+    required BuildContext context,
+  }) async {
+    try {
+      if (!loggedIn) {
+        print('Error: update password attempted with no logged in user!');
+        return;
+      }
+      await currentUser?.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.message!}')),
         );
       }
     }
@@ -293,9 +314,16 @@ class FirebaseAuthManager extends AuthManager
           ? null
           : OrdernowpayFirebaseUser.fromUserCredential(userCredential);
     } on FirebaseAuthException catch (e) {
+      final errorMsg = switch (e.code) {
+        'email-already-in-use' =>
+          'Error: The email is already in use by a different account',
+        'INVALID_LOGIN_CREDENTIALS' =>
+          'Error: The supplied auth credential is incorrect, malformed or has expired',
+        _ => 'Error: ${e.message!}',
+      };
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.message!}')),
+        SnackBar(content: Text(errorMsg)),
       );
       return null;
     }

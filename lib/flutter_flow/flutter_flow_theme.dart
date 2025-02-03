@@ -229,107 +229,107 @@ class ThemeTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Open Sans';
+  String get displayLargeFamily => 'Manrope';
   TextStyle get displayLarge => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 64.0,
       );
-  String get displayMediumFamily => 'Open Sans';
+  String get displayMediumFamily => 'Manrope';
   TextStyle get displayMedium => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 44.0,
       );
-  String get displaySmallFamily => 'Open Sans';
+  String get displaySmallFamily => 'Manrope';
   TextStyle get displaySmall => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
-  String get headlineLargeFamily => 'Open Sans';
+  String get headlineLargeFamily => 'Manrope';
   TextStyle get headlineLarge => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
-  String get headlineMediumFamily => 'Open Sans';
+  String get headlineMediumFamily => 'Manrope';
   TextStyle get headlineMedium => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 24.0,
       );
-  String get headlineSmallFamily => 'Open Sans';
+  String get headlineSmallFamily => 'Manrope';
   TextStyle get headlineSmall => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
-  String get titleLargeFamily => 'Open Sans';
+  String get titleLargeFamily => 'Manrope';
   TextStyle get titleLarge => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'Open Sans';
+  String get titleMediumFamily => 'Manrope';
   TextStyle get titleMedium => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.info,
         fontWeight: FontWeight.normal,
         fontSize: 18.0,
       );
-  String get titleSmallFamily => 'Open Sans';
+  String get titleSmallFamily => 'Manrope';
   TextStyle get titleSmall => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.info,
         fontWeight: FontWeight.w500,
         fontSize: 16.0,
       );
-  String get labelLargeFamily => 'Open Sans';
+  String get labelLargeFamily => 'Manrope';
   TextStyle get labelLarge => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get labelMediumFamily => 'Open Sans';
+  String get labelMediumFamily => 'Manrope';
   TextStyle get labelMedium => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get labelSmallFamily => 'Open Sans';
+  String get labelSmallFamily => 'Manrope';
   TextStyle get labelSmall => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
-  String get bodyLargeFamily => 'Open Sans';
+  String get bodyLargeFamily => 'Manrope';
   TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Open Sans';
+  String get bodyMediumFamily => 'Manrope';
   TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get bodySmallFamily => 'Open Sans';
+  String get bodySmallFamily => 'Manrope';
   TextStyle get bodySmall => GoogleFonts.getFont(
-        'Open Sans',
+        'Manrope',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
@@ -347,22 +347,22 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color primary = const Color(0xFF4B39EF);
   late Color secondary = const Color(0xFF39D2C0);
   late Color tertiary = const Color(0xFFEE8B60);
-  late Color alternate = const Color(0xFF262D34);
-  late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFF95A1AC);
-  late Color primaryBackground = const Color(0xFF1D2428);
-  late Color secondaryBackground = const Color(0xFF14181B);
+  late Color alternate = const Color(0xFFE0E3E7);
+  late Color primaryText = const Color(0xFF14181B);
+  late Color secondaryText = const Color(0xFF57636C);
+  late Color primaryBackground = const Color(0xFFF1F4F8);
+  late Color secondaryBackground = const Color(0xFFFFFFFF);
   late Color accent1 = const Color(0x4C4B39EF);
   late Color accent2 = const Color(0x4D39D2C0);
   late Color accent3 = const Color(0x4DEE8B60);
-  late Color accent4 = const Color(0xB2262D34);
+  late Color accent4 = const Color(0xCCFFFFFF);
   late Color success = const Color(0xFF249689);
   late Color warning = const Color(0xFFF9CF58);
   late Color error = const Color(0xFFFF5963);
   late Color info = const Color(0xFFFFFFFF);
 
   late Color primaryBtnText = Color(0xFFFFFFFF);
-  late Color lineColor = Color(0xFF22282F);
+  late Color lineColor = Color(0xFFE0E3E7);
   late Color backgroundComponents = Color(0xFF1D2428);
   late Color btnText = Color(0xFFFFFFFF);
   late Color customColor3 = Color(0xFFDF3F3F);
@@ -375,7 +375,7 @@ class DarkModeTheme extends FlutterFlowTheme {
   late Color darkBGstatic = Color(0xFF0D1E23);
   late Color secondary30 = Color(0x4D928163);
   late Color overlay0 = Color(0x000B191E);
-  late Color overlay = Color(0xB20B191E);
+  late Color overlay = Color(0xB2FFFFFF);
   late Color primary30 = Color(0x4D4B986C);
   late Color customColor1 = Color(0xFF452FB7);
   late Color grayIcon = Color(0xFF95A1AC);
@@ -397,6 +397,7 @@ extension TextStyleHelper on TextStyle {
     bool useGoogleFonts = true,
     TextDecoration? decoration,
     double? lineHeight,
+    List<Shadow>? shadows,
   }) =>
       useGoogleFonts
           ? GoogleFonts.getFont(
@@ -408,6 +409,7 @@ extension TextStyleHelper on TextStyle {
               fontStyle: fontStyle ?? this.fontStyle,
               decoration: decoration,
               height: lineHeight,
+              shadows: shadows,
             )
           : copyWith(
               fontFamily: fontFamily,
@@ -418,5 +420,6 @@ extension TextStyleHelper on TextStyle {
               fontStyle: fontStyle,
               decoration: decoration,
               height: lineHeight,
+              shadows: shadows,
             );
 }

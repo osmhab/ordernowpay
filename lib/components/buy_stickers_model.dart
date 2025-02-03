@@ -5,6 +5,8 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:math';
+import 'dart:ui';
 import 'buy_stickers_widget.dart' show BuyStickersWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -17,30 +19,34 @@ class BuyStickersModel extends FlutterFlowModel<BuyStickersWidget> {
 
   final formKey = GlobalKey<FormState>();
   // State field(s) for name widget.
-  TextEditingController? nameController;
-  String? Function(BuildContext, String?)? nameControllerValidator;
+  FocusNode? nameFocusNode;
+  TextEditingController? nameTextController;
+  String? Function(BuildContext, String?)? nameTextControllerValidator;
   // State field(s) for Adress widget.
-  TextEditingController? adressController;
-  String? Function(BuildContext, String?)? adressControllerValidator;
+  FocusNode? adressFocusNode;
+  TextEditingController? adressTextController;
+  String? Function(BuildContext, String?)? adressTextControllerValidator;
   // State field(s) for City widget.
-  TextEditingController? cityController;
-  String? Function(BuildContext, String?)? cityControllerValidator;
+  FocusNode? cityFocusNode;
+  TextEditingController? cityTextController;
+  String? Function(BuildContext, String?)? cityTextControllerValidator;
   // Stores action output result for [Stripe Payment] action in Button widget.
   String? paymentId;
   // Stores action output result for [Backend Call - API (Print tables email)] action in Button widget.
   ApiCallResponse? apiResultztf;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {
-    nameController?.dispose();
-    adressController?.dispose();
-    cityController?.dispose();
+    nameFocusNode?.dispose();
+    nameTextController?.dispose();
+
+    adressFocusNode?.dispose();
+    adressTextController?.dispose();
+
+    cityFocusNode?.dispose();
+    cityTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

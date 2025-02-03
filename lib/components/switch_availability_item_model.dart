@@ -15,13 +15,9 @@ class SwitchAvailabilityItemModel
   // State field(s) for SwitchAvailability widget.
   bool? switchAvailabilityValue;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {}
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

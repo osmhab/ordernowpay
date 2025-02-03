@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'extra_charge_sheet_widget.dart' show ExtraChargeSheetWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,18 +16,17 @@ class ExtraChargeSheetModel extends FlutterFlowModel<ExtraChargeSheetWidget> {
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for extraChargeAmount widget.
-  TextEditingController? extraChargeAmountController;
-  String? Function(BuildContext, String?)? extraChargeAmountControllerValidator;
+  FocusNode? extraChargeAmountFocusNode;
+  TextEditingController? extraChargeAmountTextController;
+  String? Function(BuildContext, String?)?
+      extraChargeAmountTextControllerValidator;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {
-    extraChargeAmountController?.dispose();
+    extraChargeAmountFocusNode?.dispose();
+    extraChargeAmountTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

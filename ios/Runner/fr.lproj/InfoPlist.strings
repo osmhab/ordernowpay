@@ -1,2 +1,4 @@
-NSCameraUsageDescription = "Afin de prendre une photo ou une vidéo, cette application nécessite une autorisation pour accéder à la caméra.";
-NSPhotoLibraryUsageDescription = "Afin de télécharger des données, cette application nécessite l'autorisation d'accéder à la photothèque.";
+NSCameraUsageDescription = "Afin de numériser des tables, cette application nécessite une autorisation d'accès à la caméra.";
+NSPhotoLibraryUsageDescription = "Afin de télécharger des données, cette application nécessite une autorisation d'accès à la photothèque.";
+NSMicrophoneUsageDescription = "Afin d'utiliser le microphone de votre clavier, cette application nécessite l'autorisation d'accéder au microphone.";
+PermissionGroupNotification = "Activez les notifications pour rester informé des mises à jour importantes et des offres exclusives de OrderNow Pay. Nous vous enverrons des alertes ponctuelles sur votre compte, les nouvelles fonctionnalités et les promotions spéciales conçues spécialement pour vous. Vous pouvez personnaliser ou désactiver les notifications à tout moment dans vos paramètres.";

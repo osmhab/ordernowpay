@@ -11,8 +11,6 @@ export '/my_account/items/items_widget.dart' show ItemsWidget;
 export '/my_account/update_item/update_item_widget.dart' show UpdateItemWidget;
 export '/my_account/add_update_item/add_update_item_widget.dart'
     show AddUpdateItemWidget;
-export '/my_account/store_details/store_details_widget.dart'
-    show StoreDetailsWidget;
 export '/my_account/update_store_details/update_store_details_widget.dart'
     show UpdateStoreDetailsWidget;
 export '/my_account/update_bank_details/update_bank_details_widget.dart'
@@ -28,7 +26,6 @@ export '/invitation_page_copy_link/invitation_page_copy_link_widget.dart'
     show InvitationPageCopyLinkWidget;
 export '/product_details/product_details_widget.dart' show ProductDetailsWidget;
 export '/checkout/checkout_widget.dart' show CheckoutWidget;
-export '/sign_up/sign_up_user/sign_up_user_widget.dart' show SignUpUserWidget;
 export '/business_list_order_history/business_list_order_history_widget.dart'
     show BusinessListOrderHistoryWidget;
 export '/user_order_history/user_order_history_widget.dart'
@@ -38,9 +35,22 @@ export '/ticket_detail/ticket_detail_widget.dart' show TicketDetailWidget;
 export '/success_page/success_page_widget.dart' show SuccessPageWidget;
 export '/restaurant_payment_details/restaurant_payment_details_widget.dart'
     show RestaurantPaymentDetailsWidget;
-export '/auth_cindy/auth_cindy_widget.dart' show AuthCindyWidget;
 export '/page/page_widget.dart' show PageWidget;
 export '/payment_staff_list/payment_staff_list_widget.dart'
     show PaymentStaffListWidget;
 export '/payment_staff_details/payment_staff_details_widget.dart'
     show PaymentStaffDetailsWidget;
+export '/forgot/forgot_widget.dart' show ForgotWidget;
+export '/revenues/revenues_widget.dart' show RevenuesWidget;
+export '/choose_store/choose_store_widget.dart' show ChooseStoreWidget;
+export '/create_account/create_account_widget.dart' show CreateAccountWidget;
+export '/created_page/created_page_widget.dart' show CreatedPageWidget;
+export '/tags/tags_widget.dart' show TagsWidget;
+export '/subscription/subscription_widget.dart' show SubscriptionWidget;
+export '/crm/crm_widget.dart' show CrmWidget;
+export '/c_r_m_detail/c_r_m_detail_widget.dart' show CRMDetailWidget;
+export '/datatrans_payment_page/datatrans_payment_page_widget.dart'
+    show DatatransPaymentPageWidget;
+export '/resume_subscription/resume_subscription_widget.dart'
+    show ResumeSubscriptionWidget;
+export '/sign_up/sign_up_user/sign_up_user_widget.dart' show SignUpUserWidget;

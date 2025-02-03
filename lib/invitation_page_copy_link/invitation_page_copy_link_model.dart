@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'invitation_page_copy_link_widget.dart'
     show InvitationPageCopyLinkWidget;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,21 +13,18 @@ class InvitationPageCopyLinkModel
     extends FlutterFlowModel<InvitationPageCopyLinkWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for codeInvitation widget.
-  TextEditingController? codeInvitationController;
-  String? Function(BuildContext, String?)? codeInvitationControllerValidator;
+  FocusNode? codeInvitationFocusNode;
+  TextEditingController? codeInvitationTextController;
+  String? Function(BuildContext, String?)?
+      codeInvitationTextControllerValidator;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {}
 
+  @override
   void dispose() {
-    unfocusNode.dispose();
-    codeInvitationController?.dispose();
+    codeInvitationFocusNode?.dispose();
+    codeInvitationTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

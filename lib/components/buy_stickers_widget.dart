@@ -5,6 +5,8 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -14,37 +16,17 @@ import 'buy_stickers_model.dart';
 export 'buy_stickers_model.dart';
 
 class BuyStickersWidget extends StatefulWidget {
-  const BuyStickersWidget({Key? key}) : super(key: key);
+  const BuyStickersWidget({super.key});
 
   @override
-  _BuyStickersWidgetState createState() => _BuyStickersWidgetState();
+  State<BuyStickersWidget> createState() => _BuyStickersWidgetState();
 }
 
 class _BuyStickersWidgetState extends State<BuyStickersWidget>
     with TickerProviderStateMixin {
   late BuyStickersModel _model;
 
-  final animationsMap = {
-    'containerOnPageLoadAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-        MoveEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 600.ms,
-          begin: Offset(0.0, 50.0),
-          end: Offset(0.0, 0.0),
-        ),
-      ],
-    ),
-  };
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void setState(VoidCallback callback) {
@@ -57,9 +39,36 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
     super.initState();
     _model = createModel(context, () => BuyStickersModel());
 
-    _model.nameController ??= TextEditingController();
-    _model.adressController ??= TextEditingController();
-    _model.cityController ??= TextEditingController();
+    _model.nameTextController ??= TextEditingController();
+    _model.nameFocusNode ??= FocusNode();
+
+    _model.adressTextController ??= TextEditingController();
+    _model.adressFocusNode ??= FocusNode();
+
+    _model.cityTextController ??= TextEditingController();
+    _model.cityFocusNode ??= FocusNode();
+
+    animationsMap.addAll({
+      'containerOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: Offset(0.0, 50.0),
+            end: Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+    });
     setupAnimations(
       animationsMap.values.where((anim) =>
           anim.trigger == AnimationTrigger.onActionTrigger ||
@@ -67,14 +76,15 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
       this,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-          _model.nameController?.text = FFLocalizations.of(context).getText(
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {
+          _model.nameTextController?.text = FFLocalizations.of(context).getText(
             'o2hw8mmu' /* Name */,
           );
-          _model.adressController?.text = FFLocalizations.of(context).getText(
+          _model.adressTextController?.text =
+              FFLocalizations.of(context).getText(
             'lvyelkwg' /* Adress */,
           );
-          _model.cityController?.text = FFLocalizations.of(context).getText(
+          _model.cityTextController?.text = FFLocalizations.of(context).getText(
             'madthgdd' /* City */,
           );
         }));
@@ -89,10 +99,8 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 8.0),
+    return Align(
+      alignment: AlignmentDirectional(0.0, 1.0),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -101,20 +109,23 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
             BoxShadow(
               blurRadius: 2.0,
               color: Color(0x520E151B),
-              offset: Offset(0.0, 1.0),
+              offset: Offset(
+                0.0,
+                1.0,
+              ),
             )
           ],
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
+          padding: EdgeInsets.all(12.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Align(
-                alignment: AlignmentDirectional(-1.00, 0.00),
+                alignment: AlignmentDirectional(-1.0, 0.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
@@ -135,7 +146,10 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                       FFLocalizations.of(context).getText(
                         'd1q84e2b' /* Vinyl Stickers */,
                       ),
-                      style: FlutterFlowTheme.of(context).bodyLarge,
+                      style: FlutterFlowTheme.of(context).bodyLarge.override(
+                            fontFamily: 'Manrope',
+                            letterSpacing: 0.0,
+                          ),
                     ),
                   ],
                 ),
@@ -144,19 +158,25 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                 FFLocalizations.of(context).getText(
                   'turznbm2' /* CHF 29.00 */,
                 ),
-                style: FlutterFlowTheme.of(context).headlineSmall,
+                style: FlutterFlowTheme.of(context).headlineSmall.override(
+                      fontFamily: 'Manrope',
+                      letterSpacing: 0.0,
+                    ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                 child: Text(
                   FFLocalizations.of(context).getText(
-                    '7bue1wgo' /* Printed and send to your Adres... */,
+                    '7bue1wgo' /* Printed and sent to your Adres... */,
                   ),
-                  style: FlutterFlowTheme.of(context).labelMedium,
+                  style: FlutterFlowTheme.of(context).labelMedium.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                 ),
               ),
               Align(
-                alignment: AlignmentDirectional(0.00, 0.00),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                   child: Container(
@@ -174,7 +194,8 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   8.0, 0.0, 8.0, 0.0),
                               child: TextFormField(
-                                controller: _model.nameController,
+                                controller: _model.nameTextController,
+                                focusNode: _model.nameFocusNode,
                                 autofocus: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -183,10 +204,18 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                       FFLocalizations.of(context).getText(
                                     'lffkmh0g' /* Name */,
                                   ),
-                                  labelStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
-                                  hintStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Manrope',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Manrope',
+                                        letterSpacing: 0.0,
+                                      ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
@@ -218,8 +247,13 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                                validator: _model.nameControllerValidator
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .override(
+                                      fontFamily: 'Manrope',
+                                      letterSpacing: 0.0,
+                                    ),
+                                validator: _model.nameTextControllerValidator
                                     .asValidator(context),
                               ),
                             ),
@@ -227,7 +261,8 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   8.0, 0.0, 8.0, 0.0),
                               child: TextFormField(
-                                controller: _model.adressController,
+                                controller: _model.adressTextController,
+                                focusNode: _model.adressFocusNode,
                                 autofocus: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -236,10 +271,18 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                       FFLocalizations.of(context).getText(
                                     '8oo4mc38' /* Adress and number */,
                                   ),
-                                  labelStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
-                                  hintStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Manrope',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Manrope',
+                                        letterSpacing: 0.0,
+                                      ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
@@ -271,8 +314,13 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                                validator: _model.adressControllerValidator
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .override(
+                                      fontFamily: 'Manrope',
+                                      letterSpacing: 0.0,
+                                    ),
+                                validator: _model.adressTextControllerValidator
                                     .asValidator(context),
                               ),
                             ),
@@ -280,7 +328,8 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   8.0, 0.0, 8.0, 0.0),
                               child: TextFormField(
-                                controller: _model.cityController,
+                                controller: _model.cityTextController,
+                                focusNode: _model.cityFocusNode,
                                 autofocus: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -289,10 +338,18 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                       FFLocalizations.of(context).getText(
                                     'b16rix8w' /* Zip code and City */,
                                   ),
-                                  labelStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
-                                  hintStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Manrope',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Manrope',
+                                        letterSpacing: 0.0,
+                                      ),
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
@@ -324,13 +381,18 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                                validator: _model.cityControllerValidator
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyLarge
+                                    .override(
+                                      fontFamily: 'Manrope',
+                                      letterSpacing: 0.0,
+                                    ),
+                                validator: _model.cityTextControllerValidator
                                     .asValidator(context),
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional(0.00, 0.00),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 16.0, 0.0, 0.0),
@@ -363,7 +425,7 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                     _shouldSetState = true;
                                     if (!(_model.paymentId != null &&
                                         _model.paymentId != '')) {
-                                      if (_shouldSetState) setState(() {});
+                                      if (_shouldSetState) safeSetState(() {});
                                       return;
                                     }
                                     _model.apiResultztf =
@@ -373,18 +435,19 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                         'DocumentID?',
                                       ),
                                       name: valueOrDefault<String>(
-                                        _model.nameController.text,
+                                        _model.nameTextController.text,
                                         'name?',
                                       ),
                                       adress: valueOrDefault<String>(
-                                        _model.adressController.text,
+                                        _model.adressTextController.text,
                                         'Adress?',
                                       ),
                                       locality: valueOrDefault<String>(
-                                        _model.cityController.text,
+                                        _model.cityTextController.text,
                                         'City?',
                                       ),
                                     );
+
                                     _shouldSetState = true;
                                     if ((_model.apiResultztf?.succeeded ??
                                         true)) {
@@ -398,10 +461,11 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
                                                 .override(
-                                                  fontFamily: 'Open Sans',
+                                                  fontFamily: 'Manrope',
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryBtnText,
+                                                  letterSpacing: 0.0,
                                                 ),
                                           ),
                                           duration:
@@ -422,10 +486,11 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .titleMedium
                                                 .override(
-                                                  fontFamily: 'Open Sans',
+                                                  fontFamily: 'Manrope',
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryBtnText,
+                                                  letterSpacing: 0.0,
                                                 ),
                                           ),
                                           duration:
@@ -435,11 +500,11 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                                   .customColor3,
                                         ),
                                       );
-                                      if (_shouldSetState) setState(() {});
+                                      if (_shouldSetState) safeSetState(() {});
                                       return;
                                     }
 
-                                    if (_shouldSetState) setState(() {});
+                                    if (_shouldSetState) safeSetState(() {});
                                   },
                                   text: FFLocalizations.of(context).getText(
                                     '62225jpp' /* Order & Pay */,
@@ -454,8 +519,9 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
                                           color: Colors.white,
+                                          letterSpacing: 0.0,
                                         ),
                                     elevation: 3.0,
                                     borderSide: BorderSide(
@@ -467,7 +533,7 @@ class _BuyStickersWidgetState extends State<BuyStickersWidget>
                                 ),
                               ),
                             ),
-                          ],
+                          ].divide(SizedBox(height: 30.0)),
                         ),
                       ),
                     ),

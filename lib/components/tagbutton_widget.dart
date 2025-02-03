@@ -7,10 +7,10 @@ import 'tagbutton_model.dart';
 export 'tagbutton_model.dart';
 
 class TagbuttonWidget extends StatefulWidget {
-  const TagbuttonWidget({Key? key}) : super(key: key);
+  const TagbuttonWidget({super.key});
 
   @override
-  _TagbuttonWidgetState createState() => _TagbuttonWidgetState();
+  State<TagbuttonWidget> createState() => _TagbuttonWidgetState();
 }
 
 class _TagbuttonWidgetState extends State<TagbuttonWidget> {
@@ -27,7 +27,7 @@ class _TagbuttonWidgetState extends State<TagbuttonWidget> {
     super.initState();
     _model = createModel(context, () => TagbuttonModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -39,10 +39,8 @@ class _TagbuttonWidgetState extends State<TagbuttonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Align(
-      alignment: AlignmentDirectional(-1.00, 0.00),
+      alignment: AlignmentDirectional(-1.0, 0.0),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 0.1,
         height: 50.0,
@@ -54,14 +52,15 @@ class _TagbuttonWidgetState extends State<TagbuttonWidget> {
           ),
         ),
         child: Align(
-          alignment: AlignmentDirectional(0.00, 0.00),
+          alignment: AlignmentDirectional(0.0, 0.0),
           child: Text(
             FFLocalizations.of(context).getText(
               '4fn81jir' /* Hello World */,
             ),
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Open Sans',
+                  fontFamily: 'Manrope',
                   color: FlutterFlowTheme.of(context).primaryBtnText,
+                  letterSpacing: 0.0,
                 ),
           ),
         ),

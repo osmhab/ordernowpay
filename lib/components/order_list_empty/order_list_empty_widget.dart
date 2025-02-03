@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,10 +9,10 @@ import 'order_list_empty_model.dart';
 export 'order_list_empty_model.dart';
 
 class OrderListEmptyWidget extends StatefulWidget {
-  const OrderListEmptyWidget({Key? key}) : super(key: key);
+  const OrderListEmptyWidget({super.key});
 
   @override
-  _OrderListEmptyWidgetState createState() => _OrderListEmptyWidgetState();
+  State<OrderListEmptyWidget> createState() => _OrderListEmptyWidgetState();
 }
 
 class _OrderListEmptyWidgetState extends State<OrderListEmptyWidget> {
@@ -28,7 +29,7 @@ class _OrderListEmptyWidgetState extends State<OrderListEmptyWidget> {
     super.initState();
     _model = createModel(context, () => OrderListEmptyModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -40,17 +41,10 @@ class _OrderListEmptyWidgetState extends State<OrderListEmptyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          Icons.fastfood_outlined,
-          color: FlutterFlowTheme.of(context).secondaryText,
-          size: 90.0,
-        ),
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
           child: Row(
@@ -64,11 +58,12 @@ any orde... */
                   ,
                 ),
                 textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).headlineSmall.override(
-                      fontFamily: 'Open Sans',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                    ),
                 minFontSize: 14.0,
+                style: FlutterFlowTheme.of(context).headlineSmall.override(
+                      fontFamily: 'Manrope',
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      letterSpacing: 0.0,
+                    ),
               ),
             ],
           ),
@@ -85,10 +80,28 @@ any orde... */
                     'bzbv6h5c' /* To create a new order, start b... */,
                   ),
                   textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodySmall,
+                  style: FlutterFlowTheme.of(context).bodySmall.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                 ),
               ),
             ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+          child: Container(
+            width: MediaQuery.sizeOf(context).width * 1.0,
+            height: MediaQuery.sizeOf(context).height * 0.635,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                image: Image.asset(
+                  'assets/images/Scan_table.png',
+                ).image,
+              ),
+            ),
           ),
         ),
       ],

@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,10 +12,10 @@ import 'payment_staff_list_model.dart';
 export 'payment_staff_list_model.dart';
 
 class PaymentStaffListWidget extends StatefulWidget {
-  const PaymentStaffListWidget({Key? key}) : super(key: key);
+  const PaymentStaffListWidget({super.key});
 
   @override
-  _PaymentStaffListWidgetState createState() => _PaymentStaffListWidgetState();
+  State<PaymentStaffListWidget> createState() => _PaymentStaffListWidgetState();
 }
 
 class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
@@ -27,7 +28,7 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
     super.initState();
     _model = createModel(context, () => PaymentStaffListModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -39,15 +40,14 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'PaymentStaffList',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -82,8 +82,7 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 16.0, 16.0, 16.0),
+                                      padding: EdgeInsets.all(16.0),
                                       child: Container(
                                         width:
                                             MediaQuery.sizeOf(context).width *
@@ -105,9 +104,8 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                 GoRouter.of(context)
                                                     .clearRedirectLocation();
 
-                                                context.pushNamedAuth(
-                                                    'AuthCindy',
-                                                    context.mounted);
+                                                context.goNamedAuth(
+                                                    'SignIn', context.mounted);
                                               },
                                               text: FFLocalizations.of(context)
                                                   .getText(
@@ -133,9 +131,9 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                     FlutterFlowTheme.of(context)
                                                         .titleSmall
                                                         .override(
-                                                          fontFamily:
-                                                              'Open Sans',
+                                                          fontFamily: 'Manrope',
                                                           color: Colors.white,
+                                                          letterSpacing: 0.0,
                                                         ),
                                                 elevation: 3.0,
                                                 borderSide: BorderSide(
@@ -158,10 +156,11 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .titleMedium
                                             .override(
-                                              fontFamily: 'Open Sans',
+                                              fontFamily: 'Manrope',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
+                                              letterSpacing: 0.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                       ),
@@ -180,10 +179,11 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .headlineLarge
                                                 .override(
-                                                  fontFamily: 'Open Sans',
+                                                  fontFamily: 'Manrope',
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .customColor4,
+                                                  letterSpacing: 0.0,
                                                 ),
                                           ),
                                         ),
@@ -208,11 +208,12 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .headlineMedium
                                                       .override(
-                                                        fontFamily: 'Open Sans',
+                                                        fontFamily: 'Manrope',
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primary,
+                                                        letterSpacing: 0.0,
                                                         decoration:
                                                             TextDecoration
                                                                 .underline,
@@ -245,7 +246,10 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                       .where(
                                                         'role',
                                                         isEqualTo: 'Staff',
-                                                      ),
+                                                      )
+                                                      .orderBy('tip',
+                                                          descending: true)
+                                                      .orderBy('paidAt'),
                                             ),
                                             builder: (context, snapshot) {
                                               // Customize what your widget looks like when it's loading.
@@ -270,6 +274,7 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                               List<CartsRecord>
                                                   listViewCartsRecordList =
                                                   snapshot.data!;
+
                                               return ListView.separated(
                                                 padding: EdgeInsets.symmetric(
                                                     vertical: 10.0),
@@ -360,14 +365,26 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                                     .createdByName,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodyLarge,
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Manrope',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                               ),
                                                               Text(
                                                                 listViewCartsRecord
                                                                     .orderID,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodyLarge,
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Manrope',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                               ),
                                                               Text(
                                                                 formatNumber(
@@ -390,7 +407,13 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                                         .end,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodyLarge,
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Manrope',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                               ),
                                                               if (listViewCartsRecord
                                                                       .employePaid ==
@@ -430,9 +453,11 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                                         .titleSmall
                                                                         .override(
                                                                           fontFamily:
-                                                                              'Open Sans',
+                                                                              'Manrope',
                                                                           color:
                                                                               Colors.white,
+                                                                          letterSpacing:
+                                                                              0.0,
                                                                         ),
                                                                     elevation:
                                                                         3.0,
@@ -486,9 +511,11 @@ class _PaymentStaffListWidgetState extends State<PaymentStaffListWidget> {
                                                                         .titleSmall
                                                                         .override(
                                                                           fontFamily:
-                                                                              'Open Sans',
+                                                                              'Manrope',
                                                                           color:
                                                                               Colors.white,
+                                                                          letterSpacing:
+                                                                              0.0,
                                                                         ),
                                                                     elevation:
                                                                         3.0,

@@ -1,13 +1,16 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/account_blocked_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'dart:ui';
 import 'create_store2_widget.dart' show CreateStore2Widget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +18,13 @@ import 'package:provider/provider.dart';
 class CreateStore2Model extends FlutterFlowModel<CreateStore2Widget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for beneficiareName widget.
-  TextEditingController? beneficiareNameController;
-  String? Function(BuildContext, String?)? beneficiareNameControllerValidator;
-  String? _beneficiareNameControllerValidator(
+  FocusNode? beneficiareNameFocusNode;
+  TextEditingController? beneficiareNameTextController;
+  String? Function(BuildContext, String?)?
+      beneficiareNameTextControllerValidator;
+  String? _beneficiareNameTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
@@ -32,10 +36,11 @@ class CreateStore2Model extends FlutterFlowModel<CreateStore2Widget> {
   }
 
   // State field(s) for beneficiary_adresse widget.
-  TextEditingController? beneficiaryAdresseController;
+  FocusNode? beneficiaryAdresseFocusNode;
+  TextEditingController? beneficiaryAdresseTextController;
   String? Function(BuildContext, String?)?
-      beneficiaryAdresseControllerValidator;
-  String? _beneficiaryAdresseControllerValidator(
+      beneficiaryAdresseTextControllerValidator;
+  String? _beneficiaryAdresseTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
@@ -47,9 +52,10 @@ class CreateStore2Model extends FlutterFlowModel<CreateStore2Widget> {
   }
 
   // State field(s) for bank_iban widget.
-  TextEditingController? bankIbanController;
-  String? Function(BuildContext, String?)? bankIbanControllerValidator;
-  String? _bankIbanControllerValidator(BuildContext context, String? val) {
+  FocusNode? bankIbanFocusNode;
+  TextEditingController? bankIbanTextController;
+  String? Function(BuildContext, String?)? bankIbanTextControllerValidator;
+  String? _bankIbanTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return FFLocalizations.of(context).getText(
         'ilmdq5yh' /* Field is required */,
@@ -59,23 +65,24 @@ class CreateStore2Model extends FlutterFlowModel<CreateStore2Widget> {
     return null;
   }
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {
-    beneficiareNameControllerValidator = _beneficiareNameControllerValidator;
-    beneficiaryAdresseControllerValidator =
-        _beneficiaryAdresseControllerValidator;
-    bankIbanControllerValidator = _bankIbanControllerValidator;
+    beneficiareNameTextControllerValidator =
+        _beneficiareNameTextControllerValidator;
+    beneficiaryAdresseTextControllerValidator =
+        _beneficiaryAdresseTextControllerValidator;
+    bankIbanTextControllerValidator = _bankIbanTextControllerValidator;
   }
 
+  @override
   void dispose() {
-    unfocusNode.dispose();
-    beneficiareNameController?.dispose();
-    beneficiaryAdresseController?.dispose();
-    bankIbanController?.dispose();
+    beneficiareNameFocusNode?.dispose();
+    beneficiareNameTextController?.dispose();
+
+    beneficiaryAdresseFocusNode?.dispose();
+    beneficiaryAdresseTextController?.dispose();
+
+    bankIbanFocusNode?.dispose();
+    bankIbanTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

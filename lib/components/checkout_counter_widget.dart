@@ -11,14 +11,14 @@ export 'checkout_counter_model.dart';
 
 class CheckoutCounterWidget extends StatefulWidget {
   const CheckoutCounterWidget({
-    Key? key,
+    super.key,
     this.orderParams,
-  }) : super(key: key);
+  });
 
   final ItemDetailRecord? orderParams;
 
   @override
-  _CheckoutCounterWidgetState createState() => _CheckoutCounterWidgetState();
+  State<CheckoutCounterWidget> createState() => _CheckoutCounterWidgetState();
 }
 
 class _CheckoutCounterWidgetState extends State<CheckoutCounterWidget> {
@@ -35,7 +35,7 @@ class _CheckoutCounterWidgetState extends State<CheckoutCounterWidget> {
     super.initState();
     _model = createModel(context, () => CheckoutCounterModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -47,8 +47,6 @@ class _CheckoutCounterWidgetState extends State<CheckoutCounterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       width: 160.0,
       height: 50.0,
@@ -78,11 +76,14 @@ class _CheckoutCounterWidgetState extends State<CheckoutCounterWidget> {
         ),
         countBuilder: (count) => Text(
           count.toString(),
-          style: FlutterFlowTheme.of(context).titleLarge,
+          style: FlutterFlowTheme.of(context).titleLarge.override(
+                fontFamily: 'Manrope',
+                letterSpacing: 0.0,
+              ),
         ),
         count: _model.countControllerValue ??= 0,
         updateCount: (count) =>
-            setState(() => _model.countControllerValue = count),
+            safeSetState(() => _model.countControllerValue = count),
         stepSize: 1,
       ),
     );

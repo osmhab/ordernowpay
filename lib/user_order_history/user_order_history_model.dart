@@ -1,9 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/components/navigation_bar_component_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'user_order_history_widget.dart' show UserOrderHistoryWidget;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +14,17 @@ import 'package:provider/provider.dart';
 class UserOrderHistoryModel extends FlutterFlowModel<UserOrderHistoryWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
+  // Model for NavigationBarComponent component.
+  late NavigationBarComponentModel navigationBarComponentModel;
 
-  /// Initialization and disposal methods.
-
-  void initState(BuildContext context) {}
-
-  void dispose() {
-    unfocusNode.dispose();
+  @override
+  void initState(BuildContext context) {
+    navigationBarComponentModel =
+        createModel(context, () => NavigationBarComponentModel());
   }
 
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
+  @override
+  void dispose() {
+    navigationBarComponentModel.dispose();
+  }
 }

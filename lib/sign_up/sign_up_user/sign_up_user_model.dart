@@ -1,8 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'sign_up_user_widget.dart' show SignUpUserWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
@@ -13,94 +16,57 @@ import 'package:provider/provider.dart';
 class SignUpUserModel extends FlutterFlowModel<SignUpUserWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
-  final formKey = GlobalKey<FormState>();
-  // State field(s) for name widget.
-  TextEditingController? nameController;
-  String? Function(BuildContext, String?)? nameControllerValidator;
-  String? _nameControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        'mvof82sy' /* Field is required */,
-      );
-    }
-
-    return null;
-  }
-
-  // State field(s) for emailAddress widget.
-  TextEditingController? emailAddressController;
-  String? Function(BuildContext, String?)? emailAddressControllerValidator;
-  String? _emailAddressControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        'tf8frwhu' /* Field is required */,
-      );
-    }
-
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Has to be a valid email address.';
-    }
-    return null;
-  }
-
+  // State field(s) for Name widget.
+  FocusNode? nameFocusNode;
+  TextEditingController? nameTextController;
+  String? Function(BuildContext, String?)? nameTextControllerValidator;
+  // State field(s) for phoneNumber widget.
+  FocusNode? phoneNumberFocusNode;
+  TextEditingController? phoneNumberTextController;
+  String? Function(BuildContext, String?)? phoneNumberTextControllerValidator;
+  // State field(s) for EmailAdress widget.
+  FocusNode? emailAdressFocusNode;
+  TextEditingController? emailAdressTextController;
+  String? Function(BuildContext, String?)? emailAdressTextControllerValidator;
   // State field(s) for password widget.
-  TextEditingController? passwordController;
+  FocusNode? passwordFocusNode;
+  TextEditingController? passwordTextController;
   late bool passwordVisibility;
-  String? Function(BuildContext, String?)? passwordControllerValidator;
-  String? _passwordControllerValidator(BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        '2v7iwred' /* Field is required */,
-      );
-    }
-
-    if (val.length < 8) {
-      return 'Requires at least 8 characters.';
-    }
-
-    return null;
-  }
-
+  String? Function(BuildContext, String?)? passwordTextControllerValidator;
   // State field(s) for passwordConfirm widget.
-  TextEditingController? passwordConfirmController;
+  FocusNode? passwordConfirmFocusNode;
+  TextEditingController? passwordConfirmTextController;
   late bool passwordConfirmVisibility;
-  String? Function(BuildContext, String?)? passwordConfirmControllerValidator;
-  String? _passwordConfirmControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return FFLocalizations.of(context).getText(
-        '94b5kex9' /* Field is required */,
-      );
-    }
+  String? Function(BuildContext, String?)?
+      passwordConfirmTextControllerValidator;
+  // Stores action output result for [Backend Call - API (Welcome email FRA Free Users)] action in CreateUserButton widget.
+  ApiCallResponse? apiResultzys;
+  // Stores action output result for [Backend Call - API (Welcome email ENG Free Users)] action in CreateUserButton widget.
+  ApiCallResponse? apiResultz2e;
+  // Stores action output result for [Backend Call - API (Welcome email DEU Free Users)] action in CreateUserButton widget.
+  ApiCallResponse? apiResult8ms;
 
-    if (val.length < 8) {
-      return 'Requires at least 8 characters.';
-    }
-
-    return null;
-  }
-
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {
-    nameControllerValidator = _nameControllerValidator;
-    emailAddressControllerValidator = _emailAddressControllerValidator;
     passwordVisibility = false;
-    passwordControllerValidator = _passwordControllerValidator;
     passwordConfirmVisibility = false;
-    passwordConfirmControllerValidator = _passwordConfirmControllerValidator;
   }
 
+  @override
   void dispose() {
-    unfocusNode.dispose();
-    nameController?.dispose();
-    emailAddressController?.dispose();
-    passwordController?.dispose();
-    passwordConfirmController?.dispose();
+    nameFocusNode?.dispose();
+    nameTextController?.dispose();
+
+    phoneNumberFocusNode?.dispose();
+    phoneNumberTextController?.dispose();
+
+    emailAdressFocusNode?.dispose();
+    emailAdressTextController?.dispose();
+
+    passwordFocusNode?.dispose();
+    passwordTextController?.dispose();
+
+    passwordConfirmFocusNode?.dispose();
+    passwordConfirmTextController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

@@ -44,8 +44,8 @@ class SpecsRecord extends FirestoreRecord {
           ? parent.collection('specs')
           : FirebaseFirestore.instance.collectionGroup('specs');
 
-  static DocumentReference createDoc(DocumentReference parent) =>
-      parent.collection('specs').doc();
+  static DocumentReference createDoc(DocumentReference parent, {String? id}) =>
+      parent.collection('specs').doc(id);
 
   static Stream<SpecsRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => SpecsRecord.fromSnapshot(s));

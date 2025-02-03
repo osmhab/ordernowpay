@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-import '../../flutter_flow/flutter_flow_util.dart';
 import '../cloud_functions/cloud_functions.dart';
 
+import 'package:flutter/foundation.dart';
+
+import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
@@ -32,7 +33,7 @@ class InvitationSendGridCall {
     return ApiCallResponse.fromCloudCallResponse(response);
   }
 
-  static dynamic error(dynamic response) => getJsonField(
+  static dynamic? error(dynamic response) => getJsonField(
         response,
         r'''$''',
       );
@@ -66,11 +67,7 @@ class PrintTablesEmailCall {
 class FactureRestaurantCall {
   static Future<ApiCallResponse> call({
     String? orderId = '',
-    int? date,
-    double? subtotal,
-    double? fraisSuppl,
-    double? tips,
-    double? discount,
+    String? date = '',
     double? total,
     double? netTotal,
     String? emailTo = '',
@@ -85,10 +82,6 @@ class FactureRestaurantCall {
         'variables': {
           'orderId': orderId,
           'date': date,
-          'subtotal': subtotal,
-          'fraisSuppl': fraisSuppl,
-          'tips': tips,
-          'discount': discount,
           'total': total,
           'netTotal': netTotal,
           'emailTo': emailTo,
@@ -102,10 +95,142 @@ class FactureRestaurantCall {
   }
 }
 
+class WelcomeEmailFRACall {
+  static Future<ApiCallResponse> call({
+    String? name = '',
+    String? restaurantName = '',
+    String? adresse = '',
+    String? codePostal = '',
+    String? email = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'WelcomeEmailFRACall',
+        'variables': {
+          'name': name,
+          'restaurantName': restaurantName,
+          'adresse': adresse,
+          'codePostal': codePostal,
+          'email': email,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class WelcomeEmailDEUCall {
+  static Future<ApiCallResponse> call({
+    String? name = '',
+    String? restaurantName = '',
+    String? adresse = '',
+    String? codePostal = '',
+    String? email = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'WelcomeEmailDEUCall',
+        'variables': {
+          'name': name,
+          'restaurantName': restaurantName,
+          'adresse': adresse,
+          'codePostal': codePostal,
+          'email': email,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class WelcomeEmailENGCall {
+  static Future<ApiCallResponse> call({
+    String? name = '',
+    String? restaurantName = '',
+    String? adresse = '',
+    String? codePostal = '',
+    String? email = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'WelcomeEmailENGCall',
+        'variables': {
+          'name': name,
+          'restaurantName': restaurantName,
+          'adresse': adresse,
+          'codePostal': codePostal,
+          'email': email,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class WelcomeEmailENGFreeUsersCall {
+  static Future<ApiCallResponse> call({
+    String? name = '',
+    String? email = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'WelcomeEmailENGFreeUsersCall',
+        'variables': {
+          'name': name,
+          'email': email,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class WelcomeEmailFRAFreeUsersCall {
+  static Future<ApiCallResponse> call({
+    String? name = '',
+    String? email = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'WelcomeEmailFRAFreeUsersCall',
+        'variables': {
+          'name': name,
+          'email': email,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
+class WelcomeEmailDEUFreeUsersCall {
+  static Future<ApiCallResponse> call({
+    String? name = '',
+    String? email = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'WelcomeEmailDEUFreeUsersCall',
+        'variables': {
+          'name': name,
+          'email': email,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+}
+
 class FactureStaffTipsCall {
   static Future<ApiCallResponse> call({
     String? orderId = '',
-    int? date,
+    String? date = '',
     String? storeName = '',
     double? tips,
     double? netTotal,
@@ -135,35 +260,13 @@ class FactureStaffTipsCall {
   }
 }
 
-class ConfirmationPaymentToUsersCall {
-  static Future<ApiCallResponse> call({
-    String? orderId = '',
-    String? transactionID = '',
-    int? date,
-    String? emailTo = '',
-    String? storeName = '',
-    double? subtotal,
-    double? fraisSuppl,
-    double? tips,
-    double? discount,
-    double? total,
-  }) async {
+class GetContactSendgridFreeUserCall {
+  static Future<ApiCallResponse> call() async {
     final response = await makeCloudCall(
       _kPrivateApiFunctionName,
       {
-        'callName': 'ConfirmationPaymentToUsersCall',
-        'variables': {
-          'orderId': orderId,
-          'transactionID': transactionID,
-          'date': date,
-          'emailTo': emailTo,
-          'storeName': storeName,
-          'subtotal': subtotal,
-          'fraisSuppl': fraisSuppl,
-          'tips': tips,
-          'discount': discount,
-          'total': total,
-        },
+        'callName': 'GetContactSendgridFreeUserCall',
+        'variables': {},
       },
     );
     return ApiCallResponse.fromCloudCallResponse(response);
@@ -186,11 +289,21 @@ class ApiPagingParams {
       'PagingParams(nextPageNumber: $nextPageNumber, numItems: $numItems, lastResponse: $lastResponse,)';
 }
 
+String _toEncodable(dynamic item) {
+  if (item is DocumentReference) {
+    return item.path;
+  }
+  return item;
+}
+
 String _serializeList(List? list) {
   list ??= <String>[];
   try {
-    return json.encode(list);
+    return json.encode(list, toEncodable: _toEncodable);
   } catch (_) {
+    if (kDebugMode) {
+      print("List serialization failed. Returning empty list.");
+    }
     return '[]';
   }
 }
@@ -198,8 +311,11 @@ String _serializeList(List? list) {
 String _serializeJson(dynamic jsonVar, [bool isList = false]) {
   jsonVar ??= (isList ? [] : {});
   try {
-    return json.encode(jsonVar);
+    return json.encode(jsonVar, toEncodable: _toEncodable);
   } catch (_) {
+    if (kDebugMode) {
+      print("Json serialization failed. Returning empty json.");
+    }
     return isList ? '[]' : '{}';
   }
 }

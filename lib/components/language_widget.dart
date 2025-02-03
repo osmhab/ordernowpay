@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -8,10 +9,10 @@ import 'language_model.dart';
 export 'language_model.dart';
 
 class LanguageWidget extends StatefulWidget {
-  const LanguageWidget({Key? key}) : super(key: key);
+  const LanguageWidget({super.key});
 
   @override
-  _LanguageWidgetState createState() => _LanguageWidgetState();
+  State<LanguageWidget> createState() => _LanguageWidgetState();
 }
 
 class _LanguageWidgetState extends State<LanguageWidget> {
@@ -28,7 +29,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
     super.initState();
     _model = createModel(context, () => LanguageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -40,8 +41,6 @@ class _LanguageWidgetState extends State<LanguageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Container(
       width: MediaQuery.sizeOf(context).width * 1.0,
       height: MediaQuery.sizeOf(context).height * 1.0,
@@ -64,20 +63,21 @@ class _LanguageWidgetState extends State<LanguageWidget> {
             size: 34.0,
           ),
           Align(
-            alignment: AlignmentDirectional(0.00, 0.00),
+            alignment: AlignmentDirectional(0.0, 0.0),
             child: Text(
               FFLocalizations.of(context).getText(
                 'qe6un6bj' /* Select language */,
               ),
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Open Sans',
+                    fontFamily: 'Manrope',
                     color: FlutterFlowTheme.of(context).gray600,
+                    letterSpacing: 0.0,
                   ),
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(0.00, 0.00),
+            alignment: AlignmentDirectional(0.0, 0.0),
             child: FFButtonWidget(
               onPressed: () async {
                 setAppLanguage(context, 'en');
@@ -93,10 +93,11 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                 color: FlutterFlowTheme.of(context).primaryBtnText,
                 textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Open Sans',
+                      fontFamily: 'Manrope',
                       color: FFLocalizations.of(context).languageCode == 'en'
                           ? FlutterFlowTheme.of(context).primary
                           : FlutterFlowTheme.of(context).primaryText,
+                      letterSpacing: 0.0,
                     ),
                 elevation: 1.0,
                 borderSide: BorderSide(
@@ -110,7 +111,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(0.00, 0.00),
+            alignment: AlignmentDirectional(0.0, 0.0),
             child: FFButtonWidget(
               onPressed: () async {
                 setAppLanguage(context, 'fr');
@@ -126,10 +127,11 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                 color: FlutterFlowTheme.of(context).primaryBtnText,
                 textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Open Sans',
+                      fontFamily: 'Manrope',
                       color: FFLocalizations.of(context).languageCode == 'fr'
                           ? FlutterFlowTheme.of(context).primary
                           : FlutterFlowTheme.of(context).primaryText,
+                      letterSpacing: 0.0,
                     ),
                 elevation: 1.0,
                 borderSide: BorderSide(
@@ -143,7 +145,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
             ),
           ),
           Align(
-            alignment: AlignmentDirectional(0.00, 0.00),
+            alignment: AlignmentDirectional(0.0, 0.0),
             child: FFButtonWidget(
               onPressed: () async {
                 setAppLanguage(context, 'de');
@@ -159,10 +161,11 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                 iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                 color: FlutterFlowTheme.of(context).primaryBtnText,
                 textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      fontFamily: 'Open Sans',
+                      fontFamily: 'Manrope',
                       color: FFLocalizations.of(context).languageCode == 'de'
                           ? FlutterFlowTheme.of(context).primary
                           : FlutterFlowTheme.of(context).primaryText,
+                      letterSpacing: 0.0,
                     ),
                 elevation: 1.0,
                 borderSide: BorderSide(

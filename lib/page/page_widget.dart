@@ -9,10 +9,10 @@ import 'page_model.dart';
 export 'page_model.dart';
 
 class PageWidget extends StatefulWidget {
-  const PageWidget({Key? key}) : super(key: key);
+  const PageWidget({super.key});
 
   @override
-  _PageWidgetState createState() => _PageWidgetState();
+  State<PageWidget> createState() => _PageWidgetState();
 }
 
 class _PageWidgetState extends State<PageWidget> {
@@ -25,7 +25,7 @@ class _PageWidgetState extends State<PageWidget> {
     super.initState();
     _model = createModel(context, () => PageModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -37,15 +37,14 @@ class _PageWidgetState extends State<PageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'page',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -53,7 +52,7 @@ class _PageWidgetState extends State<PageWidget> {
               top: true,
               child: wrapWithModel(
                 model: _model.buyStickersModel,
-                updateCallback: () => setState(() {}),
+                updateCallback: () => safeSetState(() {}),
                 child: BuyStickersWidget(),
               ),
             ),

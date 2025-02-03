@@ -1,2 +1,4 @@
-NSCameraUsageDescription = "In order to take a picture or video, this app requires permission to access the camera.";
+NSCameraUsageDescription = "In order to scan tables, this app requires permission to access the camera.";
 NSPhotoLibraryUsageDescription = "In order to upload data, this app requires permission to access the photo library.";
+NSMicrophoneUsageDescription = "In order to use your keyboard microphone, this app requires permission to access the microphone.";
+PermissionGroupNotification = "Enable notifications to stay on top of important updates and exclusive offers from OrderNow Pay. We’ll send you timely alerts about your account, new features, and special promotions tailored just for you. You can customize or opt out of notifications anytime in your settings.";

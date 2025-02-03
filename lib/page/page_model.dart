@@ -10,22 +10,16 @@ import 'package:provider/provider.dart';
 class PageModel extends FlutterFlowModel<PageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // Model for BuyStickers component.
   late BuyStickersModel buyStickersModel;
 
-  /// Initialization and disposal methods.
-
+  @override
   void initState(BuildContext context) {
     buyStickersModel = createModel(context, () => BuyStickersModel());
   }
 
+  @override
   void dispose() {
-    unfocusNode.dispose();
     buyStickersModel.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

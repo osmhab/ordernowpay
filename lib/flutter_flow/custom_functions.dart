@@ -88,7 +88,12 @@ double discountCalculate(
   double tip,
   double extraCharges,
 ) {
-  return subtotal - discount + extraCharges + tip;
+  //return subtotal - discount + extraCharges + tip;
+
+  //CHAT GPT CODE :
+
+  double total = subtotal - discount + extraCharges + tip;
+  return math.max(0, total);
 }
 
 double extraChargesCalculate(
@@ -107,4 +112,30 @@ double oNFeesCalculate(
 ) {
   double total = subtotal + extraCharge - discount;
   return (total + (0.01 * total) / 0.971) + 0.30;
+}
+
+DateTime? endSubscription(DateTime? originalDate) {
+  if (originalDate == null) {
+    // Return null or handle the case as needed
+    return null;
+  }
+
+  return originalDate.add(Duration(days: 365));
+}
+
+String? containsSubstring(
+  String? mainString,
+  String? substring,
+) {
+  /// Code corrigé pour vérifier et extraire tableID
+  if (mainString == null ||
+      substring == null ||
+      !mainString.contains(substring)) {
+    return null;
+  }
+
+  final parts = mainString.split(substring);
+  if (parts.length > 1) {
+    return parts[1].split('/').first;
+  }
 }

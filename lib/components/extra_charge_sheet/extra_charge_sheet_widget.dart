@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,14 @@ export 'extra_charge_sheet_model.dart';
 
 class ExtraChargeSheetWidget extends StatefulWidget {
   const ExtraChargeSheetWidget({
-    Key? key,
+    super.key,
     required this.orderParameters,
-  }) : super(key: key);
+  });
 
   final CartsRecord? orderParameters;
 
   @override
-  _ExtraChargeSheetWidgetState createState() => _ExtraChargeSheetWidgetState();
+  State<ExtraChargeSheetWidget> createState() => _ExtraChargeSheetWidgetState();
 }
 
 class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
@@ -38,14 +39,16 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
     super.initState();
     _model = createModel(context, () => ExtraChargeSheetModel());
 
-    _model.extraChargeAmountController ??= TextEditingController(
+    _model.extraChargeAmountTextController ??= TextEditingController(
         text: formatNumber(
-      widget.orderParameters?.extraCharge,
+      widget!.orderParameters?.extraCharge,
       formatType: FormatType.custom,
       format: '0.00',
       locale: '',
     ));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.extraChargeAmountFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -57,8 +60,6 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Material(
       color: Colors.transparent,
       elevation: 5.0,
@@ -109,22 +110,30 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                 child: Text(
                   FFLocalizations.of(context).getText(
-                    'p8x3x08a' /* Add extra charges */,
+                    'p8x3x08a' /* Extra charges */,
                   ),
-                  style: FlutterFlowTheme.of(context).headlineMedium,
+                  style: FlutterFlowTheme.of(context).headlineMedium.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                 ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: TextFormField(
-                  controller: _model.extraChargeAmountController,
+                  controller: _model.extraChargeAmountTextController,
+                  focusNode: _model.extraChargeAmountFocusNode,
                   textInputAction: TextInputAction.done,
                   obscureText: false,
                   decoration: InputDecoration(
                     hintText: FFLocalizations.of(context).getText(
                       't8bzrwwa' /* CHF 0.00 (Comma [ , ] not allo... */,
                     ),
-                    hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                    hintStyle:
+                        FlutterFlowTheme.of(context).labelMedium.override(
+                              fontFamily: 'Manrope',
+                              letterSpacing: 0.0,
+                            ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: FlutterFlowTheme.of(context).alternate,
@@ -156,9 +165,12 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                     contentPadding:
                         EdgeInsetsDirectional.fromSTEB(20.0, 32.0, 20.0, 12.0),
                   ),
-                  style: FlutterFlowTheme.of(context).displaySmall,
+                  style: FlutterFlowTheme.of(context).displaySmall.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                   textAlign: TextAlign.start,
-                  validator: _model.extraChargeAmountControllerValidator
+                  validator: _model.extraChargeAmountTextControllerValidator
                       .asValidator(context),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
@@ -173,27 +185,27 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 44.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        await widget.orderParameters!.reference
+                        await widget!.orderParameters!.reference
                             .update(createCartsRecordData(
                           total: functions.extraChargesCalculate(
-                              widget.orderParameters!.subtotal,
-                              widget.orderParameters!.discount,
-                              widget.orderParameters!.tip,
+                              widget!.orderParameters!.subtotal,
+                              widget!.orderParameters!.discount,
+                              widget!.orderParameters!.tip,
                               double.parse(
-                                  _model.extraChargeAmountController.text)),
+                                  _model.extraChargeAmountTextController.text)),
                           extraCharge: double.tryParse(
-                              _model.extraChargeAmountController.text),
+                              _model.extraChargeAmountTextController.text),
                         ));
                         Navigator.pop(context);
                       },
                       text: FFLocalizations.of(context).getText(
-                        'v7vix5h2' /* Add charge */,
+                        'v7vix5h2' /* Add */,
                       ),
                       options: FFButtonOptions(
-                        width: 270.0,
+                        width: 200.0,
                         height: 50.0,
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -202,8 +214,9 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Open Sans',
+                                  fontFamily: 'Manrope',
                                   color: Colors.white,
+                                  letterSpacing: 0.0,
                                 ),
                         elevation: 3.0,
                         borderSide: BorderSide(
@@ -213,7 +226,49 @@ class _ExtraChargeSheetWidgetState extends State<ExtraChargeSheetWidget> {
                       ),
                     ),
                   ),
-                ],
+                  if (widget!.orderParameters!.extraCharge > 0.0)
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          await widget!.orderParameters!.reference
+                              .update(createCartsRecordData(
+                            total: functions.extraChargesCalculate(
+                                widget!.orderParameters!.subtotal,
+                                widget!.orderParameters!.discount,
+                                widget!.orderParameters!.tip,
+                                0.0),
+                            extraCharge: 0.0,
+                          ));
+                          Navigator.pop(context);
+                        },
+                        text: FFLocalizations.of(context).getText(
+                          'ynx8vxw2' /* Remove */,
+                        ),
+                        options: FFButtonOptions(
+                          width: 115.0,
+                          height: 50.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).customColor3,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleMedium.override(
+                                    fontFamily: 'Manrope',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 3.0,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                ].divide(SizedBox(width: 10.0)).around(SizedBox(width: 10.0)),
               ),
             ],
           ),

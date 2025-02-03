@@ -1,14 +1,17 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/account_blocked_widget.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'product_details_model.dart';
@@ -16,18 +19,18 @@ export 'product_details_model.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
   const ProductDetailsWidget({
-    Key? key,
+    super.key,
     this.productSelection,
     this.orderparam,
     this.tablesParams,
-  }) : super(key: key);
+  });
 
   final MenuItemsRecord? productSelection;
   final CartsRecord? orderparam;
   final TablesRecord? tablesParams;
 
   @override
-  _ProductDetailsWidgetState createState() => _ProductDetailsWidgetState();
+  State<ProductDetailsWidget> createState() => _ProductDetailsWidgetState();
 }
 
 class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
@@ -40,8 +43,43 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     super.initState();
     _model = createModel(context, () => ProductDetailsModel());
 
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (valueOrDefault(currentUserDocument?.invitation, '') == 'Cancelled') {
+        // ShowBlockedAccount
+        await showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (dialogContext) {
+            return Dialog(
+              elevation: 0,
+              insetPadding: EdgeInsets.zero,
+              backgroundColor: Colors.transparent,
+              alignment: AlignmentDirectional(0.0, 0.0)
+                  .resolve(Directionality.of(context)),
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(dialogContext).unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                child: Container(
+                  height: MediaQuery.sizeOf(context).height * 0.8,
+                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  child: AccountBlockedWidget(),
+                ),
+              ),
+            );
+          },
+        );
+      } else {
+        return;
+      }
+    });
+
     _model.textController ??= TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.textFieldFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -53,580 +91,665 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
-    return AuthUserStreamWidget(
-      builder: (context) => StreamBuilder<List<CartsRecord>>(
-        stream: queryCartsRecord(
-          queryBuilder: (cartsRecord) => cartsRecord.where(
-            'userRef',
-            isEqualTo: currentUserDocument?.userRef,
+    return Builder(
+      builder: (context) => AuthUserStreamWidget(
+        builder: (context) => StreamBuilder<List<CartsRecord>>(
+          stream: queryCartsRecord(
+            queryBuilder: (cartsRecord) => cartsRecord.where(
+              'userRef',
+              isEqualTo: currentUserDocument?.userRef,
+            ),
+            singleRecord: true,
           ),
-          singleRecord: true,
-        ),
-        builder: (context, snapshot) {
-          // Customize what your widget looks like when it's loading.
-          if (!snapshot.hasData) {
-            return Scaffold(
-              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-              body: Center(
-                child: SizedBox(
-                  width: 50.0,
-                  height: 50.0,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      FlutterFlowTheme.of(context).primary,
+          builder: (context, snapshot) {
+            // Customize what your widget looks like when it's loading.
+            if (!snapshot.hasData) {
+              return Scaffold(
+                backgroundColor:
+                    FlutterFlowTheme.of(context).secondaryBackground,
+                body: Center(
+                  child: SizedBox(
+                    width: 50.0,
+                    height: 50.0,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        FlutterFlowTheme.of(context).primary,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          }
-          List<CartsRecord> productDetailsCartsRecordList = snapshot.data!;
-          // Return an empty Container when the item does not exist.
-          if (snapshot.data!.isEmpty) {
-            return Container();
-          }
-          final productDetailsCartsRecord =
-              productDetailsCartsRecordList.isNotEmpty
-                  ? productDetailsCartsRecordList.first
-                  : null;
-          return Title(
-              title: 'ProductDetails',
-              color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
-              child: GestureDetector(
-                onTap: () => _model.unfocusNode.canRequestFocus
-                    ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                    : FocusScope.of(context).unfocus(),
-                child: Scaffold(
-                  key: scaffoldKey,
-                  backgroundColor:
-                      FlutterFlowTheme.of(context).secondaryBackground,
-                  appBar: AppBar(
+              );
+            }
+            List<CartsRecord> productDetailsCartsRecordList = snapshot.data!;
+            // Return an empty Container when the item does not exist.
+            if (snapshot.data!.isEmpty) {
+              return Container();
+            }
+            final productDetailsCartsRecord =
+                productDetailsCartsRecordList.isNotEmpty
+                    ? productDetailsCartsRecordList.first
+                    : null;
+
+            return Title(
+                title: 'ProductDetails',
+                color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
+                child: GestureDetector(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  child: Scaffold(
+                    key: scaffoldKey,
                     backgroundColor:
                         FlutterFlowTheme.of(context).secondaryBackground,
-                    automaticallyImplyLeading: false,
-                    leading: FlutterFlowIconButton(
-                      borderColor: Colors.transparent,
-                      borderRadius: 30.0,
-                      borderWidth: 1.0,
-                      buttonSize: 60.0,
-                      icon: Icon(
-                        Icons.arrow_back_rounded,
-                        color: FlutterFlowTheme.of(context).secondaryText,
-                        size: 30.0,
-                      ),
-                      onPressed: () async {
-                        context.safePop();
-                      },
-                    ),
-                    actions: [],
-                    centerTitle: false,
-                    elevation: 0.0,
-                  ),
-                  body: SafeArea(
-                    top: true,
-                    child: StreamBuilder<List<CartsRecord>>(
-                      stream: queryCartsRecord(
-                        queryBuilder: (cartsRecord) => cartsRecord.where(
-                          'userRef',
-                          isEqualTo: currentUserDocument?.userRef,
+                    appBar: AppBar(
+                      backgroundColor: FlutterFlowTheme.of(context).primary,
+                      automaticallyImplyLeading: false,
+                      leading: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 30.0,
+                        borderWidth: 1.0,
+                        buttonSize: 60.0,
+                        icon: Icon(
+                          Icons.arrow_back_rounded,
+                          color: Colors.white,
+                          size: 30.0,
                         ),
-                        singleRecord: true,
+                        onPressed: () async {
+                          context.pop();
+                        },
                       ),
-                      builder: (context, snapshot) {
-                        // Customize what your widget looks like when it's loading.
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  FlutterFlowTheme.of(context).primary,
+                      title: Text(
+                        valueOrDefault<String>(
+                          widget!.productSelection?.name,
+                          'Item',
+                        ),
+                        style: FlutterFlowTheme.of(context)
+                            .headlineMedium
+                            .override(
+                              fontFamily: 'Manrope',
+                              color: Colors.white,
+                              fontSize: 22.0,
+                              letterSpacing: 0.0,
+                            ),
+                      ),
+                      actions: [],
+                      centerTitle: false,
+                      elevation: 2.0,
+                    ),
+                    body: SafeArea(
+                      top: true,
+                      child: StreamBuilder<List<CartsRecord>>(
+                        stream: queryCartsRecord(
+                          queryBuilder: (cartsRecord) => cartsRecord.where(
+                            'userRef',
+                            isEqualTo: currentUserDocument?.userRef,
+                          ),
+                          singleRecord: true,
+                        ),
+                        builder: (context, snapshot) {
+                          // Customize what your widget looks like when it's loading.
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: SizedBox(
+                                width: 50.0,
+                                height: 50.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        }
-                        List<CartsRecord> parentContentCartsRecordList =
-                            snapshot.data!;
-                        // Return an empty Container when the item does not exist.
-                        if (snapshot.data!.isEmpty) {
-                          return Container();
-                        }
-                        final parentContentCartsRecord =
-                            parentContentCartsRecordList.isNotEmpty
-                                ? parentContentCartsRecordList.first
-                                : null;
-                        return Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 8.0, 8.0, 8.0),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          'https://images.unsplash.com/photo-1576237934915-c716cf54b24d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxraXRjaGVuJTIwcmVzdGF1cmFudHxlbnwwfHx8fDE2OTI3MzUxOTl8MA&ixlib=rb-4.0.3&q=80&w=1080',
-                                          width: double.infinity,
-                                          height: 150.0,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 4.0, 0.0, 0.0),
-                                      child: Text(
-                                        valueOrDefault<String>(
-                                          widget.productSelection?.name,
-                                          'Product name ?',
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .headlineMedium,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 4.0, 0.0, 0.0),
-                                      child: Text(
-                                        formatNumber(
-                                          widget.productSelection!.price,
-                                          formatType: FormatType.custom,
-                                          currency: 'CHF ',
-                                          format: '0.00',
-                                          locale: '',
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .labelLarge,
-                                      ),
-                                    ),
-                                    Divider(
-                                      height: 20.0,
-                                      thickness: 2.0,
-                                      indent: 16.0,
-                                      endIndent: 16.0,
-                                      color: FlutterFlowTheme.of(context)
-                                          .alternate,
-                                    ),
-                                    if (widget.productSelection?.description !=
-                                            null &&
-                                        widget.productSelection?.description !=
-                                            '')
+                            );
+                          }
+                          List<CartsRecord> parentContentCartsRecordList =
+                              snapshot.data!;
+                          // Return an empty Container when the item does not exist.
+                          if (snapshot.data!.isEmpty) {
+                            return Container();
+                          }
+                          final parentContentCartsRecord =
+                              parentContentCartsRecordList.isNotEmpty
+                                  ? parentContentCartsRecordList.first
+                                  : null;
+
+                          return Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 0.0, 0.0),
-                                        child: Text(
-                                          FFLocalizations.of(context).getText(
-                                            's3nitay0' /* Description */,
+                                        padding: EdgeInsets.all(8.0),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.network(
+                                            'https://images.unsplash.com/photo-1576237934915-c716cf54b24d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxraXRjaGVuJTIwcmVzdGF1cmFudHxlbnwwfHx8fDE2OTI3MzUxOTl8MA&ixlib=rb-4.0.3&q=80&w=1080',
+                                            width: double.infinity,
+                                            height: 150.0,
+                                            fit: BoxFit.cover,
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .labelMedium,
                                         ),
                                       ),
-                                    if (widget.productSelection?.description !=
-                                            null &&
-                                        widget.productSelection?.description !=
-                                            '')
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 4.0, 16.0, 0.0),
+                                            16.0, 4.0, 0.0, 0.0),
                                         child: Text(
                                           valueOrDefault<String>(
-                                            widget
-                                                .productSelection?.description,
-                                            'Description ?',
+                                            widget!.productSelection?.name,
+                                            'Product name ?',
                                           ),
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyLarge,
-                                        ),
-                                      ),
-                                    if (widget.productSelection
-                                                ?.specification !=
-                                            null &&
-                                        widget.productSelection
-                                                ?.specification !=
-                                            '')
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 4.0, 16.0, 0.0),
-                                        child: Text(
-                                          valueOrDefault<String>(
-                                            widget.productSelection
-                                                ?.specification,
-                                            'specification?',
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyLarge,
-                                        ),
-                                      ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 8.0, 16.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 8.0, 0.0, 8.0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
+                                              .headlineMedium
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
                                               ),
-                                              alignment: AlignmentDirectional(
-                                                  -0.90, 0.00),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  '0mig3lyr' /* Extra comments */,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 4.0, 0.0, 0.0),
+                                        child: Text(
+                                          formatNumber(
+                                            widget!.productSelection!.price,
+                                            formatType: FormatType.custom,
+                                            currency: 'CHF ',
+                                            format: '0.00',
+                                            locale: '',
+                                          ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .labelLarge
+                                              .override(
+                                                fontFamily: 'Manrope',
+                                                letterSpacing: 0.0,
+                                              ),
+                                        ),
+                                      ),
+                                      Divider(
+                                        height: 20.0,
+                                        thickness: 2.0,
+                                        indent: 16.0,
+                                        endIndent: 16.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .alternate,
+                                      ),
+                                      if (widget!.productSelection
+                                                  ?.description !=
+                                              null &&
+                                          widget!.productSelection
+                                                  ?.description !=
+                                              '')
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 0.0, 0.0, 0.0),
+                                          child: Text(
+                                            FFLocalizations.of(context).getText(
+                                              's3nitay0' /* Description */,
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .labelMedium
+                                                .override(
+                                                  fontFamily: 'Manrope',
+                                                  letterSpacing: 0.0,
                                                 ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium,
-                                              ),
-                                            ),
                                           ),
-                                          Container(
-                                            width: MediaQuery.sizeOf(context)
-                                                    .width *
-                                                1.0,
-                                            height: 100.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
+                                        ),
+                                      if (widget!.productSelection
+                                                  ?.description !=
+                                              null &&
+                                          widget!.productSelection
+                                                  ?.description !=
+                                              '')
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 4.0, 16.0, 0.0),
+                                          child: Text(
+                                            valueOrDefault<String>(
+                                              widget!.productSelection
+                                                  ?.description,
+                                              'Description ?',
                                             ),
-                                            child: Padding(
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyLarge
+                                                .override(
+                                                  fontFamily: 'Manrope',
+                                                  letterSpacing: 0.0,
+                                                ),
+                                          ),
+                                        ),
+                                      if (widget!.productSelection
+                                                  ?.specification !=
+                                              null &&
+                                          widget!.productSelection
+                                                  ?.specification !=
+                                              '')
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 4.0, 16.0, 0.0),
+                                          child: Text(
+                                            valueOrDefault<String>(
+                                              widget!.productSelection
+                                                  ?.specification,
+                                              'specification?',
+                                            ),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyLarge
+                                                .override(
+                                                  fontFamily: 'Manrope',
+                                                  letterSpacing: 0.0,
+                                                ),
+                                          ),
+                                        ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 8.0, 16.0, 0.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(8.0, 0.0, 8.0, 0.0),
-                                              child: TextFormField(
-                                                controller:
-                                                    _model.textController,
-                                                autofocus: true,
-                                                obscureText: false,
-                                                decoration: InputDecoration(
-                                                  labelText: FFLocalizations.of(
+                                                  .fromSTEB(0.0, 8.0, 0.0, 8.0),
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 40.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
                                                           context)
-                                                      .getText(
-                                                    '0z7htsjg' /* e.g. without mushrooms */,
-                                                  ),
-                                                  labelStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium,
-                                                  hintStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMedium,
-                                                  enabledBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .alternate,
-                                                      width: 2.0,
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                alignment: AlignmentDirectional(
+                                                    -1.0, 0.0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          8.0, 0.0, 0.0, 0.0),
+                                                  child: Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      '0mig3lyr' /* Extra comments */,
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                  focusedBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                  errorBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                  focusedErrorBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily: 'Manrope',
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                   ),
                                                 ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                                maxLines: 3,
-                                                validator: _model
-                                                    .textControllerValidator
-                                                    .asValidator(context),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 8.0, 0.0, 12.0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                              ),
-                                              alignment: AlignmentDirectional(
-                                                  -0.90, 0.00),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'cakadscq' /* Quanity */,
-                                                ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 24.0),
-                                            child: Container(
-                                              width: 160.0,
-                                              height: 50.0,
+                                            Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  1.0,
+                                              height: 100.0,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
-                                                shape: BoxShape.rectangle,
-                                                border: Border.all(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .alternate,
-                                                  width: 1.0,
-                                                ),
                                               ),
-                                              child: FlutterFlowCountController(
-                                                decrementIconBuilder:
-                                                    (enabled) => Icon(
-                                                  Icons.remove_rounded,
-                                                  color: enabled
-                                                      ? FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryText
-                                                      : FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                  size: 20.0,
-                                                ),
-                                                incrementIconBuilder:
-                                                    (enabled) => Icon(
-                                                  Icons.add_rounded,
-                                                  color: enabled
-                                                      ? FlutterFlowTheme.of(
-                                                              context)
-                                                          .primary
-                                                      : FlutterFlowTheme.of(
-                                                              context)
-                                                          .alternate,
-                                                  size: 20.0,
-                                                ),
-                                                countBuilder: (count) => Text(
-                                                  count.toString(),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 0.0, 8.0, 0.0),
+                                                child: TextFormField(
+                                                  controller:
+                                                      _model.textController,
+                                                  focusNode:
+                                                      _model.textFieldFocusNode,
+                                                  autofocus: true,
+                                                  obscureText: false,
+                                                  decoration: InputDecoration(
+                                                    labelText:
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                      '0z7htsjg' /* e.g. without mushrooms */,
+                                                    ),
+                                                    labelStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily: 'Manrope',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                    hintStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily: 'Manrope',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                    enabledBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .alternate,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    focusedBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    errorBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                    focusedErrorBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
-                                                      .headlineSmall,
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Manrope',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                  maxLines: 3,
+                                                  validator: _model
+                                                      .textControllerValidator
+                                                      .asValidator(context),
                                                 ),
-                                                count: _model
-                                                    .countControllerValue ??= 1,
-                                                updateCount: (count) =>
-                                                    setState(() => _model
-                                                            .countControllerValue =
-                                                        count),
-                                                stepSize: 1,
-                                                minimum: 1,
-                                                maximum: 10,
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 16.0),
-                              child: FFButtonWidget(
-                                onPressed: () async {
-                                  var itemDetailRecordReference =
-                                      ItemDetailRecord.collection.doc();
-                                  await itemDetailRecordReference
-                                      .set(createItemDetailRecordData(
-                                    userRef: currentUserDocument?.userRef,
-                                    name: widget.productSelection?.name,
-                                    description:
-                                        widget.productSelection?.description,
-                                    modifiers: _model.textController.text,
-                                    specifications: '',
-                                    price: widget.productSelection?.price,
-                                    quantity: _model.countControllerValue,
-                                    menuItemRef:
-                                        widget.productSelection?.reference,
-                                    cartRef: widget.orderparam?.reference,
-                                  ));
-                                  _model.itemsInCart =
-                                      ItemDetailRecord.getDocumentFromData(
-                                          createItemDetailRecordData(
-                                            userRef:
-                                                currentUserDocument?.userRef,
-                                            name: widget.productSelection?.name,
-                                            description: widget
-                                                .productSelection?.description,
-                                            modifiers:
-                                                _model.textController.text,
-                                            specifications: '',
-                                            price:
-                                                widget.productSelection?.price,
-                                            quantity:
-                                                _model.countControllerValue,
-                                            menuItemRef: widget
-                                                .productSelection?.reference,
-                                            cartRef:
-                                                widget.orderparam?.reference,
-                                          ),
-                                          itemDetailRecordReference);
-                                  _model.orderIDFound =
-                                      await queryCartsRecordOnce(
-                                    queryBuilder: (cartsRecord) => cartsRecord
-                                        .where(
-                                          'userRef',
-                                          isEqualTo:
-                                              currentUserDocument?.userRef,
-                                        )
-                                        .where(
-                                          'orderID',
-                                          isEqualTo:
-                                              widget.orderparam?.reference.id,
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      8.0, 8.0, 0.0, 12.0),
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 40.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12.0),
+                                                ),
+                                                alignment: AlignmentDirectional(
+                                                    -1.0, 0.0),
+                                                child: Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'cakadscq' /* Quanity */,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily: 'Manrope',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 0.0, 0.0, 24.0),
+                                              child: Container(
+                                                width: 160.0,
+                                                height: 50.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          25.0),
+                                                  shape: BoxShape.rectangle,
+                                                  border: Border.all(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .alternate,
+                                                    width: 1.0,
+                                                  ),
+                                                ),
+                                                child:
+                                                    FlutterFlowCountController(
+                                                  decrementIconBuilder:
+                                                      (enabled) => Icon(
+                                                    Icons.remove_rounded,
+                                                    color: enabled
+                                                        ? FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryText
+                                                        : FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                    size: 20.0,
+                                                  ),
+                                                  incrementIconBuilder:
+                                                      (enabled) => Icon(
+                                                    Icons.add_rounded,
+                                                    color: enabled
+                                                        ? FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary
+                                                        : FlutterFlowTheme.of(
+                                                                context)
+                                                            .alternate,
+                                                    size: 20.0,
+                                                  ),
+                                                  countBuilder: (count) => Text(
+                                                    count.toString(),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .headlineSmall
+                                                        .override(
+                                                          fontFamily: 'Manrope',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                  count: _model
+                                                      .countControllerValue ??= 1,
+                                                  updateCount: (count) =>
+                                                      safeSetState(() => _model
+                                                              .countControllerValue =
+                                                          count),
+                                                  stepSize: 1,
+                                                  minimum: 1,
+                                                  maximum: 10,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                    singleRecord: true,
-                                  ).then((s) => s.firstOrNull);
-
-                                  await _model.orderIDFound!.reference.update({
-                                    ...mapToFirestore(
-                                      {
-                                        'itemCount': FieldValue.increment(
-                                            _model.countControllerValue!),
-                                        'subtotal': FieldValue.increment(
-                                            functions.newCustomFunction(
-                                                _model.countControllerValue!,
-                                                widget
-                                                    .productSelection!.price)),
-                                        'cartItems': FieldValue.arrayUnion(
-                                            [_model.itemsInCart?.reference]),
-                                        'total': FieldValue.increment(
-                                            functions.totalCalculate(
-                                                _model
-                                                    .orderIDFound!.extraCharge,
-                                                _model.orderIDFound!.tip,
-                                                _model.orderIDFound!.discount,
-                                                _model.countControllerValue!,
-                                                _model.itemsInCart!.price)),
-                                      },
-                                    ),
-                                  });
-
-                                  context.pushNamed(
-                                    'NewOrder',
-                                    queryParameters: {
-                                      'orderParams': serializeParam(
-                                        widget.orderparam,
-                                        ParamType.Document,
                                       ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      'orderParams': widget.orderparam,
-                                    },
-                                  );
-
-                                  setState(() {});
-                                },
-                                text: FFLocalizations.of(context).getText(
-                                  'gpbvrq5z' /* Add To Cart */,
-                                ),
-                                options: FFButtonOptions(
-                                  width: double.infinity,
-                                  height: 50.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Open Sans',
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                      ),
-                                  elevation: 3.0,
-                                  borderSide: BorderSide(
-                                    color: Colors.transparent,
-                                    width: 1.0,
+                                    ],
                                   ),
-                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      },
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 16.0),
+                                child: FFButtonWidget(
+                                  onPressed: () async {
+                                    var itemDetailRecordReference =
+                                        ItemDetailRecord.collection.doc();
+                                    await itemDetailRecordReference
+                                        .set(createItemDetailRecordData(
+                                      userRef: currentUserDocument?.userRef,
+                                      name: widget!.productSelection?.name,
+                                      description:
+                                          widget!.productSelection?.description,
+                                      modifiers: _model.textController.text,
+                                      specifications: '',
+                                      price: widget!.productSelection?.price,
+                                      quantity: _model.countControllerValue,
+                                      menuItemRef:
+                                          widget!.productSelection?.reference,
+                                      cartRef: widget!.orderparam?.reference,
+                                    ));
+                                    _model.itemsInCart =
+                                        ItemDetailRecord.getDocumentFromData(
+                                            createItemDetailRecordData(
+                                              userRef:
+                                                  currentUserDocument?.userRef,
+                                              name: widget!
+                                                  .productSelection?.name,
+                                              description: widget!
+                                                  .productSelection
+                                                  ?.description,
+                                              modifiers:
+                                                  _model.textController.text,
+                                              specifications: '',
+                                              price: widget!
+                                                  .productSelection?.price,
+                                              quantity:
+                                                  _model.countControllerValue,
+                                              menuItemRef: widget!
+                                                  .productSelection?.reference,
+                                              cartRef:
+                                                  widget!.orderparam?.reference,
+                                            ),
+                                            itemDetailRecordReference);
+                                    _model.orderIDFound =
+                                        await queryCartsRecordOnce(
+                                      queryBuilder: (cartsRecord) => cartsRecord
+                                          .where(
+                                            'userRef',
+                                            isEqualTo:
+                                                currentUserDocument?.userRef,
+                                          )
+                                          .where(
+                                            'orderID',
+                                            isEqualTo: widget!
+                                                .orderparam?.reference.id,
+                                          ),
+                                      singleRecord: true,
+                                    ).then((s) => s.firstOrNull);
+
+                                    await _model.orderIDFound!.reference
+                                        .update({
+                                      ...createCartsRecordData(
+                                        read: false,
+                                      ),
+                                      ...mapToFirestore(
+                                        {
+                                          'itemCount': FieldValue.increment(
+                                              _model.countControllerValue!),
+                                          'subtotal': FieldValue.increment(
+                                              functions.newCustomFunction(
+                                                  _model.countControllerValue!,
+                                                  widget!.productSelection!
+                                                      .price)),
+                                          'cartItems': FieldValue.arrayUnion(
+                                              [_model.itemsInCart?.reference]),
+                                          'total': FieldValue.increment(
+                                              functions.totalCalculate(
+                                                  _model.orderIDFound!
+                                                      .extraCharge,
+                                                  _model.orderIDFound!.tip,
+                                                  _model.orderIDFound!.discount,
+                                                  _model.countControllerValue!,
+                                                  _model.itemsInCart!.price)),
+                                        },
+                                      ),
+                                    });
+
+                                    context.pushNamed(
+                                      'NewOrder',
+                                      queryParameters: {
+                                        'orderParams': serializeParam(
+                                          widget!.orderparam,
+                                          ParamType.Document,
+                                        ),
+                                      }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        'orderParams': widget!.orderparam,
+                                      },
+                                    );
+
+                                    safeSetState(() {});
+                                  },
+                                  text: FFLocalizations.of(context).getText(
+                                    'gpbvrq5z' /* Add To Cart */,
+                                  ),
+                                  options: FFButtonOptions(
+                                    width: double.infinity,
+                                    height: 50.0,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily: 'Manrope',
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          letterSpacing: 0.0,
+                                        ),
+                                    elevation: 3.0,
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ));
-        },
+                ));
+          },
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,14 @@ export 'discount_sheet_model.dart';
 
 class DiscountSheetWidget extends StatefulWidget {
   const DiscountSheetWidget({
-    Key? key,
+    super.key,
     required this.orderParameters,
-  }) : super(key: key);
+  });
 
   final CartsRecord? orderParameters;
 
   @override
-  _DiscountSheetWidgetState createState() => _DiscountSheetWidgetState();
+  State<DiscountSheetWidget> createState() => _DiscountSheetWidgetState();
 }
 
 class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
@@ -38,14 +39,16 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
     super.initState();
     _model = createModel(context, () => DiscountSheetModel());
 
-    _model.discountAmountController ??= TextEditingController(
+    _model.discountAmountTextController ??= TextEditingController(
         text: formatNumber(
-      widget.orderParameters?.discount,
+      widget!.orderParameters?.discount,
       formatType: FormatType.custom,
       format: '0.00',
       locale: '',
     ));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.discountAmountFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -57,8 +60,6 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Material(
       color: Colors.transparent,
       elevation: 5.0,
@@ -109,22 +110,30 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 0.0, 0.0),
                 child: Text(
                   FFLocalizations.of(context).getText(
-                    'lf1h386e' /* Add discount */,
+                    'lf1h386e' /* Discount */,
                   ),
-                  style: FlutterFlowTheme.of(context).headlineMedium,
+                  style: FlutterFlowTheme.of(context).headlineMedium.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                 ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: TextFormField(
-                  controller: _model.discountAmountController,
+                  controller: _model.discountAmountTextController,
+                  focusNode: _model.discountAmountFocusNode,
                   textInputAction: TextInputAction.done,
                   obscureText: false,
                   decoration: InputDecoration(
                     hintText: FFLocalizations.of(context).getText(
                       'kujtvg4i' /* CHF 0.00 (Comma [ , ] not allo... */,
                     ),
-                    hintStyle: FlutterFlowTheme.of(context).labelMedium,
+                    hintStyle:
+                        FlutterFlowTheme.of(context).labelMedium.override(
+                              fontFamily: 'Manrope',
+                              letterSpacing: 0.0,
+                            ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: FlutterFlowTheme.of(context).alternate,
@@ -156,9 +165,12 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                     contentPadding:
                         EdgeInsetsDirectional.fromSTEB(20.0, 32.0, 20.0, 12.0),
                   ),
-                  style: FlutterFlowTheme.of(context).displaySmall,
+                  style: FlutterFlowTheme.of(context).displaySmall.override(
+                        fontFamily: 'Manrope',
+                        letterSpacing: 0.0,
+                      ),
                   textAlign: TextAlign.start,
-                  validator: _model.discountAmountControllerValidator
+                  validator: _model.discountAmountTextControllerValidator
                       .asValidator(context),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
@@ -173,27 +185,27 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 44.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        await widget.orderParameters!.reference
+                        await widget!.orderParameters!.reference
                             .update(createCartsRecordData(
                           total: functions.discountCalculate(
-                              widget.orderParameters!.subtotal,
+                              widget!.orderParameters!.subtotal,
                               double.parse(
-                                  _model.discountAmountController.text),
-                              widget.orderParameters!.tip,
-                              widget.orderParameters!.extraCharge),
+                                  _model.discountAmountTextController.text),
+                              widget!.orderParameters!.tip,
+                              widget!.orderParameters!.extraCharge),
                           discount: double.tryParse(
-                              _model.discountAmountController.text),
+                              _model.discountAmountTextController.text),
                         ));
                         Navigator.pop(context);
                       },
                       text: FFLocalizations.of(context).getText(
-                        '6tzsvpdk' /* Add discount */,
+                        '6tzsvpdk' /* Add */,
                       ),
                       options: FFButtonOptions(
-                        width: 270.0,
+                        width: 200.0,
                         height: 50.0,
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
@@ -202,8 +214,9 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleMedium.override(
-                                  fontFamily: 'Open Sans',
+                                  fontFamily: 'Manrope',
                                   color: Colors.white,
+                                  letterSpacing: 0.0,
                                 ),
                         elevation: 3.0,
                         borderSide: BorderSide(
@@ -213,7 +226,49 @@ class _DiscountSheetWidgetState extends State<DiscountSheetWidget> {
                       ),
                     ),
                   ),
-                ],
+                  if (widget!.orderParameters!.discount > 0.0)
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          await widget!.orderParameters!.reference
+                              .update(createCartsRecordData(
+                            total: functions.discountCalculate(
+                                widget!.orderParameters!.subtotal,
+                                0.0,
+                                widget!.orderParameters!.tip,
+                                widget!.orderParameters!.extraCharge),
+                            discount: 0.0,
+                          ));
+                          Navigator.pop(context);
+                        },
+                        text: FFLocalizations.of(context).getText(
+                          'yab5c8n3' /* Remove */,
+                        ),
+                        options: FFButtonOptions(
+                          width: 115.0,
+                          height: 50.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).customColor3,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleMedium.override(
+                                    fontFamily: 'Manrope',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                          elevation: 3.0,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                ].divide(SizedBox(width: 10.0)).around(SizedBox(width: 10.0)),
               ),
             ],
           ),

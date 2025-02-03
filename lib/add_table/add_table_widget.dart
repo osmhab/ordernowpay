@@ -1,10 +1,10 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -14,10 +14,10 @@ import 'add_table_model.dart';
 export 'add_table_model.dart';
 
 class AddTableWidget extends StatefulWidget {
-  const AddTableWidget({Key? key}) : super(key: key);
+  const AddTableWidget({super.key});
 
   @override
-  _AddTableWidgetState createState() => _AddTableWidgetState();
+  State<AddTableWidget> createState() => _AddTableWidgetState();
 }
 
 class _AddTableWidgetState extends State<AddTableWidget> {
@@ -35,15 +35,19 @@ class _AddTableWidgetState extends State<AddTableWidget> {
     if (!isWeb) {
       _keyboardVisibilitySubscription =
           KeyboardVisibilityController().onChange.listen((bool visible) {
-        setState(() {
+        safeSetState(() {
           _isKeyboardVisible = visible;
         });
       });
     }
 
-    _model.tableNameController ??= TextEditingController();
-    _model.tableDescriptionController ??= TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.tableNameTextController ??= TextEditingController();
+    _model.tableNameFocusNode ??= FocusNode();
+
+    _model.tableDescriptionTextController ??= TextEditingController();
+    _model.tableDescriptionFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -58,52 +62,21 @@ class _AddTableWidgetState extends State<AddTableWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'AddTable',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-              automaticallyImplyLeading: false,
-              actions: [
-                FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 30.0,
-                  borderWidth: 1.0,
-                  buttonSize: 60.0,
-                  icon: Icon(
-                    Icons.close,
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    size: 30.0,
-                  ),
-                  onPressed: () async {
-                    context.pushNamed(
-                      'Tables',
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.leftToRight,
-                        ),
-                      },
-                    );
-                  },
-                ),
-              ],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
             body: SafeArea(
               top: true,
               child: Align(
-                alignment: AlignmentDirectional(0.00, 0.00),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Container(
                   width: double.infinity,
                   constraints: BoxConstraints(
@@ -134,14 +107,20 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                     ),
                                     textAlign: TextAlign.start,
                                     style: FlutterFlowTheme.of(context)
-                                        .displayMedium,
+                                        .displayMedium
+                                        .override(
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
+                                        ),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
-                                    controller: _model.tableNameController,
+                                    controller: _model.tableNameTextController,
+                                    focusNode: _model.tableNameFocusNode,
+                                    autofocus: false,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText:
@@ -149,7 +128,11 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                         'f3fcd6g8' /* Name or Number */,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -204,11 +187,12 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model
-                                        .tableNameControllerValidator
+                                        .tableNameTextControllerValidator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -217,7 +201,9 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                       16.0, 12.0, 16.0, 0.0),
                                   child: TextFormField(
                                     controller:
-                                        _model.tableDescriptionController,
+                                        _model.tableDescriptionTextController,
+                                    focusNode: _model.tableDescriptionFocusNode,
+                                    autofocus: false,
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText:
@@ -225,7 +211,11 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                         'ixf8tor5' /* Description */,
                                       ),
                                       labelStyle: FlutterFlowTheme.of(context)
-                                          .labelLarge,
+                                          .labelLarge
+                                          .override(
+                                            fontFamily: 'Manrope',
+                                            letterSpacing: 0.0,
+                                          ),
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
@@ -280,11 +270,12 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
+                                          letterSpacing: 0.0,
                                           lineHeight: 3.0,
                                         ),
                                     validator: _model
-                                        .tableDescriptionControllerValidator
+                                        .tableDescriptionTextControllerValidator
                                         .asValidator(context),
                                   ),
                                 ),
@@ -314,7 +305,9 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                       hasTransition: true,
                                                       transitionType:
                                                           PageTransitionType
-                                                              .leftToRight,
+                                                              .topToBottom,
+                                                      duration: Duration(
+                                                          milliseconds: 250),
                                                     ),
                                                   },
                                                 );
@@ -340,11 +333,11 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                     FlutterFlowTheme.of(context)
                                                         .titleMedium
                                                         .override(
-                                                          fontFamily:
-                                                              'Open Sans',
+                                                          fontFamily: 'Manrope',
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .secondaryBackground,
+                                                          letterSpacing: 0.0,
                                                         ),
                                                 elevation: 4.0,
                                                 borderSide: BorderSide(
@@ -372,9 +365,10 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                   .set({
                                                 ...createTablesRecordData(
                                                   tableName: _model
-                                                      .tableNameController.text,
+                                                      .tableNameTextController
+                                                      .text,
                                                   description: _model
-                                                      .tableDescriptionController
+                                                      .tableDescriptionTextController
                                                       .text,
                                                   userRef: currentUserDocument
                                                       ?.userRef,
@@ -386,8 +380,24 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                   },
                                                 ),
                                               });
+                                              FFAppState().tablesCount =
+                                                  FFAppState().tablesCount + 1;
+                                              safeSetState(() {});
 
-                                              context.pushNamed('Tables');
+                                              context.pushNamed(
+                                                'Tables',
+                                                extra: <String, dynamic>{
+                                                  kTransitionInfoKey:
+                                                      TransitionInfo(
+                                                    hasTransition: true,
+                                                    transitionType:
+                                                        PageTransitionType
+                                                            .leftToRight,
+                                                    duration: Duration(
+                                                        milliseconds: 250),
+                                                  ),
+                                                },
+                                              );
                                             },
                                             text: FFLocalizations.of(context)
                                                 .getText(
@@ -407,10 +417,11 @@ class _AddTableWidgetState extends State<AddTableWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .titleMedium
                                                       .override(
-                                                        fontFamily: 'Open Sans',
+                                                        fontFamily: 'Manrope',
                                                         color: FlutterFlowTheme
                                                                 .of(context)
                                                             .secondaryBackground,
+                                                        letterSpacing: 0.0,
                                                       ),
                                               elevation: 4.0,
                                               borderSide: BorderSide(

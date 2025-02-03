@@ -3,23 +3,23 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'ticket_detail_model.dart';
 export 'ticket_detail_model.dart';
 
 class TicketDetailWidget extends StatefulWidget {
   const TicketDetailWidget({
-    Key? key,
+    super.key,
     this.orderDetail,
-  }) : super(key: key);
+  });
 
   final CartsRecord? orderDetail;
 
   @override
-  _TicketDetailWidgetState createState() => _TicketDetailWidgetState();
+  State<TicketDetailWidget> createState() => _TicketDetailWidgetState();
 }
 
 class _TicketDetailWidgetState extends State<TicketDetailWidget> {
@@ -32,7 +32,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
     super.initState();
     _model = createModel(context, () => TicketDetailModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -44,48 +44,48 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'ticketDetail',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: MediaQuery.sizeOf(context).width <= 991.0
-                ? AppBar(
-                    backgroundColor:
-                        FlutterFlowTheme.of(context).secondaryBackground,
-                    automaticallyImplyLeading: false,
-                    leading: FlutterFlowIconButton(
-                      borderColor: Colors.transparent,
-                      borderRadius: 30.0,
-                      borderWidth: 1.0,
-                      buttonSize: 60.0,
-                      icon: Icon(
-                        Icons.arrow_back_rounded,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 30.0,
-                      ),
-                      onPressed: () async {
-                        context.pop();
-                      },
+            appBar: AppBar(
+              backgroundColor: FlutterFlowTheme.of(context).primary,
+              automaticallyImplyLeading: false,
+              leading: FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30.0,
+                borderWidth: 1.0,
+                buttonSize: 60.0,
+                icon: Icon(
+                  Icons.arrow_back_ios_outlined,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                onPressed: () async {
+                  context.pop();
+                },
+              ),
+              title: Text(
+                FFLocalizations.of(context).getText(
+                  'ai9czea7' /* Order Details */,
+                ),
+                style: FlutterFlowTheme.of(context).bodyLarge.override(
+                      fontFamily: 'Manrope',
+                      color: FlutterFlowTheme.of(context).primaryBtnText,
+                      letterSpacing: 0.0,
                     ),
-                    title: Text(
-                      FFLocalizations.of(context).getText(
-                        'owyvz7h7' /* Order Details */,
-                      ),
-                      style: FlutterFlowTheme.of(context).bodyLarge,
-                    ),
-                    actions: [],
-                    centerTitle: false,
-                    elevation: 0.0,
-                  )
-                : null,
+              ),
+              actions: [],
+              centerTitle: false,
+              elevation: 2.0,
+            ),
             body: SafeArea(
               top: true,
               child: Row(
@@ -94,7 +94,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                 children: [
                   Expanded(
                     child: Align(
-                      alignment: AlignmentDirectional(0.00, -1.00),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: Container(
                         width: double.infinity,
                         constraints: BoxConstraints(
@@ -132,17 +132,42 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 0.0, 0.0),
                                             child: Text(
-                                              'Order #${widget.orderDetail?.orderID}',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'sxgdfz1q' /* Order */,
+                                              ),
                                               style:
                                                   FlutterFlowTheme.of(context)
-                                                      .headlineSmall,
+                                                      .labelSmall
+                                                      .override(
+                                                        fontFamily: 'Manrope',
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                             ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 0.0, 0.0, 0.0),
+                                            child: SelectionArea(
+                                                child: Text(
+                                              '#${widget!.orderDetail?.orderID}',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyLarge
+                                                      .override(
+                                                        fontFamily: 'Manrope',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            )),
                                           ),
                                         ],
                                       ),
                                       Align(
                                         alignment:
-                                            AlignmentDirectional(1.00, 0.00),
+                                            AlignmentDirectional(1.0, 0.0),
                                         child: Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
@@ -153,23 +178,6 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                             ),
-                                            child: InkWell(
-                                              splashColor: Colors.transparent,
-                                              focusColor: Colors.transparent,
-                                              hoverColor: Colors.transparent,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              onTap: () async {
-                                                context.safePop();
-                                              },
-                                              child: Icon(
-                                                Icons.close,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                                size: 36.0,
-                                              ),
-                                            ),
                                           ),
                                         ),
                                       ),
@@ -178,21 +186,16 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                 ),
                               ),
                               Align(
-                                alignment: AlignmentDirectional(0.00, -1.00),
+                                alignment: AlignmentDirectional(0.0, -1.0),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 16.0, 16.0, 16.0),
+                                  padding: EdgeInsets.all(16.0),
                                   child: Container(
                                     width: double.infinity,
                                     constraints: BoxConstraints(
                                       maxWidth: 1170.0,
                                     ),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                      ),
+                                      borderRadius: BorderRadius.circular(0.0),
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -202,9 +205,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                         Expanded(
                                           flex: 8,
                                           child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    16.0, 16.0, 0.0, 16.0),
+                                            padding: EdgeInsets.all(16.0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               crossAxisAlignment:
@@ -217,7 +218,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
-                                                      .headlineMedium,
+                                                      .headlineMedium
+                                                      .override(
+                                                        fontFamily: 'Manrope',
+                                                        letterSpacing: 0.0,
+                                                      ),
                                                 ),
                                                 Padding(
                                                   padding: EdgeInsetsDirectional
@@ -227,31 +232,109 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    8.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          width: 40.0,
+                                                          height: 40.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                DecorationImage(
+                                                              fit: BoxFit.cover,
+                                                              image:
+                                                                  Image.network(
+                                                                widget!
+                                                                    .orderDetail!
+                                                                    .photoPaidBy,
+                                                              ).image,
+                                                            ),
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            border: Border.all(
+                                                              color: Color(
+                                                                  0xFF324250),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        valueOrDefault<String>(
+                                                          widget!.orderDetail
+                                                              ?.payerName,
+                                                          'name?',
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 8.0, 0.0, 0.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'eena52fo' /* Transaction ID */,
+                                                          'zvkkhc8m' /* Transaction ID :  */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .labelMedium,
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         valueOrDefault<String>(
-                                                          widget.orderDetail
+                                                          widget!.orderDetail
                                                               ?.stripePaymentID,
                                                           'ID?',
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
-                                                      ),
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -263,14 +346,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'tm4dtury' /* Date */,
+                                                          'tm4dtury' /* Date :  */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -278,16 +360,19 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
+                                                                          .w600,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         dateTimeFormat(
-                                                          'd/M/y H:mm',
-                                                          widget.orderDetail!
+                                                          "d/M/y H:mm",
+                                                          widget!.orderDetail!
                                                               .createdAt!,
                                                           locale:
                                                               FFLocalizations.of(
@@ -297,8 +382,14 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
-                                                      ),
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -310,14 +401,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'bc11qf5e' /* Amount */,
+                                                          'bc11qf5e' /* Amount :  */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -325,15 +415,18 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
+                                                                          .w600,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         formatNumber(
-                                                          widget.orderDetail!
+                                                          widget!.orderDetail!
                                                               .total,
                                                           formatType:
                                                               FormatType.custom,
@@ -343,8 +436,14 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
-                                                      ),
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -356,14 +455,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          '02367vwd' /* Status */,
+                                                          '02367vwd' /* Status : */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -371,13 +469,16 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
+                                                                          .w600,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
@@ -386,8 +487,68 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 8.0, 0.0, 0.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        FFLocalizations.of(
+                                                                context)
+                                                            .getText(
+                                                          'gxt0rgmh' /* Payment Method :  */,
+                                                        ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                       ),
+                                                      SelectionArea(
+                                                          child: Text(
+                                                        valueOrDefault<String>(
+                                                          widget!.orderDetail
+                                                              ?.paymentMethod,
+                                                          'Method?',
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -399,14 +560,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                        MainAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         FFLocalizations.of(
                                                                 context)
                                                             .getText(
-                                                          'gxt0rgmh' /* Payment Method */,
+                                                          'efh3svrr' /* Table :  */,
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
@@ -414,23 +574,32 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .normal,
+                                                                          .w600,
                                                                 ),
                                                       ),
-                                                      Text(
-                                                        FFLocalizations.of(
-                                                                context)
-                                                            .getText(
-                                                          'z833o7la' /* Debit/Credit Card */,
+                                                      SelectionArea(
+                                                          child: Text(
+                                                        valueOrDefault<String>(
+                                                          widget!.orderDetail
+                                                              ?.cartTable,
+                                                          'table?',
                                                         ),
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
-                                                      ),
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -439,7 +608,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                       .fromSTEB(
                                                           0.0, 16.0, 0.0, 16.0),
                                                   child: Divider(
-                                                    thickness: 2.0,
+                                                    thickness: 1.0,
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .alternate,
@@ -456,7 +625,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
-                                                        .bodyLarge,
+                                                        .bodyLarge
+                                                        .override(
+                                                          fontFamily: 'Manrope',
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                   ),
                                                 ),
                                                 StreamBuilder<
@@ -467,7 +640,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             itemDetailRecord
                                                                 .where(
                                                       'cartRef',
-                                                      isEqualTo: widget
+                                                      isEqualTo: widget!
                                                           .orderDetail
                                                           ?.reference,
                                                     ),
@@ -495,6 +668,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                     List<ItemDetailRecord>
                                                         listViewItemDetailRecordList =
                                                         snapshot.data!;
+
                                                     return ListView.builder(
                                                       padding: EdgeInsets.zero,
                                                       shrinkWrap: true,
@@ -511,7 +685,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                         return Align(
                                                           alignment:
                                                               AlignmentDirectional(
-                                                                  -1.00, 0.00),
+                                                                  -1.0, 0.0),
                                                           child: Padding(
                                                             padding:
                                                                 EdgeInsetsDirectional
@@ -528,49 +702,62 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                   MainAxisAlignment
                                                                       .spaceBetween,
                                                               children: [
-                                                                Text(
-                                                                  '${formatNumber(
-                                                                    listViewItemDetailRecord
-                                                                        .quantity,
-                                                                    formatType:
-                                                                        FormatType
-                                                                            .custom,
-                                                                    format: '0',
-                                                                    locale: '',
-                                                                  )} X',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Open Sans',
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
-                                                                      ),
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          8.0,
+                                                                          0.0),
+                                                                      child: SelectionArea(
+                                                                          child: Text(
+                                                                        '${formatNumber(
+                                                                          listViewItemDetailRecord
+                                                                              .quantity,
+                                                                          formatType:
+                                                                              FormatType.custom,
+                                                                          format:
+                                                                              '0',
+                                                                          locale:
+                                                                              '',
+                                                                        )} X',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .override(
+                                                                              fontFamily: 'Manrope',
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.normal,
+                                                                            ),
+                                                                      )),
+                                                                    ),
+                                                                    Align(
+                                                                      alignment:
+                                                                          AlignmentDirectional(
+                                                                              -1.0,
+                                                                              0.0),
+                                                                      child: SelectionArea(
+                                                                          child: Text(
+                                                                        listViewItemDetailRecord
+                                                                            .name,
+                                                                        textAlign:
+                                                                            TextAlign.start,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .override(
+                                                                              fontFamily: 'Manrope',
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.normal,
+                                                                            ),
+                                                                      )),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Align(
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          -1.00,
-                                                                          0.00),
-                                                                  child: Text(
-                                                                    listViewItemDetailRecord
-                                                                        .name,
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .start,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Open Sans',
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Text(
+                                                                SelectionArea(
+                                                                    child: Text(
                                                                   formatNumber(
                                                                     listViewItemDetailRecord
                                                                         .price,
@@ -581,10 +768,19 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                         '0.00',
                                                                     locale: '',
                                                                   ),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .end,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .bodyMedium,
-                                                                ),
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Manrope',
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                )),
                                                               ],
                                                             ),
                                                           ),
@@ -622,26 +818,37 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         formatNumber(
-                                                          widget.orderDetail!
+                                                          widget!.orderDetail!
                                                               .subtotal,
                                                           formatType:
                                                               FormatType.custom,
                                                           format: '0.00',
                                                           locale: '',
                                                         ),
+                                                        textAlign:
+                                                            TextAlign.end,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
-                                                      ),
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -668,26 +875,37 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         formatNumber(
-                                                          widget.orderDetail!
+                                                          widget!.orderDetail!
                                                               .extraCharge,
                                                           formatType:
                                                               FormatType.custom,
                                                           format: '0.00',
                                                           locale: '',
                                                         ),
+                                                        textAlign:
+                                                            TextAlign.end,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .bodyMedium,
-                                                      ),
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -714,36 +932,43 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primary,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         formatNumber(
-                                                          widget
+                                                          widget!
                                                               .orderDetail!.tip,
                                                           formatType:
                                                               FormatType.custom,
                                                           format: '0.00',
                                                           locale: '',
                                                         ),
+                                                        textAlign:
+                                                            TextAlign.end,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primary,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                 ),
-                                                      ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -770,36 +995,43 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 .labelMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiary,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
                                                                 ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         formatNumber(
-                                                          widget.orderDetail!
+                                                          widget!.orderDetail!
                                                               .discount,
                                                           formatType:
                                                               FormatType.custom,
                                                           format: '0.00',
                                                           locale: '',
                                                         ),
+                                                        textAlign:
+                                                            TextAlign.end,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
-                                                                      'Open Sans',
+                                                                      'Manrope',
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiary,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                 ),
-                                                      ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -823,11 +1055,18 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .labelLarge,
+                                                                .labelLarge
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                       ),
-                                                      Text(
+                                                      SelectionArea(
+                                                          child: Text(
                                                         formatNumber(
-                                                          widget.orderDetail!
+                                                          widget!.orderDetail!
                                                               .total,
                                                           formatType:
                                                               FormatType.custom,
@@ -835,11 +1074,19 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                           format: '0.00',
                                                           locale: '',
                                                         ),
+                                                        textAlign:
+                                                            TextAlign.end,
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .headlineSmall,
-                                                      ),
+                                                                .headlineSmall
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      )),
                                                     ],
                                                   ),
                                                 ),
@@ -848,7 +1095,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                       .fromSTEB(
                                                           0.0, 16.0, 0.0, 16.0),
                                                   child: Divider(
-                                                    thickness: 2.0,
+                                                    thickness: 1.0,
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .alternate,
@@ -885,11 +1132,17 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                             FFLocalizations.of(
                                                                     context)
                                                                 .getText(
-                                                              '0kb8r8cz' /* Store details */,
+                                                              '0kb8r8cz' /* Service */,
                                                             ),
                                                             style: FlutterFlowTheme
                                                                     .of(context)
-                                                                .labelMedium,
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Manrope',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                           ),
                                                         ),
                                                         Padding(
@@ -911,13 +1164,12 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          12.0),
+                                                                          0.0),
                                                               border:
                                                                   Border.all(
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .alternate,
-                                                                width: 2.0,
                                                               ),
                                                             ),
                                                             child: Padding(
@@ -937,16 +1189,16 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                         .start,
                                                                 children: [
                                                                   Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            12.0,
-                                                                            12.0,
-                                                                            12.0,
+                                                                    padding:
+                                                                        EdgeInsets.all(
                                                                             12.0),
                                                                     child: Row(
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .max,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                       children: [
                                                                         Container(
                                                                           width:
@@ -966,16 +1218,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                           ),
                                                                           child:
                                                                               Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                2.0,
-                                                                                2.0,
-                                                                                2.0,
-                                                                                2.0),
+                                                                            padding:
+                                                                                EdgeInsets.all(2.0),
                                                                             child:
                                                                                 ClipRRect(
                                                                               borderRadius: BorderRadius.circular(10.0),
                                                                               child: Image.network(
-                                                                                widget.orderDetail!.createdByPhoto,
+                                                                                widget!.orderDetail!.createdByPhoto,
                                                                                 width: 44.0,
                                                                                 height: 44.0,
                                                                                 fit: BoxFit.cover,
@@ -999,34 +1248,54 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                                 CrossAxisAlignment.start,
                                                                             children: [
                                                                               Text(
+                                                                                FFLocalizations.of(context).getText(
+                                                                                  'horkn0sl' /* Handled by */,
+                                                                                ),
+                                                                                style: FlutterFlowTheme.of(context).bodyLarge.override(
+                                                                                      fontFamily: 'Manrope',
+                                                                                      color: Color(0xFF324250),
+                                                                                      fontSize: 12.0,
+                                                                                      letterSpacing: 0.0,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                    ),
+                                                                              ),
+                                                                              SelectionArea(
+                                                                                  child: Text(
                                                                                 valueOrDefault<String>(
-                                                                                  widget.orderDetail?.createdByName,
+                                                                                  widget!.orderDetail?.createdByName,
                                                                                   'name?',
                                                                                 ),
-                                                                                style: FlutterFlowTheme.of(context).bodyLarge,
-                                                                              ),
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: 'Manrope',
+                                                                                      letterSpacing: 0.0,
+                                                                                    ),
+                                                                              )),
                                                                               Padding(
                                                                                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                child: Text(
-                                                                                  '@${widget.orderDetail?.restaurantName}',
+                                                                                child: SelectionArea(
+                                                                                    child: Text(
+                                                                                  '@${widget!.orderDetail?.restaurantName}',
                                                                                   style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                        fontFamily: 'Open Sans',
-                                                                                        color: FlutterFlowTheme.of(context).primary,
+                                                                                        fontFamily: 'Manrope',
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                        letterSpacing: 0.0,
                                                                                       ),
-                                                                                ),
+                                                                                )),
                                                                               ),
                                                                               Padding(
                                                                                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
-                                                                                child: Text(
+                                                                                child: SelectionArea(
+                                                                                    child: Text(
                                                                                   valueOrDefault<String>(
-                                                                                    widget.orderDetail?.restaurantAdress,
+                                                                                    widget!.orderDetail?.restaurantAdress,
                                                                                     'Store adress?',
                                                                                   ),
                                                                                   style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                        fontFamily: 'Open Sans',
-                                                                                        color: FlutterFlowTheme.of(context).primary,
+                                                                                        fontFamily: 'Manrope',
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                        letterSpacing: 0.0,
                                                                                       ),
-                                                                                ),
+                                                                                )),
                                                                               ),
                                                                             ],
                                                                           ),
@@ -1038,79 +1307,6 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Builder(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          12.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child:
-                                                                      FFButtonWidget(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await Share
-                                                                          .share(
-                                                                        'ordernowpay://ordernowpay.com${GoRouter.of(context).location}',
-                                                                        sharePositionOrigin:
-                                                                            getWidgetBoundingBox(context),
-                                                                      );
-                                                                    },
-                                                                    text: FFLocalizations.of(
-                                                                            context)
-                                                                        .getText(
-                                                                      'lk0ty2fb' /* Share */,
-                                                                    ),
-                                                                    icon: Icon(
-                                                                      Icons
-                                                                          .ios_share_rounded,
-                                                                      size:
-                                                                          15.0,
-                                                                    ),
-                                                                    options:
-                                                                        FFButtonOptions(
-                                                                      height:
-                                                                          48.0,
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                      iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                      textStyle:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .titleSmall,
-                                                                      elevation:
-                                                                          3.0,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12.0),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ].divide(SizedBox(
-                                                              width: 16.0)),
                                                         ),
                                                       ],
                                                     ),
@@ -1148,10 +1344,14 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                           .getText(
                                                         '694orle0' /* Store details */,
                                                       ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium,
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .labelMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Manrope',
+                                                            letterSpacing: 0.0,
+                                                          ),
                                                     ),
                                                   ),
                                                   Padding(
@@ -1192,11 +1392,8 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                           children: [
                                                             Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          12.0,
-                                                                          12.0,
-                                                                          12.0,
+                                                                  EdgeInsets
+                                                                      .all(
                                                                           12.0),
                                                               child: Row(
                                                                 mainAxisSize:
@@ -1224,18 +1421,16 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                     ),
                                                                     child:
                                                                         Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          2.0,
-                                                                          2.0,
-                                                                          2.0,
-                                                                          2.0),
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              2.0),
                                                                       child:
                                                                           ClipRRect(
                                                                         borderRadius:
                                                                             BorderRadius.circular(10.0),
                                                                         child: Image
                                                                             .network(
-                                                                          widget
+                                                                          widget!
                                                                               .orderDetail!
                                                                               .createdByPhoto,
                                                                           width:
@@ -1270,11 +1465,15 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                         Text(
                                                                           valueOrDefault<
                                                                               String>(
-                                                                            widget.orderDetail?.createdByName,
+                                                                            widget!.orderDetail?.createdByName,
                                                                             'name?',
                                                                           ),
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyLarge,
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyLarge
+                                                                              .override(
+                                                                                fontFamily: 'Manrope',
+                                                                                letterSpacing: 0.0,
+                                                                              ),
                                                                         ),
                                                                         Padding(
                                                                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -1284,10 +1483,11 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                               0.0),
                                                                           child:
                                                                               Text(
-                                                                            '@${widget.orderDetail?.restaurantName}',
+                                                                            '@${widget!.orderDetail?.restaurantName}',
                                                                             style: FlutterFlowTheme.of(context).labelSmall.override(
-                                                                                  fontFamily: 'Open Sans',
+                                                                                  fontFamily: 'Manrope',
                                                                                   color: FlutterFlowTheme.of(context).primary,
+                                                                                  letterSpacing: 0.0,
                                                                                 ),
                                                                           ),
                                                                         ),
@@ -1313,7 +1513,13 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                                 ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelSmall,
+                                                                    .labelSmall
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Manrope',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                               ),
                                                             ),
                                                             Padding(
@@ -1327,14 +1533,20 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                               child: Text(
                                                                 valueOrDefault<
                                                                     String>(
-                                                                  widget
+                                                                  widget!
                                                                       .orderDetail
                                                                       ?.restaurantAdress,
                                                                   'adress?',
                                                                 ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodyMedium,
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Manrope',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                               ),
                                                             ),
                                                           ],
@@ -1345,65 +1557,7 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                   Align(
                                                     alignment:
                                                         AlignmentDirectional(
-                                                            0.00, 0.00),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  12.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: FFButtonWidget(
-                                                        onPressed: () {
-                                                          print(
-                                                              'Button pressed ...');
-                                                        },
-                                                        text:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'bmavrn9n' /* Message Customer */,
-                                                        ),
-                                                        options:
-                                                            FFButtonOptions(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 48.0,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall,
-                                                          elevation: 3.0,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0.00, 0.00),
+                                                            0.0, 0.0),
                                                     child: Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
@@ -1448,7 +1602,16 @@ class _TicketDetailWidgetState extends State<TicketDetailWidget> {
                                                           textStyle:
                                                               FlutterFlowTheme.of(
                                                                       context)
-                                                                  .bodyLarge,
+                                                                  .bodyLarge
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Manrope',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .grayIcon,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
                                                           elevation: 0.0,
                                                           borderSide:
                                                               BorderSide(

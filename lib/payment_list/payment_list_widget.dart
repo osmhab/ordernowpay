@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,10 +12,10 @@ import 'payment_list_model.dart';
 export 'payment_list_model.dart';
 
 class PaymentListWidget extends StatefulWidget {
-  const PaymentListWidget({Key? key}) : super(key: key);
+  const PaymentListWidget({super.key});
 
   @override
-  _PaymentListWidgetState createState() => _PaymentListWidgetState();
+  State<PaymentListWidget> createState() => _PaymentListWidgetState();
 }
 
 class _PaymentListWidgetState extends State<PaymentListWidget> {
@@ -27,7 +28,7 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
     super.initState();
     _model = createModel(context, () => PaymentListModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -39,15 +40,14 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'PaymentList',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -73,8 +73,7 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 16.0, 16.0, 16.0),
+                                padding: EdgeInsets.all(16.0),
                                 child: Container(
                                   width: MediaQuery.sizeOf(context).width * 1.0,
                                   decoration: BoxDecoration(
@@ -94,8 +93,8 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                           GoRouter.of(context)
                                               .clearRedirectLocation();
 
-                                          context.pushNamedAuth(
-                                              'AuthCindy', context.mounted);
+                                          context.goNamedAuth(
+                                              'SignIn', context.mounted);
                                         },
                                         text:
                                             FFLocalizations.of(context).getText(
@@ -119,8 +118,9 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                               FlutterFlowTheme.of(context)
                                                   .titleSmall
                                                   .override(
-                                                    fontFamily: 'Open Sans',
+                                                    fontFamily: 'Manrope',
                                                     color: Colors.white,
+                                                    letterSpacing: 0.0,
                                                   ),
                                           elevation: 3.0,
                                           borderSide: BorderSide(
@@ -144,9 +144,10 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .titleMedium
                                         .override(
-                                          fontFamily: 'Open Sans',
+                                          fontFamily: 'Manrope',
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.bold,
                                         ),
                                   ),
@@ -165,9 +166,10 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .headlineLarge
                                           .override(
-                                            fontFamily: 'Open Sans',
+                                            fontFamily: 'Manrope',
                                             color: FlutterFlowTheme.of(context)
                                                 .backgroundComponents,
+                                            letterSpacing: 0.0,
                                           ),
                                     ),
                                   ),
@@ -189,10 +191,41 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .headlineMedium
                                             .override(
-                                              fontFamily: 'Open Sans',
+                                              fontFamily: 'Manrope',
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.normal,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24.0, 0.0, 0.0, 0.0),
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed('PaymentStaffList');
+                                      },
+                                      child: Text(
+                                        FFLocalizations.of(context).getText(
+                                          'c7fowh9k' /* Tables to print */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .headlineMedium
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
                                               decoration:
                                                   TextDecoration.underline,
@@ -209,10 +242,12 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                     ),
                     StreamBuilder<List<CartsRecord>>(
                       stream: queryCartsRecord(
-                        queryBuilder: (cartsRecord) => cartsRecord.where(
-                          'cartPaid',
-                          isEqualTo: true,
-                        ),
+                        queryBuilder: (cartsRecord) => cartsRecord
+                            .where(
+                              'cartPaid',
+                              isEqualTo: true,
+                            )
+                            .orderBy('paidAt'),
                       ),
                       builder: (context, snapshot) {
                         // Customize what your widget looks like when it's loading.
@@ -231,6 +266,7 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                         }
                         List<CartsRecord> listViewCartsRecordList =
                             snapshot.data!;
+
                         return ListView.separated(
                           padding: EdgeInsets.symmetric(vertical: 10.0),
                           primary: false,
@@ -283,12 +319,34 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                       Text(
                                         listViewCartsRecord.restaurantName,
                                         style: FlutterFlowTheme.of(context)
-                                            .bodyLarge,
+                                            .bodyLarge
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              letterSpacing: 0.0,
+                                            ),
                                       ),
                                       Text(
                                         listViewCartsRecord.orderID,
                                         style: FlutterFlowTheme.of(context)
-                                            .bodyLarge,
+                                            .bodyLarge
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              letterSpacing: 0.0,
+                                            ),
+                                      ),
+                                      Text(
+                                        formatNumber(
+                                          listViewCartsRecord.total,
+                                          formatType: FormatType.custom,
+                                          format: '0.00',
+                                          locale: '',
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyLarge
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              letterSpacing: 0.0,
+                                            ),
                                       ),
                                       Text(
                                         listViewCartsRecord.role == 'Staff'
@@ -322,7 +380,11 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                               ),
                                         textAlign: TextAlign.end,
                                         style: FlutterFlowTheme.of(context)
-                                            .bodyLarge,
+                                            .bodyLarge
+                                            .override(
+                                              fontFamily: 'Manrope',
+                                              letterSpacing: 0.0,
+                                            ),
                                       ),
                                       if (listViewCartsRecord.restaurantPaid ==
                                           false)
@@ -348,8 +410,9 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .titleSmall
                                                     .override(
-                                                      fontFamily: 'Open Sans',
+                                                      fontFamily: 'Manrope',
                                                       color: Colors.white,
+                                                      letterSpacing: 0.0,
                                                     ),
                                             elevation: 3.0,
                                             borderSide: BorderSide(
@@ -384,8 +447,9 @@ class _PaymentListWidgetState extends State<PaymentListWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .titleSmall
                                                     .override(
-                                                      fontFamily: 'Open Sans',
+                                                      fontFamily: 'Manrope',
                                                       color: Colors.white,
+                                                      letterSpacing: 0.0,
                                                     ),
                                             elevation: 3.0,
                                             borderSide: BorderSide(
